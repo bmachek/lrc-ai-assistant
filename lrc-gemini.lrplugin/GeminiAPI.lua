@@ -66,6 +66,10 @@ function GeminiAPI:imageTask(task, filePath)
         else
             log:error('Got empty response from Google')
         end
+    elseif headers.status == 429 then
+        log:error('Rate limit exceeded')
+        LrTasks.sleep(5)
+        self:imageTask(task, filePath)
     else
         log:error('GeminiAPI POST request failed. ' .. self.url)
         log:error(util.dumpTable(headers))

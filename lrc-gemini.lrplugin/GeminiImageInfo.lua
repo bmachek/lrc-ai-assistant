@@ -1,7 +1,6 @@
 require "GeminiAPI"
 
 local function exportAndAnalyzePhoto(photo, progressScope)
-    progressScope:setCaption("Preparing photo...")
     local tempDir = LrPathUtils.getStandardFilePath('temp')
     local photoName = LrPathUtils.leafName(photo:getFormattedMetadata('fileName'))
     local filePath = LrPathUtils.child(tempDir, photoName)
@@ -15,7 +14,7 @@ local function exportAndAnalyzePhoto(photo, progressScope)
         LR_export_destinationPathPrefix = tempDir,
         LR_export_useSubfolder = false,
         LR_format = 'JPEG',
-        LR_jpeg_quality = 0.8,
+        LR_jpeg_quality = 0.6,
         LR_minimizeEmbeddedMetadata = true,
         LR_outputSharpeningOn = false,
         LR_size_doConstrain = true,
@@ -23,10 +22,11 @@ local function exportAndAnalyzePhoto(photo, progressScope)
         LR_size_maxWidth = 2000,
         LR_size_resizeType = 'wh',
         LR_size_units = 'pixels',
+        LR_collisionHandling = 'rename',
     }
 
     local exportSession = LrExportSession({
-        photosToExport = {photo},
+        photosToExport = { photo },
         exportSettings = exportSettings
     })
 
@@ -34,10 +34,10 @@ local function exportAndAnalyzePhoto(photo, progressScope)
     for _, rendition in exportSession:renditions() do
         local success, path = rendition:waitForRender()
         if success then
-            -- log:trace(path)
-            local captionSuccess, caption = gemini:imageTask("Generate image caption in German", path)
-            local titleSuccess, title = gemini:imageTask("Generate image title in German", path)
-            photo.catalog:withWriteAccessDo("Set Alt Text", function()
+            local captionSuccess, caption = gemini:imageTask("Generate detailed image description", path)
+            local titleSuccess, title = gemini:imageTask("Generate image title", path)
+
+            photo.catalog:withWriteAccessDo("Save Google AI generated description", function()
                 if captionSuccess then
                     photo:setRawMetadata('caption', caption)
                 end
@@ -65,16 +65,16 @@ LrTasks.startAsyncTask(function()
         end
 
         local progressScope = LrProgressScope({
-            title = "Analyzing photo with Google AI",
+            title = "Analyzing photos with Google AI",
             functionContext = context,
         })
 
         local totalPhotos = #selectedPhotos
         for i, photo in ipairs(selectedPhotos) do
             progressScope:setPortionComplete(i - 1, totalPhotos)
+            progressScope:setCaption("Analyzing photo with Google AI " .. tostring(i) .. '/' .. tostring(totalPhotos))
             exportAndAnalyzePhoto(photo, progressScope)
             progressScope:setPortionComplete(i, totalPhotos)
-            LrTasks.sleep(1)
         end
 
         progressScope:done()
