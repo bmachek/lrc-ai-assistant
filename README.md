@@ -21,7 +21,6 @@ A Lightroom Classic to fill image title and caption by using Google AI Gemini.
   * Hatecrime
   * ...
 * The plugins error handling is completely log-based for now. The log file is in Documents/LrClassicLogs/GeminiPlugin.log
-* Google has a rate limit / quota on Geminim, which I haven't quite figured out yet.
 * Feel free to open issues or discussions. Any feedback is welcome.
 
 ## Support my work
