@@ -8,7 +8,7 @@ return {
 	LrPluginInfoProvider = 'PluginInfo.lua',
 	LrPluginInfoURL = 'https://github.com/bmachek/lrc-gemini',
 
-	VERSION = { major = 0, minor = 1, revision = 0, build = "beta", },
+	VERSION = { major = 0, minor = 2, revision = 0, build = "beta", },
 
 	LrLibraryMenuItems = {
 		{
