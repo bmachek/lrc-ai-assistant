@@ -1,4 +1,4 @@
-### LRC-Gemini
+# LRC-Gemini
 
 A Lightroom Classic to fill image title and caption by using Google AI Gemini.
 
@@ -23,3 +23,7 @@ A Lightroom Classic to fill image title and caption by using Google AI Gemini.
 * The plugins error handling is completely log-based for now. The log file is in Documents/LrClassicLogs/GeminiPlugin.log
 * Google has a rate limit / quota on Geminim, which I haven't quite figured out yet.
 * Feel free to open issues or discussions. Any feedback is welcome.
+
+## Support my work
+
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/donate/?hosted_button_id=2LL4K9LN5CFA6)
