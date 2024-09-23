@@ -1,3 +1,5 @@
+require "GeminiAPI"
+
 
 PluginInfoDialogSections = {}
 
@@ -6,18 +8,48 @@ function PluginInfoDialogSections.startDialog(propertyTable)
     if prefs.logging == nil then
         prefs.logging = false
     end
-    
+
+    if prefs.apiKey == nil then
+        prefs.apiKey = ""
+    end
+
+    if prefs.generateTitle == nil then
+        prefs.generateTitle = false
+    end
+
+    if prefs.generateKeywords == nil then
+        prefs.generateKeywords = false
+    end
+
+    if prefs.generateCaption == nil then
+        prefs.generateCaption = true
+    end
+
+    if prefs.titleTask == nil then
+        prefs.titleTask = GeminiAPI.defaultTitleTask
+    end
+
+    if prefs.captionTask == nil then
+        prefs.captionTask = GeminiAPI.defaultCaptionTask
+    end
+
+    if prefs.keywordsTask == nil then
+        prefs.keywordsTask = GeminiAPI.defaultKeywordsTask
+    end
+
     if prefs.generateLanguage == nil then
         prefs.generateLanguage = "English"
     end
 
-    if prefs.apiKey == nil then
-        propertyTable.apiKey = ""
-    end
-
     propertyTable.logging = prefs.logging
-    propertyTable.generateLanguage = prefs.generateLanguage
     propertyTable.apiKey = prefs.apiKey
+    propertyTable.generateTitle = prefs.generateTitle
+    propertyTable.generateCaption = prefs.generateCaption
+    propertyTable.generateKeywords = prefs.generateKeywords
+    propertyTable.titleTask = prefs.titleTask
+    propertyTable.captionTask =  prefs.captionTask
+    propertyTable.keywordsTask = prefs.keywordsTask
+    propertyTable.generateLanguage = prefs.generateLanguage
 
 end
 
@@ -68,13 +100,19 @@ function PluginInfoDialogSections.sectionsForTopOfDialog(f, propertyTable)
                     width = share 'inputWidth',
                     width_in_chars = 40,
                 },
+                f:spacer {
+                    width = share 'checkboxWidth'
+                },
+                f:spacer {
+                    width = share 'enabledWidth'
+                },
             },
 
             f:row {
                 f:static_text {
-                    title = "Google Gemini Generate language: ",
+                    title = 'Language to be used: ',
                     alignment = 'right',
-                    width = share 'labelWidth',
+                    width = share 'labelWidth'
                 },
                 f:popup_menu {
                     value = bind 'generateLanguage',
@@ -87,6 +125,78 @@ function PluginInfoDialogSections.sectionsForTopOfDialog(f, propertyTable)
                         { title = "Portuguese", value = "Portuguese" },
                     },
                 },
+                f:spacer {
+                    width = share 'checkboxWidth',
+                },
+                f:spacer {
+                    width = share 'enabledWidth',
+                },
+            },
+
+            f:row {
+                f:static_text {
+                    title = "Question for image title",
+                    alignment = 'right',
+                    width = share 'labelWidth',
+                    enabled = bind 'generateTitle',
+                },
+                f:edit_field {
+                    value = bind 'titleTask',
+                    width = share 'inputWidth',
+                    enabled = bind 'generateTitle',
+                },
+                f:checkbox {
+                    value = bind 'generateTitle',
+                    width = share 'checkboxWidth',
+                },
+                f:static_text {
+                    width = share 'enabledWidth',
+                    title = 'Enable'
+                },
+            },
+
+            f:row {
+                f:static_text {
+                    title = "Question for image caption: ",
+                    alignment = 'right',
+                    width = share 'labelWidth',
+                    enabled = bind 'generateCaption',
+                },
+                f:edit_field {
+                    value = bind 'captionTask',
+                    width = share 'inputWidth',
+                    enabled = bind 'generateCaption',
+                },
+                f:checkbox {
+                    value = bind 'generateCaption',
+                    width = share 'checkboxWidth',
+                },
+                f:static_text {
+                    width = share 'enabledWidth',
+                    title = 'Enable'
+                },
+            },
+
+            f:row {
+                f:static_text {
+                    title = "Generate Keywords: ",
+                    alignment = 'right',
+                    width = share 'labelWidth',
+                    enabled = bind 'generateKeywords',
+                },
+                f:edit_field {
+                    value = bind 'keywordsTask',
+                    enabled = false,
+                    width = bind 'inputWidth'
+                },
+                f:checkbox {
+                    value = bind 'generateKeywords',
+                    width = share 'checkboxWidth',
+                },
+                f:static_text {
+                    width = share 'enabledWidth',
+                    title = 'Enable'
+                },
             },
         },
     }
@@ -95,7 +205,14 @@ end
 
 function PluginInfoDialogSections.endDialog(propertyTable)
     prefs.apiKey = propertyTable.apiKey
+    prefs.captionTask = propertyTable.captionTask
+    prefs.titleTask = propertyTable.titleTask
+    prefs.generateCaption = propertyTable.generateCaption
+    prefs.generateTitle = propertyTable.generateTitle
+    prefs.keywordsTask = propertyTable.keywordsTask
+    prefs.generateKeywords = propertyTable.generateKeywords
     prefs.generateLanguage = propertyTable.generateLanguage
+
     prefs.logging = propertyTable.logging
     if propertyTable.logging then
         log:enable('logfile')

@@ -16,14 +16,29 @@ end
 
 
 GeminiAPI = {}
+GeminiAPI.defaultCaptionTask = 'Give detailed keywords for image content description'
+GeminiAPI.defaultTitleTask = 'Generate image title'
+GeminiAPI.defaultKeywordsTask = 'Give keywords for detailed image content description seperated by comma'
+GeminiAPI.baseUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key='
 GeminiAPI.__index = GeminiAPI
 
 function GeminiAPI:new()
     local o = setmetatable({}, GeminiAPI)
-    self.apiKey = prefs.apiKey
+    self.rateLimitHit = 0
+
+    if util.nilOrEmpty(prefs.apiKey) then
+        util.handleError('API key not configured.', 'Please configure API key in Module Manager!')
+        return nil
+    else
+        self.apiKey = prefs.apiKey
+    end
+
+    self.url = GeminiAPI.baseUrl .. self.apiKey
     self.generateLanguage = prefs.generateLanguage
-    self.url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=' .. self.apiKey
-    log:trace(self.url)
+    if util.nilOrEmpty(self.generateLanguage) then
+        self.generateLanguage = 'English'
+    end
+
     return o
 end
 
@@ -31,7 +46,7 @@ function GeminiAPI:imageTask(task, filePath)
     local body = {
         contents = {
             parts = {
-                { text = task .. " in " .. self.generateLanguage},
+                { text = task .. ' in ' .. self.generateLanguage },
                 {
                     inline_data = {
                         data = encodePhotoToBase64(filePath),
@@ -40,11 +55,30 @@ function GeminiAPI:imageTask(task, filePath)
                 }
             },
         },
+        safety_settings = {
+            {
+                category = "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+                threshold = "BLOCK_ONLY_HIGH"
+            },
+            {
+                category = "HARM_CATEGORY_HATE_SPEECH",
+                threshold = "BLOCK_ONLY_HIGH"
+            },
+            {
+                category = "HARM_CATEGORY_HARASSMENT",
+                threshold = "BLOCK_ONLY_HIGH"
+            },
+            {
+                category = "HARM_CATEGORY_DANGEROUS_CONTENT",
+                threshold = "BLOCK_ONLY_HIGH"
+            },
+        },
     }
 
     local response, headers = LrHttp.post(self.url, JSON:encode(body), {{ field = 'Content-Type', value = 'application/json' },})
 
-    if headers.status == 201 or headers.status == 200 then
+    if headers.status == 200 then
+        self.rateLimitHit = 0
         if response ~= nil then
             log:trace(response)
             local decoded = JSON:decode(response)
@@ -67,13 +101,27 @@ function GeminiAPI:imageTask(task, filePath)
             log:error('Got empty response from Google')
         end
     elseif headers.status == 429 then
-        log:error('Rate limit exceeded')
+        log:error('Rate limit exceeded for ' .. tostring(self.rateLimitHit) .. ' times')
         LrTasks.sleep(5)
+        self.rateLimitHit = self.rateLimitHit + 1
+        if self.rateLimitHit >= 10 then
+            log:error('Rate Limit hit 10 times, giving up')
+            return false, 'RATE_LIMIT_EXHAUSTED'
+        end
         self:imageTask(task, filePath)
     else
         log:error('GeminiAPI POST request failed. ' .. self.url)
         log:error(util.dumpTable(headers))
         log:error(response)
-        return nil
+        return false, nil
     end
+end
+
+
+function GeminiAPI:keywordsTask(filePath)
+    local success, keywordsString = self:imageTask(GeminiAPI.defaultKeywordsTask, filePath)
+    if success then
+        return success, util.string_split(keywordsString, ', ')
+    end
+    return false, nil
 end

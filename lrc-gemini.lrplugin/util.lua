@@ -42,6 +42,10 @@ function util.nilOrEmpty(val)
     end
 end
 
--- function util.cutApiKey(key)
---     return string.sub(key, 1, 20) .. '...'
--- end
+function util.string_split(s, delimiter)
+    local t = {}
+    for str in string.gmatch(s, "([^" .. delimiter .. "]+)") do
+        table.insert(t, str)
+    end
+    return t
+end
