@@ -121,7 +121,7 @@ end
 function GeminiAPI:keywordsTask(filePath)
     local success, keywordsString = self:imageTask(GeminiAPI.defaultKeywordsTask, filePath)
     if success then
-        return success, util.string_split(keywordsString, ', ')
+        return success, util.string_split(keywordsString, ',')
     end
     return false, nil
 end

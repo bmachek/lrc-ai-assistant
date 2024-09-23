@@ -45,7 +45,7 @@ end
 function util.string_split(s, delimiter)
     local t = {}
     for str in string.gmatch(s, "([^" .. delimiter .. "]+)") do
-        table.insert(t, str)
+        table.insert(t, trim(str))
     end
     return t
 end

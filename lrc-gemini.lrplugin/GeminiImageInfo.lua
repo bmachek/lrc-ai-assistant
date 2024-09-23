@@ -67,10 +67,15 @@ local function exportAndAnalyzePhoto(photo, progressScope)
                 if keywordsSuccess and keywords ~= nil then
                     local catalog = LrApplication.activeCatalog()
                     local topKeyword = catalog:createKeyword('Google AI', {}, false, nil, true)
-                    
+                    photo:addKeyword(topKeyword)
+
                     for _, keywordName in ipairs(keywords) do
-                        local keyword = catalog:createKeyword(keywordName, {}, true, topKeyword, true)
-                        photo:addKeyword(keyword)
+                        if not util.nilOrEmpty(keywordName) then
+                            local keyword = catalog:createKeyword(keywordName, {}, true, topKeyword, true)
+                            if keyword then
+                                photo:addKeyword(keyword)
+                            end
+                        end
                     end
 
 
