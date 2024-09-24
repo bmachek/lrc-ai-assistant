@@ -59,7 +59,7 @@ local function exportAndAnalyzePhoto(photo, progressScope)
             end
 
             if caption == 'RATE_LIMIT_EXHAUSTED' or title == 'RATE_LIMIT_EXHAUSTED' or keywords == 'RATE_LIMIT_EXHAUSTED' then
-                LrDialogs.showError("Rate limit exhausted 10 times in a row. Please try in 24h")
+                LrDialogs.showError("Rate limit exhausted 10 times in a row. Please try again in 24h")
                 return false
             end
 
