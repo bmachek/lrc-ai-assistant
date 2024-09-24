@@ -58,8 +58,8 @@ local function exportAndAnalyzePhoto(photo, progressScope)
                 end
             end
 
-            if caption == 'RATE_LIMIT_EXHAUSTED' or  title == 'RATE_LIMIT_EXHAUSTED' then
-                util.handleError("Rate limit exhausted 10 times in a row. Please try in 24h.", "Rate limit exhausted 10 times in a row. Please try again in 24h.")
+            if caption == 'RATE_LIMIT_EXHAUSTED' or title == 'RATE_LIMIT_EXHAUSTED' or keywords == 'RATE_LIMIT_EXHAUSTED' then
+                LrDialogs.showError("Rate limit exhausted 10 times in a row. Please try in 24h")
                 return false
             end
 
@@ -121,7 +121,7 @@ LrTasks.startAsyncTask(function()
             progressScope:setCaption("Analyzing photo with Google AI " .. tostring(i) .. '/' .. tostring(totalPhotos))
             if not exportAndAnalyzePhoto(photo, progressScope) then
                 progressScope:setCaption("Failed to analyze photo with Google AI " .. tostring(i))
-                break
+                return false
             end
             progressScope:setPortionComplete(i, totalPhotos)
         end

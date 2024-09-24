@@ -187,7 +187,7 @@ function PluginInfoDialogSections.sectionsForTopOfDialog(f, propertyTable)
                 f:edit_field {
                     value = bind 'keywordsTask',
                     enabled = false,
-                    width = bind 'inputWidth'
+                    width = share 'inputWidth'
                 },
                 f:checkbox {
                     value = bind 'generateKeywords',

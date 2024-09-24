@@ -16,7 +16,7 @@ end
 
 
 GeminiAPI = {}
-GeminiAPI.defaultCaptionTask = 'Give detailed keywords for image content description'
+GeminiAPI.defaultCaptionTask = 'Generate a detail image caption'
 GeminiAPI.defaultTitleTask = 'Generate image title'
 GeminiAPI.defaultKeywordsTask = 'Give keywords for detailed image content description seperated by comma'
 GeminiAPI.baseUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key='
@@ -123,5 +123,5 @@ function GeminiAPI:keywordsTask(filePath)
     if success then
         return success, util.string_split(keywordsString, ',')
     end
-    return false, nil
+    return false, keywordsString
 end
