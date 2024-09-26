@@ -18,6 +18,7 @@ local function exportAndAnalyzePhoto(photo, progressScope)
         LR_size_resizeType = 'wh',
         LR_size_units = 'pixels',
         LR_collisionHandling = 'rename',
+        LR_includeVideoFiles = false,
     }
 
     local exportSession = LrExportSession({
