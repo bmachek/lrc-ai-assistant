@@ -10,7 +10,7 @@ function PluginInfoDialogSections.startDialog(propertyTable)
     end
 
     if prefs.ai == nil then
-        prefs.ai = "gpt-4o"
+        prefs.ai = Defaults.defaultAiModel
     end
 
     if prefs.geminiApiKey == nil then
@@ -34,15 +34,15 @@ function PluginInfoDialogSections.startDialog(propertyTable)
     end
 
     if prefs.titleTask == nil then
-        prefs.titleTask = GeminiAPI.defaultTitleTask
+        prefs.titleTask = Defaults.defaultTitleTask
     end
 
     if prefs.captionTask == nil then
-        prefs.captionTask = GeminiAPI.defaultCaptionTask
+        prefs.captionTask = Defaults.defaultCaptionTask
     end
 
     if prefs.keywordsTask == nil then
-        prefs.keywordsTask = GeminiAPI.defaultKeywordsTask
+        prefs.keywordsTask = Defaults.defaultKeywordsTask
     end
 
     if prefs.generateLanguage == nil then
@@ -57,7 +57,7 @@ function PluginInfoDialogSections.startDialog(propertyTable)
     propertyTable.generateKeywords = prefs.generateKeywords
     propertyTable.titleTask = prefs.titleTask
     propertyTable.captionTask =  prefs.captionTask
-    propertyTable.keywordsTask = prefs.keywordsTask
+    propertyTable.keywordsTask = Defaults.defaultKeywordsTask
     propertyTable.generateLanguage = prefs.generateLanguage
     propertyTable.ai  = prefs.ai
 
@@ -146,10 +146,7 @@ function PluginInfoDialogSections.sectionsForTopOfDialog(f, propertyTable)
 
                 f:popup_menu {
                     value = bind 'ai',
-                    items = {
-                        { title = "Google Gemini Flash 1.5", value = "gemini-1.5-flash" },
-                        { title = "ChatGPT-4", value = "gpt-4o" },
-                    },
+                    items = Defaults.aiModels,
                 },
             },
 
@@ -161,14 +158,7 @@ function PluginInfoDialogSections.sectionsForTopOfDialog(f, propertyTable)
                 },
                 f:popup_menu {
                     value = bind 'generateLanguage',
-                    items = {
-                        { title = "English", value = "English" },
-                        { title = "German", value = "German" },
-                        { title = "Spanish", value = "Spanish" },
-                        { title = "French", value = "French" },
-                        { title = "Italian", value = "Italian" },
-                        { title = "Portuguese", value = "Portuguese" },
-                    },
+                    items = Defaults.generateLanguages,
                 },
                 f:spacer {
                     width = share 'checkboxWidth',
@@ -256,7 +246,7 @@ function PluginInfoDialogSections.endDialog(propertyTable)
     prefs.generateCaption = propertyTable.generateCaption
     prefs.generateTitle = propertyTable.generateTitle
     prefs.keywordsTask = propertyTable.keywordsTask
-    prefs.generateKeywords = propertyTable.generateKeywords
+    -- prefs.generateKeywords = propertyTable.generateKeywords
     prefs.generateLanguage = propertyTable.generateLanguage
     prefs.ai = propertyTable.ai
 

@@ -5,9 +5,6 @@
 
 
 ChatGptAPI = {}
-ChatGptAPI.defaultCaptionTask = 'Generate a detail image caption'
-ChatGptAPI.defaultTitleTask = 'Generate image title'
-ChatGptAPI.defaultKeywordsTask = 'Give keywords for detailed image content description seperated by comma'
 ChatGptAPI.baseUrl = 'https://api.openai.com/v1/chat/completions'
 ChatGptAPI.__index = ChatGptAPI
 
@@ -95,7 +92,7 @@ end
 
 
 function ChatGptAPI:keywordsTask(filePath)
-    local success, keywordsString = self:imageTask(ChatGptAPI.defaultKeywordsTask, filePath)
+    local success, keywordsString = self:imageTask(Defaults.defaultKeywordsTask, filePath)
     if success then
         return success, util.string_split(keywordsString, ',')
     end

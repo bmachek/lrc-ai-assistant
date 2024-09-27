@@ -32,7 +32,7 @@ local function exportAndAnalyzePhoto(photo, progressScope)
     if prefs.ai == 'gpt-4o' then
         ai = ChatGptAPI:new()
         topKeywordName = 'ChatGPT'
-    elseif prefs.ai == 'gemini-1.5-flash' then
+    elseif prefs.ai == 'gemini-1.5-flash' or prefs.ai == 'gemini-1.5-pro' then
         ai = GeminiAPI:new()
         topKeywordName = 'Google AI'
     end

@@ -1,8 +1,8 @@
 GeminiAPI = {}
-GeminiAPI.defaultCaptionTask = 'Generate a detail image caption'
-GeminiAPI.defaultTitleTask = 'Generate image title'
-GeminiAPI.defaultKeywordsTask = 'Give keywords for detailed image content description seperated by comma'
-GeminiAPI.baseUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key='
+GeminiAPI.baseUrls = {}
+GeminiAPI.baseUrls['gemini-1.5-flash'] = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key='
+GeminiAPI.baseUrls['gemini-1.5-pro'] = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key='
+
 GeminiAPI.__index = GeminiAPI
 
 function GeminiAPI:new()
@@ -16,7 +16,8 @@ function GeminiAPI:new()
         self.apiKey = prefs.geminiApiKey
     end
 
-    self.url = GeminiAPI.baseUrl .. self.apiKey
+    self.url = GeminiAPI.baseUrls[prefs.ai] .. self.apiKey
+
     self.generateLanguage = prefs.generateLanguage
     if util.nilOrEmpty(self.generateLanguage) then
         self.generateLanguage = 'English'
@@ -102,7 +103,7 @@ end
 
 
 function GeminiAPI:keywordsTask(filePath)
-    local success, keywordsString = self:imageTask(GeminiAPI.defaultKeywordsTask, filePath)
+    local success, keywordsString = self:imageTask(Defaults.defaultKeywordsTask, filePath)
     if success then
         return success, util.string_split(keywordsString, ',')
     end

@@ -21,6 +21,7 @@ _G.LrStringUtils = import 'LrStringUtils'
 _G.JSON = require "JSON"
 _G.inspect = require 'inspect'
 require "util"
+require "Defaults"
 
 -- Global initializations
 _G.prefs = _G.LrPrefs.prefsForPlugin()
