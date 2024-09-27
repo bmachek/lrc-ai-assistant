@@ -1,18 +1,22 @@
 # LRC-Gemini
 
-A Lightroom Classic to fill keywords, image title and caption by using Google AI Gemini. (gemini-flash-1.5)
+A Lightroom Classic to fill keywords, image title and caption by using Google Gemini (gemini-1.5-flash/pro) or ChatGPT (gpt-4o)
 
-# Your photos will be sent to Google for this! Do not use the plugin, if you don't agree with this!
+# Your photos will be sent to Google or OpenAI for this! Do not use the plugin, if you don't agree with this!
 
 ## Usage
-* Install plugin using Lightroom addon module manager
-* [Obtain Google Gemini API key from Google](https://ai.google.dev/gemini-api/docs/api-key)
-* Configure language, phrases and API key in Lightroom module manager
+* Install plugin using Lightroom addon module manager.
+* Obtain an API key for the model you want to use:
+  * [Obtain Google Gemini API key from Google](https://ai.google.dev/gemini-api/docs/api-key)
+  * [Obtain ChatGPT API key](https://platform.openai.com/api-keys)
+* Configure language, phrases and API key in Lightroom module manager.
+* Choose the model you want to use on the Lightroom module manager.
 * Additionally you can choose which fields are to be filled, by the enable checkbox.
   Keep in mind that every field requires one Gemini prompt, and you are limited to 1500 per day in the free version.
 * Go to Library in Lightroom
 * Select some photos
-* Go to menu -> Library -> Addon Modules -> Run Google AI Gemini plugin
+* Go to menu -> Library -> Addon Modules -> Analyze photo(s) with Generative AI
+* If enabled review before save for title and/or caption and the field is already filled with data, a review dialog will show up.
 * Wait it to fill your keywords, caption or title as selected.
 
 ## Google rate limits
