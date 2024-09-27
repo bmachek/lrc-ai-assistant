@@ -33,6 +33,14 @@ function PluginInfoDialogSections.startDialog(propertyTable)
         prefs.generateCaption = false
     end
 
+    if prefs.reviewCaption == nil then
+        prefs.reviewCaption = true
+    end
+
+    if prefs.reviewTitle == nil then
+        prefs.reviewTitle = true
+    end
+
     if prefs.titleTask == nil then
         prefs.titleTask = Defaults.defaultTitleTask
     end
@@ -59,6 +67,10 @@ function PluginInfoDialogSections.startDialog(propertyTable)
     propertyTable.captionTask =  prefs.captionTask
     propertyTable.keywordsTask = Defaults.defaultKeywordsTask
     propertyTable.generateLanguage = prefs.generateLanguage
+
+    propertyTable.reviewCaption = prefs.reviewCaption
+    propertyTable.reviewTitle = prefs.reviewTitle
+    
     propertyTable.ai  = prefs.ai
 
 end
@@ -110,12 +122,6 @@ function PluginInfoDialogSections.sectionsForTopOfDialog(f, propertyTable)
                     width = share 'inputWidth',
                     width_in_chars = 40,
                 },
-                f:spacer {
-                    width = share 'checkboxWidth'
-                },
-                f:spacer {
-                    width = share 'enabledWidth'
-                },
             },
 
             f:row {
@@ -129,17 +135,11 @@ function PluginInfoDialogSections.sectionsForTopOfDialog(f, propertyTable)
                     width = share 'inputWidth',
                     width_in_chars = 40,
                 },
-                f:spacer {
-                    width = share 'checkboxWidth'
-                },
-                f:spacer {
-                    width = share 'enabledWidth'
-                },
             },
 
             f:row {
                 f:static_text {
-                    title = 'AI model to be used:',
+                    title = 'AI model to be used: ',
                     alignment = 'right',
                     width = share 'labelWidth',
                 },
@@ -160,17 +160,11 @@ function PluginInfoDialogSections.sectionsForTopOfDialog(f, propertyTable)
                     value = bind 'generateLanguage',
                     items = Defaults.generateLanguages,
                 },
-                f:spacer {
-                    width = share 'checkboxWidth',
-                },
-                f:spacer {
-                    width = share 'enabledWidth',
-                },
             },
 
             f:row {
                 f:static_text {
-                    title = "Question for image title",
+                    title = "Question for image title: ",
                     alignment = 'right',
                     width = share 'labelWidth',
                     enabled = bind 'generateTitle',
@@ -179,6 +173,7 @@ function PluginInfoDialogSections.sectionsForTopOfDialog(f, propertyTable)
                     value = bind 'titleTask',
                     width = share 'inputWidth',
                     enabled = bind 'generateTitle',
+                    height_in_lines = 3,
                 },
                 f:checkbox {
                     value = bind 'generateTitle',
@@ -201,10 +196,12 @@ function PluginInfoDialogSections.sectionsForTopOfDialog(f, propertyTable)
                     value = bind 'captionTask',
                     width = share 'inputWidth',
                     enabled = bind 'generateCaption',
+                    height_in_lines = 3,
                 },
                 f:checkbox {
                     value = bind 'generateCaption',
                     width = share 'checkboxWidth',
+                    label = '123'
                 },
                 f:static_text {
                     width = share 'enabledWidth',
@@ -222,7 +219,8 @@ function PluginInfoDialogSections.sectionsForTopOfDialog(f, propertyTable)
                 f:edit_field {
                     value = bind 'keywordsTask',
                     enabled = false,
-                    width = share 'inputWidth'
+                    width = share 'inputWidth',
+                    height_in_lines = 3,
                 },
                 f:checkbox {
                     value = bind 'generateKeywords',
@@ -231,6 +229,35 @@ function PluginInfoDialogSections.sectionsForTopOfDialog(f, propertyTable)
                 f:static_text {
                     width = share 'enabledWidth',
                     title = 'Enable'
+                },
+            },
+
+            f:row {
+                f:static_text {
+                    title = "Validate before saving, when field already filled: ",
+                    alignment = 'right',
+                    width = share 'labelWidth',
+                },
+                f:checkbox {
+                    value = bind 'reviewCaption',
+                    width = share 'checkboxWidth',
+                    enabled =  bind 'generateCaption',
+                },
+                f:static_text {
+                    title = 'Caption',
+                },
+            },
+            f:row {
+                f:spacer {
+                    width = share 'labelWidth',
+                },
+                f:checkbox {
+                    value = bind 'reviewTitle',
+                    width = share 'checkboxWidth',
+                    enabled =  bind 'generateTitle',
+                },
+                f:static_text {
+                    title = 'Title',
                 },
             },
         },
@@ -245,10 +272,13 @@ function PluginInfoDialogSections.endDialog(propertyTable)
     prefs.titleTask = propertyTable.titleTask
     prefs.generateCaption = propertyTable.generateCaption
     prefs.generateTitle = propertyTable.generateTitle
-    prefs.keywordsTask = propertyTable.keywordsTask
-    -- prefs.generateKeywords = propertyTable.generateKeywords
+    -- prefs.keywordsTask = propertyTable.keywordsTask
+    prefs.generateKeywords = propertyTable.generateKeywords
     prefs.generateLanguage = propertyTable.generateLanguage
     prefs.ai = propertyTable.ai
+
+    prefs.reviewCaption = propertyTable.reviewCaption
+    prefs.reviewTitle = propertyTable.reviewTitle
 
     prefs.logging = propertyTable.logging
     if propertyTable.logging then

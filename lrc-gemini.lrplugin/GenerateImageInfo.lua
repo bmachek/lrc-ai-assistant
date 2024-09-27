@@ -1,5 +1,45 @@
 require "AiModelAPI"
 
+skipReviewCaptions = false
+skipReviewTitles = false
+
+local function validateText(text)
+    local f = LrView.osFactory()
+    local bind = LrView.bind
+    local share = LrView.share
+
+    local propertyTable = {}
+    propertyTable.skipFromHere = false
+    propertyTable.reviewedText = text
+
+    local dialogView = f:column {
+        bind_to_object = propertyTable,
+        f:row {
+            f:edit_field {
+                value = bind 'reviewedText',
+                width_in_chars = 40,
+                height_in_lines = 10,
+            },
+        },
+        f:row {
+            f:checkbox {
+                value = bind 'skipFromHere'
+            },
+            f:static_text {
+                title = 'Skip from here'
+            },
+        },
+    }
+
+    LrDialogs.presentModalDialog({
+        title = 'Review Results',
+        contents = dialogView,
+    })
+
+    return propertyTable
+end
+
+
 local function exportAndAnalyzePhoto(photo, progressScope)
     local tempDir = LrPathUtils.getStandardFilePath('temp')
     local photoName = LrPathUtils.leafName(photo:getFormattedMetadata('fileName'))
@@ -83,10 +123,28 @@ local function exportAndAnalyzePhoto(photo, progressScope)
 
 
                 end
+
                 if captionSuccess then
+                    if prefs.reviewCaption and not skipReviewCaptions then
+                        local existingCaption = photo:getFormattedMetadata('caption')
+                        if not util.nilOrEmpty(existingCaption) then
+                            local prop = validateText(caption)
+                            caption = prop.reviewedText
+                            skipReviewCaptions = prop.skipFromHere
+                        end
+                    end
                     photo:setRawMetadata('caption', caption)
                 end
+
                 if titleSuccess then
+                    if prefs.reviewTitle and not skipReviewTitles then
+                        local existingTitle = photo:getFormattedMetadata('title')
+                        if not util.nilOrEmpty(existingTitle) then
+                            local prop = validateText(title)
+                            title = prop.reviewedText
+                            skipReviewTitles = prop.skipFromHere
+                        end
+                    end
                     photo:setRawMetadata('title', title)
                 end
             end)
@@ -114,14 +172,14 @@ LrTasks.startAsyncTask(function()
         end
 
         local progressScope = LrProgressScope({
-            title = "Analyzing photos with AI",
+            title = "Analyzing photos with " .. prefs.ai,
             functionContext = context,
         })
 
         local totalPhotos = #selectedPhotos
         for i, photo in ipairs(selectedPhotos) do
             progressScope:setPortionComplete(i - 1, totalPhotos)
-            progressScope:setCaption("Analyzing photo with AI " .. tostring(i) .. '/' .. tostring(totalPhotos))
+            progressScope:setCaption("Analyzing photo with " .. prefs.ai .. " " .. tostring(i) .. '/' .. tostring(totalPhotos))
             if not exportAndAnalyzePhoto(photo, progressScope) then
                 progressScope:setCaption("Failed to analyze photo with AI " .. tostring(i))
                 return false
