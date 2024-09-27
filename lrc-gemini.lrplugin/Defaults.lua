@@ -20,3 +20,6 @@ Defaults.generateLanguages = {
 }
 
 Defaults.defaultAiModel = "gemini-1.5-flash"
+
+Defaults.googleTopKeyword = 'Google AI'
+Defaults.chatgptTopKeyword = 'ChatGPT'

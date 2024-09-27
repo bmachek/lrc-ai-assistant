@@ -1,9 +1,3 @@
-
-
-
-
-
-
 ChatGptAPI = {}
 ChatGptAPI.baseUrl = 'https://api.openai.com/v1/chat/completions'
 ChatGptAPI.__index = ChatGptAPI

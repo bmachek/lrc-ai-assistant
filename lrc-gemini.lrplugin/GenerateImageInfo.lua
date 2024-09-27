@@ -1,5 +1,4 @@
-require "GeminiAPI"
-require "ChatGptAPI"
+require "AiModelAPI"
 
 local function exportAndAnalyzePhoto(photo, progressScope)
     local tempDir = LrPathUtils.getStandardFilePath('temp')
@@ -28,14 +27,8 @@ local function exportAndAnalyzePhoto(photo, progressScope)
     })
 
     local ai
-    local topKeywordName
-    if prefs.ai == 'gpt-4o' then
-        ai = ChatGptAPI:new()
-        topKeywordName = 'ChatGPT'
-    elseif prefs.ai == 'gemini-1.5-flash' or prefs.ai == 'gemini-1.5-pro' then
-        ai = GeminiAPI:new()
-        topKeywordName = 'Google AI'
-    end
+    ai = AiModelAPI:new()
+
     if ai == nil then
         return false
     end
@@ -76,7 +69,7 @@ local function exportAndAnalyzePhoto(photo, progressScope)
             photo.catalog:withWriteAccessDo("Save AI generated description", function()
                 if keywordsSuccess and keywords ~= nil then
                     local catalog = LrApplication.activeCatalog()
-                    local topKeyword = catalog:createKeyword(topKeywordName, {}, false, nil, true)
+                    local topKeyword = catalog:createKeyword(ai.topKeyword, {}, false, nil, true)
                     photo:addKeyword(topKeyword)
 
                     for _, keywordName in ipairs(keywords) do
