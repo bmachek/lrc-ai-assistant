@@ -24,7 +24,7 @@ require "util"
 
 -- Global initializations
 _G.prefs = _G.LrPrefs.prefsForPlugin()
-_G.log = import 'LrLogger' ('GeminiPlugin')
+_G.log = import 'LrLogger' ('AIPlugin')
 if _G.prefs.logging == nil then
     _G.prefs.logging = false
 end

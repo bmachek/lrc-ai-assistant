@@ -49,3 +49,17 @@ function util.string_split(s, delimiter)
     end
     return t
 end
+
+
+function util.encodePhotoToBase64(filePath)
+    local file = io.open(filePath, "rb")
+    if not file then
+        return nil
+    end
+
+    local data = file:read("*all")
+    file:close()
+
+    local base64 = LrStringUtils.encodeBase64(data)
+    return base64
+end

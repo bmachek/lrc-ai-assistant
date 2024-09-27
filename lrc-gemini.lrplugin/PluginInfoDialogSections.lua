@@ -9,8 +9,16 @@ function PluginInfoDialogSections.startDialog(propertyTable)
         prefs.logging = false
     end
 
-    if prefs.apiKey == nil then
-        prefs.apiKey = ""
+    if prefs.ai == nil then
+        prefs.ai = "gpt-4o"
+    end
+
+    if prefs.geminiApiKey == nil then
+        prefs.geminiApiKey = ""
+    end
+
+    if prefs.chatgptApiKey == nil then
+        prefs.chatgptApiKey = ""
     end
 
     if prefs.generateTitle == nil then
@@ -18,11 +26,11 @@ function PluginInfoDialogSections.startDialog(propertyTable)
     end
 
     if prefs.generateKeywords == nil then
-        prefs.generateKeywords = false
+        prefs.generateKeywords = true
     end
 
     if prefs.generateCaption == nil then
-        prefs.generateCaption = true
+        prefs.generateCaption = false
     end
 
     if prefs.titleTask == nil then
@@ -42,7 +50,8 @@ function PluginInfoDialogSections.startDialog(propertyTable)
     end
 
     propertyTable.logging = prefs.logging
-    propertyTable.apiKey = prefs.apiKey
+    propertyTable.geminiApiKey = prefs.geminiApiKey
+    propertyTable.chatgptApiKey = prefs.chatgptApiKey
     propertyTable.generateTitle = prefs.generateTitle
     propertyTable.generateCaption = prefs.generateCaption
     propertyTable.generateKeywords = prefs.generateKeywords
@@ -50,6 +59,7 @@ function PluginInfoDialogSections.startDialog(propertyTable)
     propertyTable.captionTask =  prefs.captionTask
     propertyTable.keywordsTask = prefs.keywordsTask
     propertyTable.generateLanguage = prefs.generateLanguage
+    propertyTable.ai  = prefs.ai
 
 end
 
@@ -62,7 +72,7 @@ function PluginInfoDialogSections.sectionsForBottomOfDialog(f, propertyTable)
         {
             bind_to_object = propertyTable,
 
-            title = "Gemini Plugin Logging",
+            title = "AI Plugin Logging",
 
             f:row {
                 f:checkbox {
@@ -87,7 +97,7 @@ function PluginInfoDialogSections.sectionsForTopOfDialog(f, propertyTable)
         {
             bind_to_object = propertyTable,
 
-            title = "Gemini Plugin Settings",
+            title = "AI Plugin Settings",
 
             f:row {
                 f:static_text {
@@ -96,7 +106,7 @@ function PluginInfoDialogSections.sectionsForTopOfDialog(f, propertyTable)
                     width = share 'labelWidth'
                 },
                 f:edit_field {
-                    value = bind 'apiKey',
+                    value = bind 'geminiApiKey',
                     width = share 'inputWidth',
                     width_in_chars = 40,
                 },
@@ -105,6 +115,41 @@ function PluginInfoDialogSections.sectionsForTopOfDialog(f, propertyTable)
                 },
                 f:spacer {
                     width = share 'enabledWidth'
+                },
+            },
+
+            f:row {
+                f:static_text {
+                    title = "ChatGPT API key: ",
+                    alignment = 'right',
+                    width = share 'labelWidth'
+                },
+                f:edit_field {
+                    value = bind 'chatgptApiKey',
+                    width = share 'inputWidth',
+                    width_in_chars = 40,
+                },
+                f:spacer {
+                    width = share 'checkboxWidth'
+                },
+                f:spacer {
+                    width = share 'enabledWidth'
+                },
+            },
+
+            f:row {
+                f:static_text {
+                    title = 'AI model to be used:',
+                    alignment = 'right',
+                    width = share 'labelWidth',
+                },
+
+                f:popup_menu {
+                    value = bind 'ai',
+                    items = {
+                        { title = "Google Gemini Flash 1.5", value = "gemini-1.5-flash" },
+                        { title = "ChatGPT-4", value = "gpt-4o" },
+                    },
                 },
             },
 
@@ -204,7 +249,8 @@ end
 
 
 function PluginInfoDialogSections.endDialog(propertyTable)
-    prefs.apiKey = propertyTable.apiKey
+    prefs.geminiApiKey = propertyTable.geminiApiKey
+    prefs.chatgptApiKey = propertyTable.chatgptApiKey
     prefs.captionTask = propertyTable.captionTask
     prefs.titleTask = propertyTable.titleTask
     prefs.generateCaption = propertyTable.generateCaption
@@ -212,6 +258,7 @@ function PluginInfoDialogSections.endDialog(propertyTable)
     prefs.keywordsTask = propertyTable.keywordsTask
     prefs.generateKeywords = propertyTable.generateKeywords
     prefs.generateLanguage = propertyTable.generateLanguage
+    prefs.ai = propertyTable.ai
 
     prefs.logging = propertyTable.logging
     if propertyTable.logging then

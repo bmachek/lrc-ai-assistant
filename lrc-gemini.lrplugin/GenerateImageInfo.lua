@@ -1,4 +1,5 @@
 require "GeminiAPI"
+require "ChatGptAPI"
 
 local function exportAndAnalyzePhoto(photo, progressScope)
     local tempDir = LrPathUtils.getStandardFilePath('temp')
@@ -26,8 +27,16 @@ local function exportAndAnalyzePhoto(photo, progressScope)
         exportSettings = exportSettings
     })
 
-    local gemini = GeminiAPI:new()
-    if gemini == nil then
+    local ai
+    local topKeywordName
+    if prefs.ai == 'gpt-4o' then
+        ai = ChatGptAPI:new()
+        topKeywordName = 'ChatGPT'
+    elseif prefs.ai == 'gemini-1.5-flash' then
+        ai = GeminiAPI:new()
+        topKeywordName = 'Google AI'
+    end
+    if ai == nil then
         return false
     end
     for _, rendition in exportSession:renditions() do
@@ -41,19 +50,19 @@ local function exportAndAnalyzePhoto(photo, progressScope)
             local keywordsSuccess = false
 
             if prefs.generateKeywords then
-                keywordsSuccess, keywords = gemini:keywordsTask(path)
+                keywordsSuccess, keywords = ai:keywordsTask(path)
             end
 
             if prefs.generateCaption then
                 if not util.nilOrEmpty(prefs.captionTask) then
-                    captionSuccess, caption = gemini:imageTask(prefs.captionTask, path)
+                    captionSuccess, caption = ai:imageTask(prefs.captionTask, path)
                 else
                     util.handleError('No question for caption configured.', 'No question for caption configured.')
                 end
             end
             if prefs.generateTitle then
                 if not util.nilOrEmpty(prefs.titleTask) then
-                    titleSuccess, title = gemini:imageTask(prefs.titleTask, path)
+                    titleSuccess, title = ai:imageTask(prefs.titleTask, path)
                 else
                     util.handleError('No question for title configured.', 'No question for title configured.')
                 end
@@ -64,10 +73,10 @@ local function exportAndAnalyzePhoto(photo, progressScope)
                 return false
             end
 
-            photo.catalog:withWriteAccessDo("Save Google AI generated description", function()
+            photo.catalog:withWriteAccessDo("Save AI generated description", function()
                 if keywordsSuccess and keywords ~= nil then
                     local catalog = LrApplication.activeCatalog()
-                    local topKeyword = catalog:createKeyword('Google AI', {}, false, nil, true)
+                    local topKeyword = catalog:createKeyword(topKeywordName, {}, false, nil, true)
                     photo:addKeyword(topKeyword)
 
                     for _, keywordName in ipairs(keywords) do
@@ -104,7 +113,7 @@ LrTasks.startAsyncTask(function()
         local catalog = LrApplication.activeCatalog()
         local selectedPhotos = catalog:getTargetPhotos()
 
-        log:trace("Starting GeminiImageInfo")
+        log:trace("Starting GenerateImageInfo")
 
         if #selectedPhotos == 0 then
             LrDialogs.message("Please select at least one photo.")
@@ -112,16 +121,16 @@ LrTasks.startAsyncTask(function()
         end
 
         local progressScope = LrProgressScope({
-            title = "Analyzing photos with Google AI",
+            title = "Analyzing photos with AI",
             functionContext = context,
         })
 
         local totalPhotos = #selectedPhotos
         for i, photo in ipairs(selectedPhotos) do
             progressScope:setPortionComplete(i - 1, totalPhotos)
-            progressScope:setCaption("Analyzing photo with Google AI " .. tostring(i) .. '/' .. tostring(totalPhotos))
+            progressScope:setCaption("Analyzing photo with AI " .. tostring(i) .. '/' .. tostring(totalPhotos))
             if not exportAndAnalyzePhoto(photo, progressScope) then
-                progressScope:setCaption("Failed to analyze photo with Google AI " .. tostring(i))
+                progressScope:setCaption("Failed to analyze photo with AI " .. tostring(i))
                 return false
             end
             progressScope:setPortionComplete(i, totalPhotos)

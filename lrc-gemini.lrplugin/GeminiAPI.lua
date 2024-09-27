@@ -1,20 +1,3 @@
-
-
-local function encodePhotoToBase64(filePath)
-    local file = io.open(filePath, "rb")
-    if not file then
-        return nil
-    end
-
-    local data = file:read("*all")
-    file:close()
-
-    local base64 = LrStringUtils.encodeBase64(data)
-    return base64
-end
-
-
-
 GeminiAPI = {}
 GeminiAPI.defaultCaptionTask = 'Generate a detail image caption'
 GeminiAPI.defaultTitleTask = 'Generate image title'
@@ -26,11 +9,11 @@ function GeminiAPI:new()
     local o = setmetatable({}, GeminiAPI)
     self.rateLimitHit = 0
 
-    if util.nilOrEmpty(prefs.apiKey) then
-        util.handleError('API key not configured.', 'Please configure API key in Module Manager!')
+    if util.nilOrEmpty(prefs.geminiApiKey) then
+        util.handleError('Gemini API key not configured.', 'Please configure Gemini API key in Module Manager!')
         return nil
     else
-        self.apiKey = prefs.apiKey
+        self.apiKey = prefs.geminiApiKey
     end
 
     self.url = GeminiAPI.baseUrl .. self.apiKey
@@ -49,7 +32,7 @@ function GeminiAPI:imageTask(task, filePath)
                 { text = task .. ' in ' .. self.generateLanguage },
                 {
                     inline_data = {
-                        data = encodePhotoToBase64(filePath),
+                        data = util.encodePhotoToBase64(filePath),
                         mime_type = 'image/jpeg'
                     },
                 }
