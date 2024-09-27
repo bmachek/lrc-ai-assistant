@@ -19,6 +19,8 @@ Defaults.generateLanguages = {
     { title = "Portuguese", value = "Portuguese" },
 }
 
+Defaults.defaultGenerateLanguage = 'English'
+
 Defaults.defaultAiModel = "gemini-1.5-flash"
 
 Defaults.googleTopKeyword = 'Google AI'

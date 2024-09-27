@@ -46,7 +46,7 @@ function PluginInfoDialogSections.startDialog(propertyTable)
     end
 
     if prefs.generateLanguage == nil then
-        prefs.generateLanguage = "English"
+        prefs.generateLanguage = Defaults.defaultGenerateLanguage
     end
 
     propertyTable.logging = prefs.logging
