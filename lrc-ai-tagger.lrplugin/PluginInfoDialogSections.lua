@@ -34,11 +34,11 @@ function PluginInfoDialogSections.startDialog(propertyTable)
     end
 
     if prefs.reviewCaption == nil then
-        prefs.reviewCaption = true
+        prefs.reviewCaption = false
     end
 
     if prefs.reviewTitle == nil then
-        prefs.reviewTitle = true
+        prefs.reviewTitle = false
     end
 
     if prefs.titleTask == nil then
