@@ -2,7 +2,8 @@
 
 A Lightroom Classic to fill keywords, image title and caption by using Google Gemini (gemini-1.5-flash/pro) or ChatGPT (gpt-4o)
 
-# Your photos will be sent to Google or OpenAI for this! Do not use the plugin, if you don't agree with this!
+## Privacy / Disclaimer
+### Your photos will be sent to Google or OpenAI for analysis! Do not use the plugin, if you don't agree with this.
 
 ## Usage
 * Install plugin using Lightroom addon module manager.
@@ -19,10 +20,29 @@ A Lightroom Classic to fill keywords, image title and caption by using Google Ge
 * If enabled review before save for title and/or caption and the field is already filled with data, a review dialog will show up.
 * Wait it to fill your keywords, caption or title as selected.
 
+## Which model should I use:
+* **gemini-1.5-pro**: If you want the best results, and are willing to setup billing.
+* **gemini-1.5-flash**: If you want very good results for free.
+* **ChatGPT**: IMHO it doesn't make sense to use this model for now, as the results turn out to be very generic.
+
+## Phrases
+You can adapt the phrases sent to Google / OpenAI to your likings in the module manager dialog.
+
+### A few examples:
+### Title
+* Generate an image title using the location
+* Generate an image title using the recognized buildings
+### Caption
+* Generate an image caption including recognized location, buildings and persons.
+### Keywords
+* The keywords phrase cannot be adapted yet, due to the necessary special format of the phrase.
+
+
 ## Google rate limits
 The free version of gemini-flash-1.5 is limited to 1500 prompts per day. 
 There's also a soft limit on how many requests per minute are allowed, which can of course be circumvented by waiting for a few seconds, when a request is denied.
-The plugin waits for 5 seconds after each denied prompt, if the error 'RESOURCE_EXHAUSTED' persists for 10 of these wait loops, it assumes that the daily limit has been hit, and stops the process with an error message.
+The plugin waits for 5 seconds after each denied prompt, if the error 'RESOURCE_EXHAUSTED' persists for 10 of these wait loops, it assumes that the daily limit has been hit, and stops the process with an error message. 
+### You can of course always setup billing at Google to get rid of these limits!
 
 ## Notes
 * Google AI has safety features, so some content is blocked. Especially:
