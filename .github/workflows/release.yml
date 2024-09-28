@@ -36,7 +36,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           custom_tag: ${{ inputs.tag }}
       - name: Zip it up
-        run: zip -r 'lrc-gemini.lrplugin.zip' lrc-gemini.lrplugin -x '*.git*'
+        run: zip -r 'lrc-ai-tagger.lrplugin.zip' lrc-ai-tagger.lrplugin -x '*.git*'
       - name: Create a GitHub release
         uses: ncipollo/release-action@v1
         with:
@@ -45,5 +45,5 @@ jobs:
           # body: ${{ steps.tag_version.outputs.changelog }}
           generateReleaseNotes: true
           removeArtifacts: true
-          artifacts: "lrc-gemini.lrplugin.zip"
+          artifacts: "lrc-ai-tagger.lrplugin.zip"
           allowUpdates: true
