@@ -21,7 +21,7 @@ A Lightroom Classic to fill keywords, image title and caption by using Google Ge
 * Wait it to fill your keywords, caption or title as selected.
 
 ## Which model should I use:
-* **gemini-1.5-pro**: If you want the best results, and are willing to setup billing.
+* **gemini-1.5-pro**: If you want the best results, and are willing to pay for big amounts of photos.
 * **gemini-1.5-flash**: If you want very good results for free.
 * **ChatGPT**: IMHO it doesn't make sense to use this model for now, as the results turn out to be very generic.
 
