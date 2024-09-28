@@ -60,4 +60,6 @@ The plugin waits for 5 seconds after each denied prompt, if the error 'RESOURCE_
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/donate/?hosted_button_id=2LL4K9LN5CFA6)
 
 ## Credits
-@gesteves for [his plugin](https://github.com/gesteves/lightroom-alt-text-plugin), which gave me the idea for this one, and on which the source code is based on.
+* @gesteves for [his plugin](https://github.com/gesteves/lightroom-alt-text-plugin), which gave me the idea for this one, and on which the source code is based on.
+* @kikito for [inspect.lua](http://github.com/kikito/inspect.lua)
+* Jeffrey Friedl for [JSON.lua](http://regex.info/blog/lua/json)
