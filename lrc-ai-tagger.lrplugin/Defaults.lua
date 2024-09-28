@@ -1,6 +1,6 @@
 Defaults = {}
 
-Defaults.defaultCaptionTask = 'Generate a detail image caption'
+Defaults.defaultCaptionTask = 'Generate a detailed image caption'
 Defaults.defaultTitleTask = 'Generate image title'
 Defaults.defaultKeywordsTask = 'Describe the image contents in keywords include recognized buildings, places, people and objects seperated by comma'
 
