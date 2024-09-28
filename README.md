@@ -1,4 +1,4 @@
-# LRC-Gemini
+# lrc-ai-tagger
 
 A Lightroom Classic to fill keywords, image title and caption by using Google Gemini (gemini-1.5-flash/pro) or ChatGPT (gpt-4o)
 
