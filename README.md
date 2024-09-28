@@ -7,7 +7,7 @@ A Lightroom Classic to fill keywords, image title and caption by using Google Ge
 ## Usage
 * Install plugin using Lightroom addon module manager.
 * Obtain an API key for the model you want to use:
-  * [Obtain Google Gemini API key from Google](https://ai.google.dev/gemini-api/docs/api-key)
+  * [Obtain Google Gemini API key](https://ai.google.dev/gemini-api/docs/api-key)
   * [Obtain ChatGPT API key](https://platform.openai.com/api-keys)
 * Configure language, phrases and API key in Lightroom module manager.
 * Choose the model you want to use on the Lightroom module manager.
