@@ -1,7 +1,7 @@
 Defaults = {}
 
 Defaults.defaultCaptionTask = 'Generate a detailed image caption'
-Defaults.defaultTitleTask = 'Generate image title'
+Defaults.defaultTitleTask = 'Generate one image title'
 Defaults.defaultKeywordsTask = 'Describe the image contents in keywords include recognized buildings, places, people and objects seperated by comma'
 
 Defaults.aiModels = {
