@@ -133,7 +133,7 @@ local function exportAndAnalyzePhoto(photo, progressScope)
                         local prop = validateText(caption)
                         caption = prop.reviewedText
                         SkipReviewCaptions = prop.skipFromHere
-                        if prop.result == 'Cancel' then
+                        if prop.result == 'cancel' then
                             saveCaption = false
                         end
 
@@ -150,7 +150,7 @@ local function exportAndAnalyzePhoto(photo, progressScope)
                         local prop = validateText(title)
                         title = prop.reviewedText
                         SkipReviewTitles = prop.skipFromHere
-                        if prop.result == 'Cancel' then
+                        if prop.result == 'cancel' then
                             saveTitle = false
                         end
                     end
