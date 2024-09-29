@@ -26,8 +26,17 @@ function GeminiAPI:new()
     return o
 end
 
-function GeminiAPI:imageTask(task, filePath)
+function GeminiAPI:imageTask(task, filePath, systemInstruction)
+    if systemInstruction == nil then
+        systemInstruction = Defaults.defaultSystemInstruction
+    end
+
     local body = {
+        system_instruction = {
+            parts = {
+                { text = systemInstruction },
+            },
+        },
         contents = {
             parts = {
                 { text = task .. ' in ' .. self.generateLanguage },
@@ -103,7 +112,7 @@ end
 
 
 function GeminiAPI:keywordsTask(filePath)
-    local success, keywordsString = self:imageTask(Defaults.defaultKeywordsTask, filePath)
+    local success, keywordsString = self:imageTask(Defaults.defaultKeywordsTask, filePath, Defaults.defaultKeywordsSystemInstruction)
     if success then
         return success, util.string_split(keywordsString, ',')
     end

@@ -154,7 +154,7 @@ local function exportAndAnalyzePhoto(photo, progressScope)
                             saveTitle = false
                         end
                     end
-                    
+
                     if saveTitle then
                         photo:setRawMetadata('title', title)
                     end

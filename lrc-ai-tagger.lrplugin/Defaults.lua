@@ -1,8 +1,10 @@
 Defaults = {}
 
+Defaults.defaultSystemInstruction = 'Answer appropriate for digital asset management'
 Defaults.defaultCaptionTask = 'Generate a detailed image caption'
 Defaults.defaultTitleTask = 'Generate one image title'
-Defaults.defaultKeywordsTask = 'Describe the image contents in keywords include recognized buildings, places, people and objects seperated by comma'
+Defaults.defaultKeywordsTask = 'Describe the image contents include recognized buildings, places, people and objects'
+Defaults.defaultKeywordsSystemInstruction = 'Output keywords separated by comma'
 
 Defaults.aiModels = {
     { title = "Google Gemini Flash 1.5", value = "gemini-1.5-flash" },

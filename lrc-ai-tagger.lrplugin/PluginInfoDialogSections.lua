@@ -65,7 +65,7 @@ function PluginInfoDialogSections.startDialog(propertyTable)
     propertyTable.generateKeywords = prefs.generateKeywords
     propertyTable.titleTask = prefs.titleTask
     propertyTable.captionTask =  prefs.captionTask
-    propertyTable.keywordsTask = Defaults.defaultKeywordsTask
+    propertyTable.keywordsTask = prefs.keywordsTask
     propertyTable.generateLanguage = prefs.generateLanguage
 
     propertyTable.reviewCaption = prefs.reviewCaption
@@ -218,7 +218,7 @@ function PluginInfoDialogSections.sectionsForTopOfDialog(f, propertyTable)
                 },
                 f:edit_field {
                     value = bind 'keywordsTask',
-                    enabled = false,
+                    enabled = bind 'generateKeywords',
                     width = share 'inputWidth',
                     height_in_lines = 3,
                 },
@@ -272,7 +272,7 @@ function PluginInfoDialogSections.endDialog(propertyTable)
     prefs.titleTask = propertyTable.titleTask
     prefs.generateCaption = propertyTable.generateCaption
     prefs.generateTitle = propertyTable.generateTitle
-    -- prefs.keywordsTask = propertyTable.keywordsTask
+    prefs.keywordsTask = propertyTable.keywordsTask
     prefs.generateKeywords = propertyTable.generateKeywords
     prefs.generateLanguage = propertyTable.generateLanguage
     prefs.ai = propertyTable.ai
