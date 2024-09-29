@@ -1,7 +1,7 @@
 require "AiModelAPI"
 
-skipReviewCaptions = false
-skipReviewTitles = false
+SkipReviewCaptions = false
+SkipReviewTitles = false
 
 local function validateText(text)
     local f = LrView.osFactory()
@@ -31,10 +31,12 @@ local function validateText(text)
         },
     }
 
-    LrDialogs.presentModalDialog({
+    local result = LrDialogs.presentModalDialog({
         title = 'Review Results',
         contents = dialogView,
     })
+
+    propertyTable.result = result
 
     return propertyTable
 end
@@ -125,27 +127,40 @@ local function exportAndAnalyzePhoto(photo, progressScope)
                 end
 
                 if captionSuccess then
-                    if prefs.reviewCaption and not skipReviewCaptions then
+                    local saveCaption = true
+                    if prefs.reviewCaption and not SkipReviewCaptions then
                         local existingCaption = photo:getFormattedMetadata('caption')
                         if not util.nilOrEmpty(existingCaption) then
                             local prop = validateText(caption)
                             caption = prop.reviewedText
-                            skipReviewCaptions = prop.skipFromHere
+                            SkipReviewCaptions = prop.skipFromHere
+                            if prop.result == 'Cancel' then
+                                saveCaption = false
+                            end
                         end
                     end
-                    photo:setRawMetadata('caption', caption)
+                    if saveCaption then
+                        photo:setRawMetadata('caption', caption)
+                    end
                 end
 
                 if titleSuccess then
-                    if prefs.reviewTitle and not skipReviewTitles then
+                    local saveTitle = true
+                    if prefs.reviewTitle and not SkipReviewTitles then
                         local existingTitle = photo:getFormattedMetadata('title')
                         if not util.nilOrEmpty(existingTitle) then
                             local prop = validateText(title)
                             title = prop.reviewedText
-                            skipReviewTitles = prop.skipFromHere
+                            SkipReviewTitles = prop.skipFromHere
+                            if prop.result == 'Cancel' then
+                                saveTitle = false
+                            end
                         end
                     end
-                    photo:setRawMetadata('title', title)
+                    
+                    if saveTitle then
+                        photo:setRawMetadata('title', title)
+                    end
                 end
             end)
 
