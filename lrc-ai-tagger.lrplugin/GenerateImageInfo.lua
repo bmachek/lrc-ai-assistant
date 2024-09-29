@@ -130,14 +130,13 @@ local function exportAndAnalyzePhoto(photo, progressScope)
                     local saveCaption = true
                     if prefs.reviewCaption and not SkipReviewCaptions then
                         local existingCaption = photo:getFormattedMetadata('caption')
-                        if not util.nilOrEmpty(existingCaption) then
-                            local prop = validateText(caption)
-                            caption = prop.reviewedText
-                            SkipReviewCaptions = prop.skipFromHere
-                            if prop.result == 'Cancel' then
-                                saveCaption = false
-                            end
+                        local prop = validateText(caption)
+                        caption = prop.reviewedText
+                        SkipReviewCaptions = prop.skipFromHere
+                        if prop.result == 'Cancel' then
+                            saveCaption = false
                         end
+
                     end
                     if saveCaption then
                         photo:setRawMetadata('caption', caption)
@@ -148,13 +147,11 @@ local function exportAndAnalyzePhoto(photo, progressScope)
                     local saveTitle = true
                     if prefs.reviewTitle and not SkipReviewTitles then
                         local existingTitle = photo:getFormattedMetadata('title')
-                        if not util.nilOrEmpty(existingTitle) then
-                            local prop = validateText(title)
-                            title = prop.reviewedText
-                            SkipReviewTitles = prop.skipFromHere
-                            if prop.result == 'Cancel' then
-                                saveTitle = false
-                            end
+                        local prop = validateText(title)
+                        title = prop.reviewedText
+                        SkipReviewTitles = prop.skipFromHere
+                        if prop.result == 'Cancel' then
+                            saveTitle = false
                         end
                     end
                     
