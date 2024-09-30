@@ -118,7 +118,7 @@ end
 
 
 function GeminiAPI:keywordsTask(filePath)
-    local success, keywordsString = self:imageTask(Defaults.defaultKeywordsTask, filePath, Defaults.defaultKeywordsSystemInstruction, Defaults.defaultKeywordsGenerationConfig)
+    local success, keywordsString = self:imageTask(Defaults.defaultKeywordsTask, filePath, Defaults.defaultKeywordsSystemInstruction, Defaults.getDefaultKeywordsGenerationConfig(self.generateLanguage))
     if success and keywordsString ~= nil then
         keywordsString = string.gsub(keywordsString, Defaults.geminiKeywordsGarbageAtStart, '')
         keywordsString = string.gsub(keywordsString, Defaults.geminiKeywordsGarbageAtEnd, '')
