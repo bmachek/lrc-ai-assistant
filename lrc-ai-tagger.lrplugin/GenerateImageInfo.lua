@@ -41,6 +41,29 @@ local function validateText(text)
     return propertyTable
 end
 
+local function addKeywordRecursively(photo, keywordSubTable, parent)
+    -- log:trace('addKeywordRecursively')
+    for key, value in pairs(keywordSubTable) do
+        local keyword
+        if type(key) == 'string' then
+            photo.catalog:withWriteAccessDo("Create and add level keyword", function()
+                log:trace('Creating keyword: "' .. key .. '" with parent: "' .. parent:getName() .. '"')
+                keyword = photo.catalog:createKeyword(key, {}, false, parent, true)
+                photo:addKeyword(keyword)
+            end)
+        elseif type(key) == 'number' then
+            photo.catalog:withWriteAccessDo("Create and add keyword", function()
+                log:trace('Creating keyword: "' .. value .. '" with parent: "' .. parent:getName() .. '"')
+                keyword = photo.catalog:createKeyword(value, {}, true, parent, true)
+                photo:addKeyword(keyword)
+            end)
+        end
+        if type(value) == 'table' then
+            -- log:trace('recurse')
+            addKeywordRecursively(photo, value, keyword)
+        end
+    end
+end
 
 local function exportAndAnalyzePhoto(photo, progressScope)
     local tempDir = LrPathUtils.getStandardFilePath('temp')
@@ -89,17 +112,17 @@ local function exportAndAnalyzePhoto(photo, progressScope)
             end
 
             if prefs.generateCaption then
-                if not util.nilOrEmpty(prefs.captionTask) then
+                if not Util.nilOrEmpty(prefs.captionTask) then
                     captionSuccess, caption = ai:imageTask(prefs.captionTask, path)
                 else
-                    util.handleError('No question for caption configured.', 'No question for caption configured.')
+                    Util.handleError('No question for caption configured.', 'No question for caption configured.')
                 end
             end
             if prefs.generateTitle then
-                if not util.nilOrEmpty(prefs.titleTask) then
+                if not Util.nilOrEmpty(prefs.titleTask) then
                     titleSuccess, title = ai:imageTask(prefs.titleTask, path)
                 else
-                    util.handleError('No question for title configured.', 'No question for title configured.')
+                    Util.handleError('No question for title configured.', 'No question for title configured.')
                 end
             end
 
@@ -108,28 +131,11 @@ local function exportAndAnalyzePhoto(photo, progressScope)
                 return false
             end
 
-            photo.catalog:withWriteAccessDo("Save AI generated description", function()
-                if keywordsSuccess and keywords ~= nil then
-                    local catalog = LrApplication.activeCatalog()
-                    local topKeyword = catalog:createKeyword(ai.topKeyword, {}, false, nil, true)
-                    photo:addKeyword(topKeyword)
-
-                    for _, keywordName in ipairs(keywords) do
-                        if not util.nilOrEmpty(keywordName) then
-                            local keyword = catalog:createKeyword(keywordName, {}, true, topKeyword, true)
-                            if keyword then
-                                photo:addKeyword(keyword)
-                            end
-                        end
-                    end
-
-
-                end
-
+            photo.catalog:withWriteAccessDo("Save AI generated title and caption", function()
                 if captionSuccess then
                     local saveCaption = true
                     if prefs.reviewCaption and not SkipReviewCaptions then
-                        local existingCaption = photo:getFormattedMetadata('caption')
+                        -- local existingCaption = photo:getFormattedMetadata('caption')
                         local prop = validateText(caption)
                         caption = prop.reviewedText
                         SkipReviewCaptions = prop.skipFromHere
@@ -146,7 +152,7 @@ local function exportAndAnalyzePhoto(photo, progressScope)
                 if titleSuccess then
                     local saveTitle = true
                     if prefs.reviewTitle and not SkipReviewTitles then
-                        local existingTitle = photo:getFormattedMetadata('title')
+                        -- local existingTitle = photo:getFormattedMetadata('title')
                         local prop = validateText(title)
                         title = prop.reviewedText
                         SkipReviewTitles = prop.skipFromHere
@@ -160,6 +166,15 @@ local function exportAndAnalyzePhoto(photo, progressScope)
                     end
                 end
             end)
+
+            if keywordsSuccess and type(keywords) == 'table' then
+                local topKeyword
+                photo.catalog:withWriteAccessDo("Create and add top-level keyword", function()
+                    topKeyword = photo.catalog:createKeyword(ai.topKeyword, {}, false, nil, true)
+                    photo:addKeyword(topKeyword)
+                end)
+                addKeywordRecursively(photo, keywords, topKeyword)
+            end
 
             -- Delete temp file.
             LrFileUtils.delete(path)
@@ -197,6 +212,10 @@ LrTasks.startAsyncTask(function()
                 return false
             end
             progressScope:setPortionComplete(i, totalPhotos)
+            if progressScope:isCanceled() then
+                log:trace("We got canceled.")
+                return false
+            end
         end
 
         progressScope:done()

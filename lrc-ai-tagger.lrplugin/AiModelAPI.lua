@@ -15,7 +15,11 @@ function AiModelAPI:new()
         self.usedApi = ChatGptAPI:new()
         self.topKeyword = Defaults.chatgptTopKeyword
     else
-        util.handleError('Configuration error: No valid AI model selected, check Module Manager for Configuration', 'Configuration error: No valid AI model selected, check Module Manager for Configuration')
+        Util.handleError('Configuration error: No valid AI model selected, check Module Manager for Configuration', 'Configuration error: No valid AI model selected, check Module Manager for Configuration')
+    end
+
+    if self.usedApi == nil then
+        return nil
     end
     
     return instance

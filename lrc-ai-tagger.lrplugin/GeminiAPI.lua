@@ -9,8 +9,8 @@ function GeminiAPI:new()
     local o = setmetatable({}, GeminiAPI)
     self.rateLimitHit = 0
 
-    if util.nilOrEmpty(prefs.geminiApiKey) then
-        util.handleError('Gemini API key not configured.', 'Please configure Gemini API key in Module Manager!')
+    if Util.nilOrEmpty(prefs.geminiApiKey) then
+        Util.handleError('Gemini API key not configured.', 'Please configure Gemini API key in Module Manager!')
         return nil
     else
         self.apiKey = prefs.geminiApiKey
@@ -19,14 +19,14 @@ function GeminiAPI:new()
     self.url = GeminiAPI.baseUrls[prefs.ai] .. self.apiKey
 
     self.generateLanguage = prefs.generateLanguage
-    if util.nilOrEmpty(self.generateLanguage) then
+    if Util.nilOrEmpty(self.generateLanguage) then
         self.generateLanguage = 'English'
     end
 
     return o
 end
 
-function GeminiAPI:imageTask(task, filePath, systemInstruction)
+function GeminiAPI:imageTask(task, filePath, systemInstruction, generationConfig)
     if systemInstruction == nil then
         systemInstruction = Defaults.defaultSystemInstruction
     end
@@ -42,7 +42,7 @@ function GeminiAPI:imageTask(task, filePath, systemInstruction)
                 { text = task .. ' in ' .. self.generateLanguage },
                 {
                     inline_data = {
-                        data = util.encodePhotoToBase64(filePath),
+                        data = Util.encodePhotoToBase64(filePath),
                         mime_type = 'image/jpeg'
                     },
                 }
@@ -68,6 +68,12 @@ function GeminiAPI:imageTask(task, filePath, systemInstruction)
         },
     }
 
+    if generationConfig ~= nil then
+        body.generationConfig = generationConfig
+    end
+
+    log:trace(Util.dumpTable(body))
+
     local response, headers = LrHttp.post(self.url, JSON:encode(body), {{ field = 'Content-Type', value = 'application/json' },})
 
     if headers.status == 200 then
@@ -85,7 +91,7 @@ function GeminiAPI:imageTask(task, filePath, systemInstruction)
                         log:trace(text)
                         return true, text
                     else
-                        log:error('Blocked: ' .. decoded.candidates[1].finishReason .. util.dumpTable(decoded.candidates[1].safetyRatings))
+                        log:error('Blocked: ' .. decoded.candidates[1].finishReason .. Util.dumpTable(decoded.candidates[1].safetyRatings))
                         return false,  decoded.candidates[1].finishReason
                     end
                 end
@@ -104,7 +110,7 @@ function GeminiAPI:imageTask(task, filePath, systemInstruction)
         self:imageTask(task, filePath)
     else
         log:error('GeminiAPI POST request failed. ' .. self.url)
-        log:error(util.dumpTable(headers))
+        log:error(Util.dumpTable(headers))
         log:error(response)
         return false, nil
     end
@@ -112,9 +118,11 @@ end
 
 
 function GeminiAPI:keywordsTask(filePath)
-    local success, keywordsString = self:imageTask(Defaults.defaultKeywordsTask, filePath, Defaults.defaultKeywordsSystemInstruction)
-    if success then
-        return success, util.string_split(keywordsString, ',')
+    local success, keywordsString = self:imageTask(Defaults.defaultKeywordsTask, filePath, Defaults.defaultKeywordsSystemInstruction, Defaults.defaultKeywordsGenerationConfig)
+    if success and keywordsString ~= nil then
+        keywordsString = string.gsub(keywordsString, Defaults.geminiKeywordsGarbageAtStart, '')
+        keywordsString = string.gsub(keywordsString, Defaults.geminiKeywordsGarbageAtEnd, '')
+        return success, JSON:decode(keywordsString)
     end
     return false, keywordsString
 end

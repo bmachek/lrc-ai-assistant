@@ -6,8 +6,8 @@ function ChatGptAPI:new()
     local o = setmetatable({}, ChatGptAPI)
     self.rateLimitHit = 0
 
-    if util.nilOrEmpty(prefs.chatgptApiKey) then
-        util.handleError('ChatGPT API key not configured.', 'Please configure ChatGPT API key in Module Manager!')
+    if Util.nilOrEmpty(prefs.chatgptApiKey) then
+        Util.handleError('ChatGPT API key not configured.', 'Please configure ChatGPT API key in Module Manager!')
         return nil
     else
         self.apiKey = prefs.chatgptApiKey
@@ -15,7 +15,7 @@ function ChatGptAPI:new()
 
     self.url = ChatGptAPI.baseUrl
     self.generateLanguage = prefs.generateLanguage
-    if util.nilOrEmpty(self.generateLanguage) then
+    if Util.nilOrEmpty(self.generateLanguage) then
         self.generateLanguage = 'English'
     end
 
@@ -39,7 +39,7 @@ function ChatGptAPI:imageTask(task, filePath)
                     {
                         type = "image_url",
                         image_url = {
-                            url = "data:image/jpeg;base64," .. util.encodePhotoToBase64(filePath)
+                            url = "data:image/jpeg;base64," .. Util.encodePhotoToBase64(filePath)
                         }
                     }
                 }
@@ -60,7 +60,7 @@ function ChatGptAPI:imageTask(task, filePath)
                     log:trace(text)
                     return true, text
                 else
-                    log:error('Blocked: ' .. decoded.choices[1].finish_reason .. util.dumpTable(decoded.choices[1]))
+                    log:error('Blocked: ' .. decoded.choices[1].finish_reason .. Util.dumpTable(decoded.choices[1]))
                     return false,  decoded.choices[1].finish_reason
                 end
             end
@@ -78,7 +78,7 @@ function ChatGptAPI:imageTask(task, filePath)
     --     self:imageTask(task, filePath)
     else
         log:error('ChatGptAPI POST request failed. ' .. self.url)
-        log:error(util.dumpTable(headers))
+        log:error(Util.dumpTable(headers))
         log:error(response)
         return false, nil
     end
@@ -88,7 +88,7 @@ end
 function ChatGptAPI:keywordsTask(filePath)
     local success, keywordsString = self:imageTask(Defaults.defaultKeywordsTask, filePath)
     if success then
-        return success, util.string_split(keywordsString, ',')
+        return success, Util.string_split(keywordsString, ',')
     end
     return false, keywordsString
 end

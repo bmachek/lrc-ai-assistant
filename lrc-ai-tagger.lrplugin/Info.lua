@@ -8,7 +8,7 @@ return {
 	LrPluginInfoProvider = 'PluginInfo.lua',
 	LrPluginInfoURL = 'https://github.com/bmachek/lrc-ai-tagger',
 
-	VERSION = { major = 0, minor = 6, revision = 0, build = "", },
+	VERSION = { major = 0, minor = 7, revision = 0, build = "", },
 
 	LrLibraryMenuItems = {
 		{
