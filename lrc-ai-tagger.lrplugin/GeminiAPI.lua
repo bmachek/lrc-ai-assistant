@@ -17,6 +17,7 @@ function GeminiAPI:new()
     end
 
     self.url = GeminiAPI.baseUrls[prefs.ai] .. self.apiKey
+    self.model = prefs.ai
 
     self.generateLanguage = prefs.generateLanguage
     if Util.nilOrEmpty(self.generateLanguage) then
@@ -51,19 +52,19 @@ function GeminiAPI:imageTask(task, filePath, systemInstruction, generationConfig
         safety_settings = {
             {
                 category = "HARM_CATEGORY_SEXUALLY_EXPLICIT",
-                threshold = "BLOCK_ONLY_HIGH"
+                threshold = "BLOCK_NONE"
             },
             {
                 category = "HARM_CATEGORY_HATE_SPEECH",
-                threshold = "BLOCK_ONLY_HIGH"
+                threshold = "BLOCK_NONE"
             },
             {
                 category = "HARM_CATEGORY_HARASSMENT",
-                threshold = "BLOCK_ONLY_HIGH"
+                threshold = "BLOCK_NONE"
             },
             {
                 category = "HARM_CATEGORY_DANGEROUS_CONTENT",
-                threshold = "BLOCK_ONLY_HIGH"
+                threshold = "BLOCK_NONE"
             },
         },
     }
@@ -72,7 +73,7 @@ function GeminiAPI:imageTask(task, filePath, systemInstruction, generationConfig
         body.generationConfig = generationConfig
     end
 
-    log:trace(Util.dumpTable(body))
+    -- log:trace(Util.dumpTable(body))
 
     local response, headers = LrHttp.post(self.url, JSON:encode(body), {{ field = 'Content-Type', value = 'application/json' },})
 

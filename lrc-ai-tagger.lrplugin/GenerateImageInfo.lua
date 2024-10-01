@@ -42,18 +42,17 @@ local function validateText(text)
 end
 
 local function addKeywordRecursively(photo, keywordSubTable, parent)
-    -- log:trace('addKeywordRecursively')
     for key, value in pairs(keywordSubTable) do
         local keyword
         if type(key) == 'string' then
             photo.catalog:withWriteAccessDo("Create and add level keyword", function()
-                log:trace('Creating keyword: "' .. key .. '" with parent: "' .. parent:getName() .. '"')
+                log:trace('Creating keyword: ' .. key)
                 keyword = photo.catalog:createKeyword(key, {}, false, parent, true)
                 photo:addKeyword(keyword)
             end)
         elseif type(key) == 'number' then
             photo.catalog:withWriteAccessDo("Create and add keyword", function()
-                log:trace('Creating keyword: "' .. value .. '" with parent: "' .. parent:getName() .. '"')
+                log:trace('Creating keyword: ' .. value)
                 keyword = photo.catalog:createKeyword(value, {}, true, parent, true)
                 photo:addKeyword(keyword)
             end)
@@ -74,16 +73,17 @@ local function exportAndAnalyzePhoto(photo, progressScope)
         LR_export_destinationPathPrefix = tempDir,
         LR_export_useSubfolder = false,
         LR_format = 'JPEG',
-        LR_jpeg_quality = 0.6,
+        LR_jpeg_quality = 0.5,
         LR_minimizeEmbeddedMetadata = true,
         LR_outputSharpeningOn = false,
         LR_size_doConstrain = true,
-        LR_size_maxHeight = 2000,
-        LR_size_maxWidth = 2000,
-        LR_size_resizeType = 'wh',
+        LR_size_maxHeight = 1600,
+        LR_size_resizeType = 'longEdge',
         LR_size_units = 'pixels',
         LR_collisionHandling = 'rename',
         LR_includeVideoFiles = false,
+        LR_removeLocationMetadata = false,
+        LR_embeddedMetadataOption = "all",
     }
 
     local exportSession = LrExportSession({

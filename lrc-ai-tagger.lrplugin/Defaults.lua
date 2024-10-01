@@ -4,7 +4,7 @@ Defaults.defaultSystemInstruction = 'Answer appropriate for photo organization. 
 Defaults.defaultCaptionTask = 'Generate a detailed image caption'
 Defaults.defaultTitleTask = 'Generate one image title'
 
-Defaults.defaultKeywordsTask = 'Describe the image contents very detailed and precise.'
+Defaults.defaultKeywordsTask = 'Describe the image contents very detailed and precise. Do not make any assumptions.'
 Defaults.defaultKeywordsSystemInstruction = 'Give keywords, according to given structure. Be as specific as possible. This is for image organisation.'
 
 
@@ -101,7 +101,15 @@ Defaults.defaultKeywordHierarchy = {
                             },
                         },
                     },
+                    machines = {
+                        type = "ARRAY",
+                        items = { type = "STRING" },
+                    },
                     animals = {
+                        type = "ARRAY",
+                        items = { type = "STRING" },
+                    },
+                    meals = {
                         type = "ARRAY",
                         items = { type = "STRING" },
                     },
@@ -127,7 +135,7 @@ Defaults.defaultKeywordHierarchy = {
                 type = "ARRAY",
                 items = { type = "STRING" },
             },
-            photographic_categories = {
+            genres = {
                 type = "ARRAY",
                 items = { type = "STRING" },
             },
@@ -146,7 +154,11 @@ Defaults.defaultKeywordHierarchy = {
             colors = {
                 type = "ARRAY",
                 items = { type = "STRING" },
-            }
+            },
+            signs = {
+                type = "ARRAY",
+                items = { type = "STRING" },
+            },
         },
     },
 
@@ -246,6 +258,18 @@ Defaults.defaultKeywordHierarchy = {
                         type = "ARRAY",
                         items = { type = "STRING" },
                     },
+                    Maschinen = {
+                        type = "ARRAY",
+                        items = { type = "STRING" },
+                    },
+                    Essen = {
+                        type = "ARRAY",
+                        items = { type = "STRING" },
+                    },
+                    Schilder = {
+                        type = "ARRAY",
+                        items = { type = "STRING" },
+                    },
                 },
             },
             Personen = {
@@ -268,7 +292,7 @@ Defaults.defaultKeywordHierarchy = {
                 type = "ARRAY",
                 items = { type = "STRING" },
             },
-            Fotografische_Kategorien = {
+            Genres = {
                 type = "ARRAY",
                 items = { type = "STRING" },
             },
@@ -287,10 +311,13 @@ Defaults.defaultKeywordHierarchy = {
             Farben = {
                 type = "ARRAY",
                 items = { type = "STRING" },
-            }
+            },
         },
     },
 }
+
+
+
 
 Defaults.aiModels = {
     { title = "Google Gemini Flash 1.5", value = "gemini-1.5-flash" },
