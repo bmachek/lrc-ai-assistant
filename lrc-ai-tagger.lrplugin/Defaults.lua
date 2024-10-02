@@ -1,163 +1,80 @@
 Defaults = {}
 
-Defaults.defaultSystemInstruction = 'Answer appropriate for photo organization. Only one candidate.'
-Defaults.defaultCaptionTask = 'Generate a detailed image caption'
-Defaults.defaultTitleTask = 'Generate one image title'
-
-Defaults.defaultKeywordsTask = 'Describe the image contents very detailed and precise. Do not make any assumptions.'
-Defaults.defaultKeywordsSystemInstruction = 'Give keywords, according to given structure. Be as specific as possible. This is for image organisation.'
+-- Defaults.defaultDatabaseFilepath = LrPathUtils.parent(LrApplication.activeCatalog():getPath()) .. "lrc-ai-tagger.db"
+Defaults.defaultTask = 'Describe the image contents very detailed and precise. Do not make any assumptions.'
+Defaults.defaultSystemInstruction = 'Fill given response structure. Always generate caption and title. This is for image organisation.'
 
 
-Defaults.defaultKeywordHierarchy = {
+Defaults.defaultResponseStructure = {
     English = {
         type = "OBJECT",
         properties = {
-            activities = {
+            keywords = {
                 type = "OBJECT",
                 properties = {
-                    sports = {
+                    Activities = {
                         type = "ARRAY",
                         items = {
                             type = "STRING"
                         },
                     },
-                    hobbies = {
+                    Buildings = {
                         type = "ARRAY",
                         items = {
                             type = "STRING"
                         },
                     },
-                    occupations = {
+                    Location = {
                         type = "ARRAY",
                         items = {
                             type = "STRING"
                         },
                     },
-                },
-            },
-            buildings = {
-                type = "OBJECT",
-                properties = {
-                    names = {
+                    Objects = {
                         type = "ARRAY",
-                        items = { type = "STRING" },
-                    },
-                    kind = {
-                        type = "ARRAY",
-                        items = { type = "STRING" },
-                    },
-                },
-            },
-            location = {
-                type = "OBJECT",
-                properties = {
-                    countries = {
-                        type = "ARRAY",
-                        items = { type = "STRING" },
-                    },
-                    types = {
-                        type = "ARRAY",
-                        items = { type = "STRING" },
-                    },
-                },
-            },
-            objects = {
-                type = "OBJECT",
-                properties = {
-                    things = {
-                        type = "ARRAY",
-                        items = { type = "STRING" },
-                    },
-                    materials = {
-                        type = "ARRAY",
-                        items = { type = "STRING" },
-                    },
-                    brands = {
-                        type = "ARRAY",
-                        items = { type = "STRING" },
-                    },
-                    plants  = {
-                        type = "ARRAY",
-                        items = { type = "STRING" },
-                    },
-                    vehicles = {
-                        type = "OBJECT",
-                        properties = {
-                            brands = {
-                                type = "ARRAY",
-                                items = { type = "STRING" },
-                            },
-                            models = {
-                                type = "ARRAY",
-                                items = { type = "STRING" },
-                            },
-                            kind = {
-                                type = "ARRAY",
-                                items = { type = "STRING" },
-                            },
-                            color = {
-                                type = "ARRAY",
-                                items = { type = "STRING" },
-                            },
+                        items = {
+                            type = "STRING"
                         },
                     },
-                    machines = {
+                    People = {
                         type = "ARRAY",
                         items = { type = "STRING" },
                     },
-                    animals = {
+                    Moods = {
                         type = "ARRAY",
                         items = { type = "STRING" },
                     },
-                    meals = {
+                    Sceneries = {
+                        type = "ARRAY",
+                        items = { type = "STRING" },
+                    },
+                    Texts = {
+                        type = "ARRAY",
+                        items = { type = "STRING" },
+                    },
+                    Companies = {
+                        type = "ARRAY",
+                        items = { type = "STRING" },
+                    },
+                    Weather = {
+                        type = "ARRAY",
+                        items = { type = "STRING" },
+                    },
+                    Plants = {
+                        type = "ARRAY",
+                        items = { type = "STRING" },
+                    },
+                    Animals = {
                         type = "ARRAY",
                         items = { type = "STRING" },
                     },
                 },
             },
-            persons = {
-                type = "ARRAY",
-                items = { type = "STRING" },
+            ImageCaption =  {
+                type = "STRING",
             },
-            moods = {
-                type = "ARRAY",
-                items = { type = "STRING" },
-            },
-            sceneries = {
-                type = "ARRAY",
-                items = { type = "STRING" },
-            },
-            stylistic = {
-                type = "ARRAY",
-                items = { type = "STRING" },
-            },
-            texts = {
-                type = "ARRAY",
-                items = { type = "STRING" },
-            },
-            genres = {
-                type = "ARRAY",
-                items = { type = "STRING" },
-            },
-            companies = {
-                type = "ARRAY",
-                items = { type = "STRING" },
-            },
-            weather = {
-                type = "ARRAY",
-                items = { type = "STRING" },
-            },
-            topics = {
-                type = "ARRAY",
-                items = { type = "STRING" },
-            },
-            colors = {
-                type = "ARRAY",
-                items = { type = "STRING" },
-            },
-            signs = {
-                type = "ARRAY",
-                items = { type = "STRING" },
+            ImageTitle =  {
+                type = "STRING",
             },
         },
     },
@@ -165,152 +82,68 @@ Defaults.defaultKeywordHierarchy = {
     German = {
         type = "OBJECT",
         properties = {
-            Aktivitaeten = {
+            keywords = {
                 type = "OBJECT",
                 properties = {
-                    Sportarten = {
+                    ["Aktivitäten"] = {
                         type = "ARRAY",
                         items = {
                             type = "STRING"
                         },
                     },
-                    Hobbys = {
+                    ["Gebäude"] = {
                         type = "ARRAY",
                         items = {
                             type = "STRING"
                         },
                     },
-                    Beruf = {
+                    Ort = {
                         type = "ARRAY",
                         items = {
                             type = "STRING"
                         },
                     },
-                },
-            },
-            Gebaeude = {
-                type = "OBJECT",
-                properties = {
-                    Namen = {
+                    ["Gegenstände"] = {
                         type = "ARRAY",
-                        items = { type = "STRING" },
-                    },
-                    Art = {
-                        type = "ARRAY",
-                        items = { type = "STRING" },
-                    },
-                },
-            },
-            Orte = {
-                type = "OBJECT",
-                properties = {
-                    Laender = {
-                        type = "ARRAY",
-                        items = { type = "STRING" },
-                    },
-                    Art = {
-                        type = "ARRAY",
-                        items = { type = "STRING" },
-                    },
-                },
-            },
-            Objekte = {
-                type = "OBJECT",
-                properties = {
-                    Gegenstaende = {
-                        type = "ARRAY",
-                        items = { type = "STRING" },
-                    },
-                    Materialien = {
-                        type = "ARRAY",
-                        items = { type = "STRING" },
-                    },
-                    Marken = {
-                        type = "ARRAY",
-                        items = { type = "STRING" },
-                    },
-                    Pflanzen  = {
-                        type = "ARRAY",
-                        items = { type = "STRING" },
-                    },
-                    Fahrzeuge = {
-                        type = "OBJECT",
-                        properties = {
-                            Hersteller = {
-                                type = "ARRAY",
-                                items = { type = "STRING" },
-                            },
-                            Modelle = {
-                                type = "ARRAY",
-                                items = { type = "STRING" },
-                            },
-                            Arten = {
-                                type = "ARRAY",
-                                items = { type = "STRING" },
-                            },
-                            Farben = {
-                                type = "ARRAY",
-                                items = { type = "STRING" },
-                            },
+                        items = {
+                            type = "STRING"
                         },
+                    },
+                    Menschen = {
+                        type = "ARRAY",
+                        items = { type = "STRING" },
+                    },
+                    Stimmung = {
+                        type = "ARRAY",
+                        items = { type = "STRING" },
+                    },
+                    Texte = {
+                        type = "ARRAY",
+                        items = { type = "STRING" },
+                    },
+                    Firmen = {
+                        type = "ARRAY",
+                        items = { type = "STRING" },
+                    },
+                    Wetter = {
+                        type = "ARRAY",
+                        items = { type = "STRING" },
                     },
                     Tiere = {
                         type = "ARRAY",
                         items = { type = "STRING" },
                     },
-                    Maschinen = {
-                        type = "ARRAY",
-                        items = { type = "STRING" },
-                    },
-                    Essen = {
-                        type = "ARRAY",
-                        items = { type = "STRING" },
-                    },
-                    Schilder = {
+                    Pflanzen = {
                         type = "ARRAY",
                         items = { type = "STRING" },
                     },
                 },
             },
-            Personen = {
-                type = "ARRAY",
-                items = { type = "STRING" },
+            ImageCaption = {
+                type = "STRING",
             },
-            Stimmungen = {
-                type = "ARRAY",
-                items = { type = "STRING" },
-            },
-            Szenerie = {
-                type = "ARRAY",
-                items = { type = "STRING" },
-            },
-            stilistisch = {
-                type = "ARRAY",
-                items = { type = "STRING" },
-            },
-            Texte = {
-                type = "ARRAY",
-                items = { type = "STRING" },
-            },
-            Genres = {
-                type = "ARRAY",
-                items = { type = "STRING" },
-            },
-            Firmen = {
-                type = "ARRAY",
-                items = { type = "STRING" },
-            },
-            Wetter = {
-                type = "ARRAY",
-                items = { type = "STRING" },
-            },
-            Themen = {
-                type = "ARRAY",
-                items = { type = "STRING" },
-            },
-            Farben = {
-                type = "ARRAY",
-                items = { type = "STRING" },
+            ImageTitle = {
+                type = "STRING",
             },
         },
     },
@@ -334,16 +167,16 @@ Defaults.defaultGenerateLanguage = 'English'
 
 Defaults.defaultAiModel = "gemini-1.5-flash"
 
-Defaults.googleTopKeyword = 'Gemini'
+Defaults.googleTopKeyword = 'Google Gemini'
 Defaults.chatgptTopKeyword = 'ChatGPT'
 
 Defaults.geminiKeywordsGarbageAtStart = '```json'
 Defaults.geminiKeywordsGarbageAtEnd = '```'
 
-function Defaults.getDefaultKeywordsGenerationConfig(language)
+function Defaults.getDefaultGenerationConfig(language)
     local generationConfig = {
         response_mime_type = "application/json",
-        response_schema = Defaults.defaultKeywordHierarchy[language],
+        response_schema = Defaults.defaultResponseStructure[language],
     }
 
     return generationConfig

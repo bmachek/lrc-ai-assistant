@@ -45,14 +45,14 @@ local function addKeywordRecursively(photo, keywordSubTable, parent)
     for key, value in pairs(keywordSubTable) do
         local keyword
         if type(key) == 'string' then
-            photo.catalog:withWriteAccessDo("Create and add level keyword", function()
-                log:trace('Creating keyword: ' .. key)
+            photo.catalog:withWriteAccessDo("Create category keyword", function()
+                -- log:trace('Creating keyword: ' .. key)
                 keyword = photo.catalog:createKeyword(key, {}, false, parent, true)
-                photo:addKeyword(keyword)
+                -- photo:addKeyword(keyword)
             end)
         elseif type(key) == 'number' then
             photo.catalog:withWriteAccessDo("Create and add keyword", function()
-                log:trace('Creating keyword: ' .. value)
+                -- log:trace('Creating keyword: ' .. value)
                 keyword = photo.catalog:createKeyword(value, {}, true, parent, true)
                 photo:addKeyword(keyword)
             end)
@@ -77,7 +77,7 @@ local function exportAndAnalyzePhoto(photo, progressScope)
         LR_minimizeEmbeddedMetadata = true,
         LR_outputSharpeningOn = false,
         LR_size_doConstrain = true,
-        LR_size_maxHeight = 1600,
+        LR_size_maxHeight = 2048,
         LR_size_resizeType = 'longEdge',
         LR_size_units = 'pixels',
         LR_collisionHandling = 'rename',
@@ -100,74 +100,53 @@ local function exportAndAnalyzePhoto(photo, progressScope)
     for _, rendition in exportSession:renditions() do
         local success, path = rendition:waitForRender()
         if success then
-            local title
-            local caption
-            local keywords
-            local titleSuccess = false
-            local captionSuccess = false
-            local keywordsSuccess = false
+            local analyzeSuccess, result = ai:analyzeImage(path)
 
-            if prefs.generateKeywords then
-                keywordsSuccess, keywords = ai:keywordsTask(path)
-            end
-
-            if prefs.generateCaption then
-                if not Util.nilOrEmpty(prefs.captionTask) then
-                    captionSuccess, caption = ai:imageTask(prefs.captionTask, path)
-                else
-                    Util.handleError('No question for caption configured.', 'No question for caption configured.')
-                end
-            end
-            if prefs.generateTitle then
-                if not Util.nilOrEmpty(prefs.titleTask) then
-                    titleSuccess, title = ai:imageTask(prefs.titleTask, path)
-                else
-                    Util.handleError('No question for title configured.', 'No question for title configured.')
-                end
-            end
-
-            if caption == 'RATE_LIMIT_EXHAUSTED' or title == 'RATE_LIMIT_EXHAUSTED' or keywords == 'RATE_LIMIT_EXHAUSTED' then
-                LrDialogs.showError("Rate limit exhausted 10 times in a row. Please try again in 24h")
+            if result == 'RATE_LIMIT_EXHAUSTED' then
+                LrDialogs.showError("Rate limit exhausted 10 times in a row. Please try again in 24h, or setup pay-as-you-go.")
                 return false
             end
 
-            photo.catalog:withWriteAccessDo("Save AI generated title and caption", function()
-                if captionSuccess then
-                    local saveCaption = true
-                    if prefs.reviewCaption and not SkipReviewCaptions then
-                        -- local existingCaption = photo:getFormattedMetadata('caption')
-                        local prop = validateText(caption)
-                        caption = prop.reviewedText
-                        SkipReviewCaptions = prop.skipFromHere
-                        if prop.result == 'cancel' then
-                            saveCaption = false
-                        end
+            local title, caption, keywords
+            if result ~= nil and analyzeSuccess then
+                keywords = result.keywords
+                title = result.ImageTitle
+                caption = result.ImageCaption
+            end
 
+
+            photo.catalog:withWriteAccessDo("Save AI generated title and caption", function()
+                local saveCaption = true
+                if prefs.reviewCaption and not SkipReviewCaptions then
+                    -- local existingCaption = photo:getFormattedMetadata('caption')
+                    local prop = validateText(caption)
+                    caption = prop.reviewedText
+                    SkipReviewCaptions = prop.skipFromHere
+                    if prop.result == 'cancel' then
+                        saveCaption = false
                     end
-                    if saveCaption then
-                        photo:setRawMetadata('caption', caption)
+                end
+                if saveCaption then
+                    photo:setRawMetadata('caption', caption)
+                end
+
+                local saveTitle = true
+                if prefs.reviewTitle and not SkipReviewTitles then
+                    -- local existingTitle = photo:getFormattedMetadata('title')
+                    local prop = validateText(title)
+                    title = prop.reviewedText
+                    SkipReviewTitles = prop.skipFromHere
+                    if prop.result == 'cancel' then
+                        saveTitle = false
                     end
                 end
 
-                if titleSuccess then
-                    local saveTitle = true
-                    if prefs.reviewTitle and not SkipReviewTitles then
-                        -- local existingTitle = photo:getFormattedMetadata('title')
-                        local prop = validateText(title)
-                        title = prop.reviewedText
-                        SkipReviewTitles = prop.skipFromHere
-                        if prop.result == 'cancel' then
-                            saveTitle = false
-                        end
-                    end
-
-                    if saveTitle then
-                        photo:setRawMetadata('title', title)
-                    end
+                if saveTitle then
+                    photo:setRawMetadata('title', title)
                 end
             end)
 
-            if keywordsSuccess and type(keywords) == 'table' then
+            if type(keywords) == 'table' then
                 local topKeyword
                 photo.catalog:withWriteAccessDo("Create and add top-level keyword", function()
                     topKeyword = photo.catalog:createKeyword(ai.topKeyword, {}, false, nil, true)

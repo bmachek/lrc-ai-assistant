@@ -18,6 +18,8 @@ function AiModelAPI:new()
         Util.handleError('Configuration error: No valid AI model selected, check Module Manager for Configuration', 'Configuration error: No valid AI model selected, check Module Manager for Configuration')
     end
 
+    
+
     if self.usedApi == nil then
         return nil
     end
@@ -25,11 +27,6 @@ function AiModelAPI:new()
     return instance
 end
 
-
-function AiModelAPI:imageTask(task, filePath)
-    return self.usedApi:imageTask(task, filePath)
-end
-
-function AiModelAPI:keywordsTask(filePath)
-    return self.usedApi:keywordsTask(filePath)
+function AiModelAPI:analyzeImage(filePath)
+    return self.usedApi:analyzeImage(filePath)
 end

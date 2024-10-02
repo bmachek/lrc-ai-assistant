@@ -27,7 +27,7 @@ function GeminiAPI:new()
     return o
 end
 
-function GeminiAPI:imageTask(task, filePath, systemInstruction, generationConfig)
+function GeminiAPI:doRequest(filePath, task, systemInstruction, generationConfig)
     if systemInstruction == nil then
         systemInstruction = Defaults.defaultSystemInstruction
     end
@@ -80,7 +80,7 @@ function GeminiAPI:imageTask(task, filePath, systemInstruction, generationConfig
     if headers.status == 200 then
         self.rateLimitHit = 0
         if response ~= nil then
-            log:trace(response)
+            --log:trace(response)
             local decoded = JSON:decode(response)
             if decoded ~= nil then
                 if decoded.promptFeedback ~=  nil then
@@ -118,12 +118,12 @@ function GeminiAPI:imageTask(task, filePath, systemInstruction, generationConfig
 end
 
 
-function GeminiAPI:keywordsTask(filePath)
-    local success, keywordsString = self:imageTask(Defaults.defaultKeywordsTask, filePath, Defaults.defaultKeywordsSystemInstruction, Defaults.getDefaultKeywordsGenerationConfig(self.generateLanguage))
-    if success and keywordsString ~= nil then
-        keywordsString = string.gsub(keywordsString, Defaults.geminiKeywordsGarbageAtStart, '')
-        keywordsString = string.gsub(keywordsString, Defaults.geminiKeywordsGarbageAtEnd, '')
-        return success, JSON:decode(keywordsString)
+function GeminiAPI:analyzeImage(filePath)
+    local success, result = GeminiAPI:doRequest(filePath, Defaults.defaultTask, Defaults.defaultSystemInstruction, Defaults.getDefaultGenerationConfig(self.generateLanguage))
+    if success and result ~= nil then
+        result = string.gsub(result, Defaults.geminiKeywordsGarbageAtStart, '')
+        result = string.gsub(result, Defaults.geminiKeywordsGarbageAtEnd, '')
+        return success, JSON:decode(result)
     end
-    return false, keywordsString
+    return false, result
 end

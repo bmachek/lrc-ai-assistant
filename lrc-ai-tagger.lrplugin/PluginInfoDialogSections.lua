@@ -126,19 +126,6 @@ function PluginInfoDialogSections.sectionsForTopOfDialog(f, propertyTable)
 
             f:row {
                 f:static_text {
-                    title = "ChatGPT API key: ",
-                    alignment = 'right',
-                    width = share 'labelWidth'
-                },
-                f:edit_field {
-                    value = bind 'chatgptApiKey',
-                    width = share 'inputWidth',
-                    width_in_chars = 40,
-                },
-            },
-
-            f:row {
-                f:static_text {
                     title = 'AI model to be used: ',
                     alignment = 'right',
                     width = share 'labelWidth',
@@ -161,77 +148,6 @@ function PluginInfoDialogSections.sectionsForTopOfDialog(f, propertyTable)
                     items = Defaults.generateLanguages,
                 },
             },
-
-            f:row {
-                f:static_text {
-                    title = "Question for image title: ",
-                    alignment = 'right',
-                    width = share 'labelWidth',
-                    enabled = bind 'generateTitle',
-                },
-                f:edit_field {
-                    value = bind 'titleTask',
-                    width = share 'inputWidth',
-                    enabled = bind 'generateTitle',
-                    height_in_lines = 3,
-                },
-                f:checkbox {
-                    value = bind 'generateTitle',
-                    width = share 'checkboxWidth',
-                },
-                f:static_text {
-                    width = share 'enabledWidth',
-                    title = 'Enable'
-                },
-            },
-
-            f:row {
-                f:static_text {
-                    title = "Question for image caption: ",
-                    alignment = 'right',
-                    width = share 'labelWidth',
-                    enabled = bind 'generateCaption',
-                },
-                f:edit_field {
-                    value = bind 'captionTask',
-                    width = share 'inputWidth',
-                    enabled = bind 'generateCaption',
-                    height_in_lines = 3,
-                },
-                f:checkbox {
-                    value = bind 'generateCaption',
-                    width = share 'checkboxWidth',
-                    label = '123'
-                },
-                f:static_text {
-                    width = share 'enabledWidth',
-                    title = 'Enable'
-                },
-            },
-
-            f:row {
-                f:static_text {
-                    title = "Generate Keywords: ",
-                    alignment = 'right',
-                    width = share 'labelWidth',
-                    enabled = bind 'generateKeywords',
-                },
-                f:edit_field {
-                    value = bind 'keywordsTask',
-                    enabled = bind 'generateKeywords',
-                    width = share 'inputWidth',
-                    height_in_lines = 3,
-                },
-                f:checkbox {
-                    value = bind 'generateKeywords',
-                    width = share 'checkboxWidth',
-                },
-                f:static_text {
-                    width = share 'enabledWidth',
-                    title = 'Enable'
-                },
-            },
-
             f:row {
                 f:static_text {
                     title = "Validate before saving, when field already filled: ",
@@ -241,7 +157,6 @@ function PluginInfoDialogSections.sectionsForTopOfDialog(f, propertyTable)
                 f:checkbox {
                     value = bind 'reviewCaption',
                     width = share 'checkboxWidth',
-                    enabled =  bind 'generateCaption',
                 },
                 f:static_text {
                     title = 'Caption',
@@ -254,7 +169,6 @@ function PluginInfoDialogSections.sectionsForTopOfDialog(f, propertyTable)
                 f:checkbox {
                     value = bind 'reviewTitle',
                     width = share 'checkboxWidth',
-                    enabled =  bind 'generateTitle',
                 },
                 f:static_text {
                     title = 'Title',
