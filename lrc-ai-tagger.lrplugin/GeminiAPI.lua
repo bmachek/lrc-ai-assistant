@@ -80,7 +80,7 @@ function GeminiAPI:doRequest(filePath, task, systemInstruction, generationConfig
     if headers.status == 200 then
         self.rateLimitHit = 0
         if response ~= nil then
-            --log:trace(response)
+            log:trace(response)
             local decoded = JSON:decode(response)
             if decoded ~= nil then
                 if decoded.promptFeedback ~=  nil then

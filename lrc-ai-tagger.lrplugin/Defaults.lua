@@ -1,8 +1,8 @@
 Defaults = {}
 
 -- Defaults.defaultDatabaseFilepath = LrPathUtils.parent(LrApplication.activeCatalog():getPath()) .. "lrc-ai-tagger.db"
-Defaults.defaultTask = 'Describe the image contents very detailed and precise. Do not make any assumptions.'
-Defaults.defaultSystemInstruction = 'Fill given response structure. Always generate caption and title. This is for image organisation.'
+Defaults.defaultTask = 'Describe the image contents very detailed.'
+Defaults.defaultSystemInstruction = 'Always generate caption and title and keywords. Rate image asthetics in percent. Be specific. Do not make any assumptions.'
 
 
 Defaults.defaultResponseStructure = {
@@ -76,6 +76,9 @@ Defaults.defaultResponseStructure = {
             ImageTitle =  {
                 type = "STRING",
             },
+            ImageRatinginPercent = {
+                type = "STRING",
+            },
         },
     },
 
@@ -143,6 +146,9 @@ Defaults.defaultResponseStructure = {
                 type = "STRING",
             },
             ImageTitle = {
+                type = "STRING",
+            },
+            ImageRatinginPercent = {
                 type = "STRING",
             },
         },
