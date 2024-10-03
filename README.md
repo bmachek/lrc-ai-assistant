@@ -9,11 +9,9 @@ A Lightroom Classic to fill keywords, image title and caption by using Google Ge
 * Install plugin using Lightroom addon module manager.
 * Obtain an API key for the model you want to use:
   * [Obtain Google Gemini API key](https://ai.google.dev/gemini-api/docs/api-key)
-  * [Obtain ChatGPT API key](https://platform.openai.com/api-keys)
+  * ~~[Obtain ChatGPT API key](https://platform.openai.com/api-keys)~~
 * Configure language, phrases and API key in Lightroom module manager.
 * Choose the model you want to use on the Lightroom module manager.
-* Additionally you can choose which fields are to be filled, by the enable checkbox.
-  Keep in mind that every field requires one Gemini prompt, and you are limited to 1500 per day in the free version.
 * Go to Library in Lightroom
 * Select some photos
 * Go to menu -> Library -> Addon Modules -> Analyze photo(s) with Generative AI
@@ -24,19 +22,6 @@ A Lightroom Classic to fill keywords, image title and caption by using Google Ge
 * **gemini-1.5-pro**: If you want the best results, and are willing to pay for big amounts of photos.
 * **gemini-1.5-flash**: If you want very good results for free.
 * ~~**ChatGPT**: IMHO it doesn't make sense to use this model for now, as the results turn out to be very generic.~~
-
-## Phrases
-You can adapt the phrases sent to Google / OpenAI to your likings in the module manager dialog.
-
-### A few examples:
-### Title
-* Generate an image title using the location
-* Generate an image title using the recognized buildings
-### Caption
-* Generate an image caption including recognized location, buildings and persons.
-### Keywords
-* The keywords phrase cannot be adapted yet, due to the necessary special format of the phrase.
-
 
 ## Google rate limits
 The free version of gemini-flash-1.5 is limited to 1500 prompts per day. 
