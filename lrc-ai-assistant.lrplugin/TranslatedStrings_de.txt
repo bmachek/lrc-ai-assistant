@@ -25,7 +25,7 @@
 "$$$/lrc-ai-assistant/GenerateImageInfo/analyzeFailed=Fehler beim Analysieren mit ^1"
 "$$$/lrc-ai-assistant/Info/PluginName=Lightroom KI Assistent"
 "$$$/lrc-ai-assistant/PluginInfoDialogSections/Logging=Debug Logs aktivieren"
-"$$$/lrc-ai-assistant/PluginInfoDialogSections/Title=AI Plugin Einstellungen"
+"$$$/lrc-ai-assistant/PluginInfoDialogSections/Title=KI Plugin Einstellungen"
 "$$$/lrc-ai-assistant/PluginInfoDialogSections/GoogleApiKey=Google API Schlüssel"
 "$$$/lrc-ai-assistant/PluginInfoDialogSections/aiModel=Zu verwendendes KI Modell"
- "$$$/lrc-ai-assistant/PluginInfoDialogSections/validateBeforeSaving=Vor dem Speichern überprüfen",
+"$$$/lrc-ai-assistant/PluginInfoDialogSections/validateBeforeSaving=Vor dem Speichern überprüfen",
