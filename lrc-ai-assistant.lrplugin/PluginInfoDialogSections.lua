@@ -84,7 +84,7 @@ function PluginInfoDialogSections.sectionsForBottomOfDialog(f, propertyTable)
         {
             bind_to_object = propertyTable,
 
-            title = LOC "$$$/lrc-ai-tagger/PluginInfoDialogSections/Logging=Activate debug logging",
+            title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/Logging=Activate debug logging",
 
             f:row {
                 f:checkbox {
@@ -109,11 +109,11 @@ function PluginInfoDialogSections.sectionsForTopOfDialog(f, propertyTable)
         {
             bind_to_object = propertyTable,
 
-            title = LOC "$$$/lrc-ai-tagger/PluginInfoDialogSections/Title=AI Plugin settings",
+            title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/Title=AI Plugin settings",
 
             f:row {
                 f:static_text {
-                    title = LOC "$$$/lrc-ai-tagger/PluginInfoDialogSections/GoogleApiKey=Google API key",
+                    title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/GoogleApiKey=Google API key",
                     alignment = 'right',
                     width = share 'labelWidth'
                 },
@@ -126,7 +126,7 @@ function PluginInfoDialogSections.sectionsForTopOfDialog(f, propertyTable)
 
             f:row {
                 f:static_text {
-                    title = LOC "$$$/lrc-ai-tagger/PluginInfoDialogSections/aiModel=AI model to be used",
+                    title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/aiModel=AI model to be used",
                     alignment = 'right',
                     width = share 'labelWidth',
                 },
@@ -138,7 +138,7 @@ function PluginInfoDialogSections.sectionsForTopOfDialog(f, propertyTable)
             },
             f:row {
                 f:static_text {
-                    title = LOC "$$$/lrc-ai-tagger/PluginInfoDialogSections/validateBeforeSaving=Validate before saving",
+                    title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/validateBeforeSaving=Validate before saving",
                     alignment = 'right',
                     width = share 'labelWidth',
                 },

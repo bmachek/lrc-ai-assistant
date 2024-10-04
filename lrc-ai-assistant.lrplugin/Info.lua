@@ -2,17 +2,17 @@ return {
 
 	LrSdkVersion = 3.0,
 	LrSdkMinimumVersion = 3.0,
-	LrToolkitIdentifier = 'lrc-ai-tagger',
-	LrPluginName = LOC "$$$/lrc-ai-tagger/Info/PluginName=Lightroom AI assistant",
+	LrToolkitIdentifier = 'lrc-ai-assistant',
+	LrPluginName = LOC "$$$/lrc-ai-assistant/Info/PluginName=Lightroom AI assistant",
 	LrInitPlugin = "Init.lua",
 	LrPluginInfoProvider = 'PluginInfo.lua',
-	LrPluginInfoURL = 'https://github.com/bmachek/lrc-ai-tagger',
+	LrPluginInfoURL = 'https://github.com/bmachek/lrc-ai-assistant',
 
 	VERSION = { major = 0, minor = 7, revision = 0, build = "", },
 
 	LrLibraryMenuItems = {
 		{
-			title = LOC "$$$/lrc-ai-tagger/Info/GenerateImageInfo/Title=Analyze photos with AI",
+			title = LOC "$$$/lrc-ai-assistant/Info/GenerateImageInfo/Title=Analyze photos with AI",
 			file = "GenerateImageInfo.lua",
 		},
 	},

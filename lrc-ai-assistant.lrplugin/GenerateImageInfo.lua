@@ -103,7 +103,7 @@ local function exportAndAnalyzePhoto(photo, progressScope)
             local analyzeSuccess, result = ai:analyzeImage(path)
 
             if result == 'RATE_LIMIT_EXHAUSTED' then
-                LrDialogs.showError(LOC "$$$/lrc-ai-tagger/GenerateImageInfo/rateLimit=Quota exhausted, set up pay as you go at Google, or wait for some hours.")
+                LrDialogs.showError(LOC "$$$/lrc-ai-assistant/GenerateImageInfo/rateLimit=Quota exhausted, set up pay as you go at Google, or wait for some hours.")
                 return false
             end
 
@@ -115,7 +115,7 @@ local function exportAndAnalyzePhoto(photo, progressScope)
             end
 
 
-            photo.catalog:withWriteAccessDo(LOC "$$$/lrc-ai-tagger/GenerateImageInfo/saveTitleCaption=Save AI generated title and caption", function()
+            photo.catalog:withWriteAccessDo(LOC "$$$/lrc-ai-assistant/GenerateImageInfo/saveTitleCaption=Save AI generated title and caption", function()
                 local saveCaption = true
                 if prefs.reviewCaption and not SkipReviewCaptions then
                     -- local existingCaption = photo:getFormattedMetadata('caption')
@@ -148,7 +148,7 @@ local function exportAndAnalyzePhoto(photo, progressScope)
 
             if type(keywords) == 'table' then
                 local topKeyword
-                photo.catalog:withWriteAccessDo("$$$/lrc-ai-tagger/GenerateImageInfo/saveTopKeyword=Save AI generated keywords", function()
+                photo.catalog:withWriteAccessDo("$$$/lrc-ai-assistant/GenerateImageInfo/saveTopKeyword=Save AI generated keywords", function()
                     topKeyword = photo.catalog:createKeyword(ai.topKeyword, {}, false, nil, true)
                     photo:addKeyword(topKeyword)
                 end)
@@ -173,7 +173,7 @@ LrTasks.startAsyncTask(function()
         log:trace("Starting GenerateImageInfo")
 
         if #selectedPhotos == 0 then
-            LrDialogs.showError(LOC "$$$/lrc-ai-tagger/GenerateImageInfo/noPhotos=Please select at least one photo.")
+            LrDialogs.showError(LOC "$$$/lrc-ai-assistant/GenerateImageInfo/noPhotos=Please select at least one photo.")
             return
         end
 
@@ -185,9 +185,9 @@ LrTasks.startAsyncTask(function()
         local totalPhotos = #selectedPhotos
         for i, photo in ipairs(selectedPhotos) do
             progressScope:setPortionComplete(i - 1, totalPhotos)
-            progressScope:setCaption(LOC("$$$/lrc-ai-tagger/GenerateImageInfo/caption=Analyzing photo with ^1. Photo ^2/^3", prefs.ai, tostring(i), tostring(totalPhotos)))
+            progressScope:setCaption(LOC("$$$/lrc-ai-assistant/GenerateImageInfo/caption=Analyzing photo with ^1. Photo ^2/^3", prefs.ai, tostring(i), tostring(totalPhotos)))
             if not exportAndAnalyzePhoto(photo, progressScope) then
-                progressScope:setCaption(LOC("$$$/lrc-ai-tagger/GenerateImageInfo/analyzeFailed=Failed to analyze photo with AI ^1", tostring(i)))
+                progressScope:setCaption(LOC("$$$/lrc-ai-assistant/GenerateImageInfo/analyzeFailed=Failed to analyze photo with AI ^1", tostring(i)))
                 return false
             end
             progressScope:setPortionComplete(i, totalPhotos)

@@ -10,7 +10,7 @@ function GeminiAPI:new()
     self.rateLimitHit = 0
 
     if Util.nilOrEmpty(prefs.geminiApiKey) then
-        Util.handleError('Gemini API key not configured.', LOC "$$$/lrc-ai-tagger/GeminiAPI/NoAPIkey=No Gemini API key configured in add-ons manager.")
+        Util.handleError('Gemini API key not configured.', LOC "$$$/lrc-ai-assistant/GeminiAPI/NoAPIkey=No Gemini API key configured in add-ons manager.")
         return nil
     else
         self.apiKey = prefs.geminiApiKey
