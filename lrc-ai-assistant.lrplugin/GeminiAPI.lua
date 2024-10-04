@@ -80,15 +80,17 @@ function GeminiAPI:doRequest(filePath, task, systemInstruction, generationConfig
             if decoded ~= nil then
                 if decoded.promptFeedback ~=  nil then
                     log:error('Request blocked: ' .. decoded.promptFeedback.blockReason)
-                    return false, decoded.promptFeedback.blockReason
+                    return false, decoded.promptFeedback.blockReason, decoded.usageMetadata.promptTokenCount, decoded.usageMetadata.candidatesTokenCount
                 else
                     if decoded.candidates[1].finishReason == 'STOP' then
                         local text = decoded.candidates[1].content.parts[1].text
                         log:trace(text)
-                        return true, text
+                        log:trace(decoded.usageMetadata.promptTokenCount)
+                        log:trace(decoded.usageMetadata.candidatesTokenCount)
+                        return true, text, decoded.usageMetadata.promptTokenCount, decoded.usageMetadata.candidatesTokenCount
                     else
                         log:error('Blocked: ' .. decoded.candidates[1].finishReason .. Util.dumpTable(decoded.candidates[1].safetyRatings))
-                        return false,  decoded.candidates[1].finishReason
+                        return false, decoded.candidates[1].finishReason, decoded.usageMetadata.promptTokenCount, decoded.usageMetadata.candidatesTokenCount
                     end
                 end
             end
@@ -114,11 +116,11 @@ end
 
 
 function GeminiAPI:analyzeImage(filePath)
-    local success, result = GeminiAPI:doRequest(filePath, Defaults.defaultTask, Defaults.defaultSystemInstruction, Defaults.getDefaultGenerationConfig())
+    local success, result, inputTokenCount, outputTokenCount = GeminiAPI:doRequest(filePath, Defaults.defaultTask, Defaults.defaultSystemInstruction, Defaults.getDefaultGenerationConfig())
     if success and result ~= nil then
         result = string.gsub(result, Defaults.geminiKeywordsGarbageAtStart, '')
         result = string.gsub(result, Defaults.geminiKeywordsGarbageAtEnd, '')
-        return success, JSON:decode(result)
+        return success, JSON:decode(result), inputTokenCount, outputTokenCount
     end
-    return false, result
+    return false, result, inputTokenCount, outputTokenCount
 end

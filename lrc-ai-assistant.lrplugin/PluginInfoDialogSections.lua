@@ -41,6 +41,10 @@ function PluginInfoDialogSections.startDialog(propertyTable)
         prefs.reviewTitle = false
     end
 
+    if prefs.showCosts == nil then
+        prefs.showCosts = false
+    end
+
     if prefs.titleTask == nil then
         prefs.titleTask = Defaults.defaultTitleTask
     end
@@ -70,8 +74,10 @@ function PluginInfoDialogSections.startDialog(propertyTable)
 
     propertyTable.reviewCaption = prefs.reviewCaption
     propertyTable.reviewTitle = prefs.reviewTitle
-    
+
     propertyTable.ai  = prefs.ai
+
+    propertyTable.showCosts = prefs.showCosts
 
 end
 
@@ -136,6 +142,20 @@ function PluginInfoDialogSections.sectionsForTopOfDialog(f, propertyTable)
                     items = Defaults.aiModels,
                 },
             },
+
+            f:row {
+                f:static_text {
+                    title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/showCosts=Show costs (without any warranty!!!)",
+                    alignment = 'right',
+                    width = share 'labelWidth',
+                },
+
+                f:checkbox {
+                    value = bind 'showCosts',
+                    width = share 'checkboxWidth'
+                },
+            },
+
             f:row {
                 f:static_text {
                     title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/validateBeforeSaving=Validate before saving",
@@ -181,6 +201,8 @@ function PluginInfoDialogSections.endDialog(propertyTable)
 
     prefs.reviewCaption = propertyTable.reviewCaption
     prefs.reviewTitle = propertyTable.reviewTitle
+
+    prefs.showCosts = propertyTable.showCosts
 
     prefs.logging = propertyTable.logging
     if propertyTable.logging then

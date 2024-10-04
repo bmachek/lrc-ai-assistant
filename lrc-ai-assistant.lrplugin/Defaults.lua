@@ -3,7 +3,6 @@ Defaults = {}
 Defaults.defaultTask = LOC "$$$/lrc-ai-assistant/Defaults/defaultTask=Describe the image contents."
 Defaults.defaultSystemInstruction = LOC "$$$/lrc-ai-assistant/Defaults/defaultSystemInstruction=Always generate caption and title and keywords. Be very specific an detailed."
 
-
 Defaults.defaultResponseStructure = {
     type = "OBJECT",
     properties = {
@@ -83,6 +82,14 @@ Defaults.aiModels = {
     { title = "Google Gemini Pro 1.5", value = "gemini-1.5-pro" },
 --    { title = "ChatGPT-4", value = "gpt-4o" },
 }
+
+Defaults.pricing = {}
+Defaults.pricing["gemini-1.5-pro"] = {}
+Defaults.pricing["gemini-1.5-pro"].input = 3.5 / 1000000
+Defaults.pricing["gemini-1.5-pro"].output= 10.5 / 1000000
+Defaults.pricing["gemini-1.5-flash"] = {}
+Defaults.pricing["gemini-1.5-flash"].input = 0.075 / 1000000
+Defaults.pricing["gemini-1.5-flash"].output= 0.3 / 1000000
 
 Defaults.defaultAiModel = "gemini-1.5-flash"
 

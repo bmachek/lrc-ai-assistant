@@ -26,7 +26,7 @@ local function validateText(text)
                 value = bind 'skipFromHere'
             },
             f:static_text {
-                title = 'Skip from here'
+                title = LOC "$$$/lrc-ai-assistant/GenerateImageInfo/SkipFromHere=Save following without reviewing.",
             },
         },
     }
@@ -39,6 +39,15 @@ local function validateText(text)
     propertyTable.result = result
 
     return propertyTable
+end
+
+local function showUsedTokensDialog(totalInputTokens, totalOutputTokens)
+    if prefs.showCosts then
+        local inputCosts = totalInputTokens * Defaults.pricing[prefs.ai].input
+        local outputCosts = totalOutputTokens * Defaults.pricing[prefs.ai].output
+        local totalCosts = inputCosts + outputCosts
+        LrDialogs.message(LOC("$$$/lrc-ai-assistant/GenerateImageInfo/UsedTokens=Used tokens during process\nInput tokens: ^1 (USD ^3)\nOutput tokens: ^2 (USD ^4)\nTotal costs: USD ^5", totalInputTokens, totalOutputTokens, inputCosts, outputCosts, totalCosts))
+    end
 end
 
 local function addKeywordRecursively(photo, keywordSubTable, parent)
@@ -97,10 +106,11 @@ local function exportAndAnalyzePhoto(photo, progressScope)
     if ai == nil then
         return false
     end
+
     for _, rendition in exportSession:renditions() do
         local success, path = rendition:waitForRender()
         if success then
-            local analyzeSuccess, result = ai:analyzeImage(path)
+            local analyzeSuccess, result, inputTokens, outputTokens = ai:analyzeImage(path)
 
             if result == 'RATE_LIMIT_EXHAUSTED' then
                 LrDialogs.showError(LOC "$$$/lrc-ai-assistant/GenerateImageInfo/rateLimit=Quota exhausted, set up pay as you go at Google, or wait for some hours.")
@@ -158,7 +168,7 @@ local function exportAndAnalyzePhoto(photo, progressScope)
             -- Delete temp file.
             LrFileUtils.delete(path)
 
-            return true
+            return true, inputTokens, outputTokens
         else
             return false
         end
@@ -183,20 +193,32 @@ LrTasks.startAsyncTask(function()
         })
 
         local totalPhotos = #selectedPhotos
+        local totalInputTokens = 0
+        local totalOutputTokens = 0
         for i, photo in ipairs(selectedPhotos) do
             progressScope:setPortionComplete(i - 1, totalPhotos)
             progressScope:setCaption(LOC("$$$/lrc-ai-assistant/GenerateImageInfo/caption=Analyzing photo with ^1. Photo ^2/^3", prefs.ai, tostring(i), tostring(totalPhotos)))
-            if not exportAndAnalyzePhoto(photo, progressScope) then
+            local success, inputTokens, outputTokens = exportAndAnalyzePhoto(photo, progressScope)
+            if inputTokens ~= nil then
+                totalInputTokens = totalInputTokens + inputTokens
+            end
+            if outputTokens ~= nil then
+                totalOutputTokens = totalOutputTokens + outputTokens
+            end
+            if not success then
                 progressScope:setCaption(LOC("$$$/lrc-ai-assistant/GenerateImageInfo/analyzeFailed=Failed to analyze photo with AI ^1", tostring(i)))
+                showUsedTokensDialog(totalInputTokens, totalOutputTokens)
                 return false
             end
             progressScope:setPortionComplete(i, totalPhotos)
             if progressScope:isCanceled() then
                 log:trace("We got canceled.")
+                showUsedTokensDialog(totalInputTokens, totalOutputTokens)
                 return false
             end
         end
 
         progressScope:done()
+        showUsedTokensDialog(totalInputTokens, totalOutputTokens)
     end)
 end)
