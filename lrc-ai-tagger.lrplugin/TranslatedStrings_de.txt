@@ -23,3 +23,4 @@
 "$$$/lrc-ai-tagger/GenerateImageInfo/saveTopKeyword=KI-generierte Stichwörter speichern."
 "$$$/lrc-ai-tagger/GenerateImageInfo/caption=Analysiere Foto mit ^1. Bild ^2/^3"
 "$$$/lrc-ai-tagger/GenerateImageInfo/analyzeFailed=Fehler beim Analysieren mit ^1"
+"$$$/lrc-ai-tagger/Info/PluginName=Lightroom KI Assistent"
