@@ -7,7 +7,7 @@ function ChatGptAPI:new()
     self.rateLimitHit = 0
 
     if Util.nilOrEmpty(prefs.chatgptApiKey) then
-        Util.handleError('ChatGPT API key not configured.', 'Please configure ChatGPT API key in Module Manager!')
+        Util.handleError('ChatGPT API key not configured.', "$$$/lrc-ai-tagger/ChatGptAPI/NoAPIkey=No ChatGPT API key configured in Add-Ons manager.")
         return nil
     else
         self.apiKey = prefs.chatgptApiKey

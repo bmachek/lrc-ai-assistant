@@ -10,7 +10,7 @@ function GeminiAPI:new()
     self.rateLimitHit = 0
 
     if Util.nilOrEmpty(prefs.geminiApiKey) then
-        Util.handleError('Gemini API key not configured.', 'Please configure Gemini API key in Module Manager!')
+        Util.handleError('Gemini API key not configured.', LOC "$$$/lrc-ai-tagger/GeminiAPI/NoAPIkey=No Gemini API key configured in add-ons manager.")
         return nil
     else
         self.apiKey = prefs.geminiApiKey
@@ -18,11 +18,6 @@ function GeminiAPI:new()
 
     self.url = GeminiAPI.baseUrls[prefs.ai] .. self.apiKey
     self.model = prefs.ai
-
-    self.generateLanguage = prefs.generateLanguage
-    if Util.nilOrEmpty(self.generateLanguage) then
-        self.generateLanguage = 'English'
-    end
 
     return o
 end
@@ -40,7 +35,7 @@ function GeminiAPI:doRequest(filePath, task, systemInstruction, generationConfig
         },
         contents = {
             parts = {
-                { text = task .. ' in ' .. self.generateLanguage },
+                { text = task },
                 {
                     inline_data = {
                         data = Util.encodePhotoToBase64(filePath),
@@ -119,7 +114,7 @@ end
 
 
 function GeminiAPI:analyzeImage(filePath)
-    local success, result = GeminiAPI:doRequest(filePath, Defaults.defaultTask, Defaults.defaultSystemInstruction, Defaults.getDefaultGenerationConfig(self.generateLanguage))
+    local success, result = GeminiAPI:doRequest(filePath, Defaults.defaultTask, Defaults.defaultSystemInstruction, Defaults.getDefaultGenerationConfig())
     if success and result ~= nil then
         result = string.gsub(result, Defaults.geminiKeywordsGarbageAtStart, '')
         result = string.gsub(result, Defaults.geminiKeywordsGarbageAtEnd, '')

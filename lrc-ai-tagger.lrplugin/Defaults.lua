@@ -1,160 +1,80 @@
 Defaults = {}
 
--- Defaults.defaultDatabaseFilepath = LrPathUtils.parent(LrApplication.activeCatalog():getPath()) .. "lrc-ai-tagger.db"
-Defaults.defaultTask = 'Describe the image contents very detailed.'
-Defaults.defaultSystemInstruction = 'Always generate caption and title and keywords. Rate image asthetics in percent. Be specific. Do not make any assumptions.'
+Defaults.defaultTask = LOC "$$$/lrc-ai-tagger/Defaults/defaultTask=Describe the image contents."
+Defaults.defaultSystemInstruction = LOC "$$$/lrc-ai-tagger/Defaults/defaultSystemInstruction=Always generate caption and title and keywords. Be very specific an detailed."
 
 
 Defaults.defaultResponseStructure = {
-    English = {
-        type = "OBJECT",
-        properties = {
-            keywords = {
-                type = "OBJECT",
-                properties = {
-                    Activities = {
-                        type = "ARRAY",
-                        items = {
-                            type = "STRING"
-                        },
-                    },
-                    Buildings = {
-                        type = "ARRAY",
-                        items = {
-                            type = "STRING"
-                        },
-                    },
-                    Location = {
-                        type = "ARRAY",
-                        items = {
-                            type = "STRING"
-                        },
-                    },
-                    Objects = {
-                        type = "ARRAY",
-                        items = {
-                            type = "STRING"
-                        },
-                    },
-                    People = {
-                        type = "ARRAY",
-                        items = { type = "STRING" },
-                    },
-                    Moods = {
-                        type = "ARRAY",
-                        items = { type = "STRING" },
-                    },
-                    Sceneries = {
-                        type = "ARRAY",
-                        items = { type = "STRING" },
-                    },
-                    Texts = {
-                        type = "ARRAY",
-                        items = { type = "STRING" },
-                    },
-                    Companies = {
-                        type = "ARRAY",
-                        items = { type = "STRING" },
-                    },
-                    Weather = {
-                        type = "ARRAY",
-                        items = { type = "STRING" },
-                    },
-                    Plants = {
-                        type = "ARRAY",
-                        items = { type = "STRING" },
-                    },
-                    Animals = {
-                        type = "ARRAY",
-                        items = { type = "STRING" },
-                    },
+    type = "OBJECT",
+    properties = {
+        keywords = {
+            type = "OBJECT",
+            properties = {
+                [LOC "$$$/lrc-ai-tagger/Defaults/ResponseStructure/keywords/Activities=Activities"] = {
+                    type = "ARRAY",
+                    items = { type = "STRING" },
+                },
+                [LOC "$$$/lrc-ai-tagger/Defaults/ResponseStructure/keywords/Buildings=Buildings"] = {
+                    type = "ARRAY",
+                    items = { type = "STRING" },
+                },
+                [LOC "$$$/lrc-ai-tagger/Defaults/ResponseStructure/keywords/Location=Location"] = {
+                    type = "ARRAY",
+                    items = { type = "STRING" },
+                },
+                [LOC "$$$/lrc-ai-tagger/Defaults/ResponseStructure/keywords/Objects=Objects"] = {
+                    type = "ARRAY",
+                    items = { type = "STRING" },
+                },
+                [LOC "$$$/lrc-ai-tagger/Defaults/ResponseStructure/keywords/People=People"] = {
+                    type = "ARRAY",
+                    items = { type = "STRING" },
+                },
+                [LOC "$$$/lrc-ai-tagger/Defaults/ResponseStructure/keywords/Moods=Moods"] = {
+                    type = "ARRAY",
+                    items = { type = "STRING" },
+                },
+                [LOC "$$$/lrc-ai-tagger/Defaults/ResponseStructure/keywords/Sceneries=Sceneries"] = {
+                    type = "ARRAY",
+                    items = { type = "STRING" },
+                },
+                [LOC "$$$/lrc-ai-tagger/Defaults/ResponseStructure/keywords/Texts=Texts"] = {
+                    type = "ARRAY",
+                    items = { type = "STRING" },
+                },
+                [LOC "$$$/lrc-ai-tagger/Defaults/ResponseStructure/keywords/Companies=Companies"] = {
+                    type = "ARRAY",
+                    items = { type = "STRING" },
+                },
+                [LOC "$$$/lrc-ai-tagger/Defaults/ResponseStructure/keywords/Weather=Weather"] = {
+                    type = "ARRAY",
+                    items = { type = "STRING" },
+                },
+                [LOC "$$$/lrc-ai-tagger/Defaults/ResponseStructure/keywords/Plants=Plants"] = {
+                    type = "ARRAY",
+                    items = { type = "STRING" },
+                },
+                [LOC "$$$/lrc-ai-tagger/Defaults/ResponseStructure/keywords/Animals=Animals"] = {
+                    type = "ARRAY",
+                    items = { type = "STRING" },
+                },
+                [LOC "$$$/lrc-ai-tagger/Defaults/ResponseStructure/keywords/Vehicles=Vehicles"] = {
+                    type = "ARRAY",
+                    items = { type = "STRING" },
                 },
             },
-            ImageCaption =  {
-                type = "STRING",
-            },
-            ImageTitle =  {
-                type = "STRING",
-            },
-            ImageRatinginPercent = {
-                type = "STRING",
-            },
         },
-    },
-
-    German = {
-        type = "OBJECT",
-        properties = {
-            keywords = {
-                type = "OBJECT",
-                properties = {
-                    ["Aktivitäten"] = {
-                        type = "ARRAY",
-                        items = {
-                            type = "STRING"
-                        },
-                    },
-                    ["Gebäude"] = {
-                        type = "ARRAY",
-                        items = {
-                            type = "STRING"
-                        },
-                    },
-                    Ort = {
-                        type = "ARRAY",
-                        items = {
-                            type = "STRING"
-                        },
-                    },
-                    ["Gegenstände"] = {
-                        type = "ARRAY",
-                        items = {
-                            type = "STRING"
-                        },
-                    },
-                    Menschen = {
-                        type = "ARRAY",
-                        items = { type = "STRING" },
-                    },
-                    Stimmung = {
-                        type = "ARRAY",
-                        items = { type = "STRING" },
-                    },
-                    Texte = {
-                        type = "ARRAY",
-                        items = { type = "STRING" },
-                    },
-                    Firmen = {
-                        type = "ARRAY",
-                        items = { type = "STRING" },
-                    },
-                    Wetter = {
-                        type = "ARRAY",
-                        items = { type = "STRING" },
-                    },
-                    Tiere = {
-                        type = "ARRAY",
-                        items = { type = "STRING" },
-                    },
-                    Pflanzen = {
-                        type = "ARRAY",
-                        items = { type = "STRING" },
-                    },
-                },
-            },
-            ImageCaption = {
-                type = "STRING",
-            },
-            ImageTitle = {
-                type = "STRING",
-            },
-            ImageRatinginPercent = {
-                type = "STRING",
-            },
+        ImageCaption =  {
+            type = "STRING",
         },
+        ImageTitle =  {
+            type = "STRING",
+        },
+        -- ImageRatinginPercent = {
+        --     type = "STRING",
+        -- },
     },
 }
-
 
 
 
@@ -164,13 +84,6 @@ Defaults.aiModels = {
 --    { title = "ChatGPT-4", value = "gpt-4o" },
 }
 
-Defaults.generateLanguages = {
-    { title = "English", value = "English" },
-    { title = "German", value = "German" },
-}
-
-Defaults.defaultGenerateLanguage = 'English'
-
 Defaults.defaultAiModel = "gemini-1.5-flash"
 
 Defaults.googleTopKeyword = 'Google Gemini'
@@ -179,10 +92,10 @@ Defaults.chatgptTopKeyword = 'ChatGPT'
 Defaults.geminiKeywordsGarbageAtStart = '```json'
 Defaults.geminiKeywordsGarbageAtEnd = '```'
 
-function Defaults.getDefaultGenerationConfig(language)
+function Defaults.getDefaultGenerationConfig()
     local generationConfig = {
         response_mime_type = "application/json",
-        response_schema = Defaults.defaultResponseStructure[language],
+        response_schema = Defaults.defaultResponseStructure,
     }
 
     return generationConfig

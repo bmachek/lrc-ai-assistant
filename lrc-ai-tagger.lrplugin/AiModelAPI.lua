@@ -15,7 +15,7 @@ function AiModelAPI:new()
         self.usedApi = ChatGptAPI:new()
         self.topKeyword = Defaults.chatgptTopKeyword
     else
-        Util.handleError('Configuration error: No valid AI model selected, check Module Manager for Configuration', 'Configuration error: No valid AI model selected, check Module Manager for Configuration')
+        Util.handleError('Configuration error: No valid AI model selected, check Module Manager for Configuration', LOC "$$$/lrc-ai-tagger/AiModelAPI/NoModelSelectedError=No AI model selected, check Configuration in Add-Ons manager")
     end
 
     
