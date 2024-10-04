@@ -13,7 +13,7 @@
 "$$$/lrc-ai-tagger/Defaults/ResponseStructure/keywords/Plants=Pflanzen"
 "$$$/lrc-ai-tagger/Defaults/ResponseStructure/keywords/Animals=Tiere"
 "$$$/lrc-ai-tagger/Defaults/ResponseStructure/keywords/Vehicles=Fahrzeuge"
-"$$$/lrc-ai-tagger/Info/GenerateImageInfo/Title=Fotos mit KI (^1) analysieren"
+"$$$/lrc-ai-tagger/Info/GenerateImageInfo/Title=Fotos mit KI analysieren"
 "$$$/lrc-ai-tagger/AiModelAPI/NoModelSelectedError=Keine passende KI ausgewählt, überprüfe die Konfiguration im Zusatzmodul-Manager"
 "$$$/lrc-ai-tagger/ChatGptAPI/NoAPIkey=Kein ChatGPT API key eingetragen im Zusatzmodul-Manager."
 "$$$/lrc-ai-tagger/GeminiAPI/NoAPIkey=Kein Gemini API key eingetragen im Zusatzmodul-Manager."
@@ -24,3 +24,8 @@
 "$$$/lrc-ai-tagger/GenerateImageInfo/caption=Analysiere Foto mit ^1. Bild ^2/^3"
 "$$$/lrc-ai-tagger/GenerateImageInfo/analyzeFailed=Fehler beim Analysieren mit ^1"
 "$$$/lrc-ai-tagger/Info/PluginName=Lightroom KI Assistent"
+"$$$/lrc-ai-tagger/PluginInfoDialogSections/Logging=Debug Logs aktivieren"
+"$$$/lrc-ai-tagger/PluginInfoDialogSections/Title=AI Plugin Einstellungen"
+"$$$/lrc-ai-tagger/PluginInfoDialogSections/GoogleApiKey=Google API Schlüssel"
+"$$$/lrc-ai-tagger/PluginInfoDialogSections/aiModel=Zu verwendendes KI Modell"
+ "$$$/lrc-ai-tagger/PluginInfoDialogSections/validateBeforeSaving=Vor dem Speichern überprüfen",

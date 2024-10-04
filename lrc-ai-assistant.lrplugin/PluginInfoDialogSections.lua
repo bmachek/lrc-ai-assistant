@@ -84,7 +84,7 @@ function PluginInfoDialogSections.sectionsForBottomOfDialog(f, propertyTable)
         {
             bind_to_object = propertyTable,
 
-            title = "AI Plugin Logging",
+            title = LOC "$$$/lrc-ai-tagger/PluginInfoDialogSections/Logging=Activate debug logging",
 
             f:row {
                 f:checkbox {
@@ -109,11 +109,11 @@ function PluginInfoDialogSections.sectionsForTopOfDialog(f, propertyTable)
         {
             bind_to_object = propertyTable,
 
-            title = "AI Plugin Settings",
+            title = LOC "$$$/lrc-ai-tagger/PluginInfoDialogSections/Title=AI Plugin settings",
 
             f:row {
                 f:static_text {
-                    title = "Google Gemini API key: ",
+                    title = LOC "$$$/lrc-ai-tagger/PluginInfoDialogSections/GoogleApiKey=Google API key",
                     alignment = 'right',
                     width = share 'labelWidth'
                 },
@@ -126,7 +126,7 @@ function PluginInfoDialogSections.sectionsForTopOfDialog(f, propertyTable)
 
             f:row {
                 f:static_text {
-                    title = 'AI model to be used: ',
+                    title = LOC "$$$/lrc-ai-tagger/PluginInfoDialogSections/aiModel=AI model to be used",
                     alignment = 'right',
                     width = share 'labelWidth',
                 },
@@ -136,21 +136,9 @@ function PluginInfoDialogSections.sectionsForTopOfDialog(f, propertyTable)
                     items = Defaults.aiModels,
                 },
             },
-
             f:row {
                 f:static_text {
-                    title = 'Language to be used: ',
-                    alignment = 'right',
-                    width = share 'labelWidth'
-                },
-                f:popup_menu {
-                    value = bind 'generateLanguage',
-                    items = Defaults.generateLanguages,
-                },
-            },
-            f:row {
-                f:static_text {
-                    title = "Validate before saving, when field already filled: ",
+                    title = LOC "$$$/lrc-ai-tagger/PluginInfoDialogSections/validateBeforeSaving=Validate before saving",
                     alignment = 'right',
                     width = share 'labelWidth',
                 },

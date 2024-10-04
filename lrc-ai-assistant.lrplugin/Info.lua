@@ -12,7 +12,7 @@ return {
 
 	LrLibraryMenuItems = {
 		{
-			title = LOC("$$$/lrc-ai-tagger/Info/GenerateImageInfo/Title=Analyze photos with AI (^1)", prefs.ai),
+			title = LOC "$$$/lrc-ai-tagger/Info/GenerateImageInfo/Title=Analyze photos with AI",
 			file = "GenerateImageInfo.lua",
 		},
 	},
