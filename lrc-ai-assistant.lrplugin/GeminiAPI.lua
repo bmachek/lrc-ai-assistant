@@ -70,6 +70,7 @@ function GeminiAPI:doRequest(filePath, task, systemInstruction, generationConfig
 
     -- log:trace(Util.dumpTable(body))
 
+    log:trace(Util.dumpTable(body))
     local response, headers = LrHttp.post(self.url, JSON:encode(body), {{ field = 'Content-Type', value = 'application/json' },})
 
     if headers.status == 200 then

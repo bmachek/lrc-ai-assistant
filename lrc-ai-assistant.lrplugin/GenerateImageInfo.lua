@@ -46,7 +46,58 @@ local function showUsedTokensDialog(totalInputTokens, totalOutputTokens)
         local inputCosts = totalInputTokens * Defaults.pricing[prefs.ai].input
         local outputCosts = totalOutputTokens * Defaults.pricing[prefs.ai].output
         local totalCosts = inputCosts + outputCosts
-        LrDialogs.message(LOC("$$$/lrc-ai-assistant/GenerateImageInfo/UsedTokens=Used tokens during process\nInput tokens: ^1 (USD ^3)\nOutput tokens: ^2 (USD ^4)\nTotal costs: USD ^5", totalInputTokens, totalOutputTokens, inputCosts, outputCosts, totalCosts))
+        -- LrDialogs.message(LOC("$$$/lrc-ai-assistant/GenerateImageInfo/UsedTokens=Used tokens during process\nInput tokens: ^1 (USD ^3)\nOutput tokens: ^2 (USD ^4)\nTotal costs: USD ^5", totalInputTokens, totalOutputTokens, inputCosts, outputCosts, totalCosts))
+        local f = LrView.osFactory()
+        local dialog = {}
+        dialog.title = LOC "$$$/lrc-ai-assistant/GenerateImageInfo/UsedTokenDialog/Title=Generation costs"
+        dialog.resizable = false
+        dialog.contents = f:column {
+            f:row {
+                f:static_text {
+                    title = LOC "$$$/lrc-ai-assistant/GenerateImageInfo/UsedTokensDialog/UsedTokens=Used Tokens",
+                },
+                f:static_text {
+                    title = 'Input:'
+                },
+                f:static_text {
+                    title = tostring(totalInputTokens),
+                },
+                f:static_text {
+                    title = 'Output:'
+                },
+                f:static_text {
+                    title = tostring(totalOutputTokens),
+                },
+            },
+            f:row {
+                f:static_text {
+                    title = LOC "$$$/lrc-ai-assistant/GenerateImageInfo/UsedTokensDialog/GeneratedCosts=Generated costs"
+                },
+                f:static_text {
+                    title = 'Input:'
+                },
+                f:static_text {
+                    title = tostring(inputCosts) .. " USD",
+                },
+                f:static_text {
+                    title = 'Output:'
+                },
+                f:static_text {
+                    title = tostring(outputCosts) .. " USD",
+                },
+            },
+            f:row {
+                f:static_text {
+                    title = LOC "$$$/lrc-ai-assistant/GenerateImageInfo/UsedTokenDialog/TotalCosts=Total costs:",
+                },
+                f:static_text {
+                    title = tostring(totalCosts) .. " USD",
+                },
+            },
+        }
+
+
+        LrDialogs.presentModalDialog(dialog)
     end
 end
 
@@ -104,7 +155,7 @@ local function exportAndAnalyzePhoto(photo, progressScope)
     ai = AiModelAPI:new()
 
     if ai == nil then
-        return false
+        return false, 0, 0, true
     end
 
     for _, rendition in exportSession:renditions() do
@@ -114,7 +165,7 @@ local function exportAndAnalyzePhoto(photo, progressScope)
 
             if result == 'RATE_LIMIT_EXHAUSTED' then
                 LrDialogs.showError(LOC "$$$/lrc-ai-assistant/GenerateImageInfo/rateLimit=Quota exhausted, set up pay as you go at Google, or wait for some hours.")
-                return false
+                return false, inputTokens, outputTokens, true
             end
 
             local title, caption, keywords
@@ -136,7 +187,7 @@ local function exportAndAnalyzePhoto(photo, progressScope)
                         saveCaption = false
                     end
                 end
-                if saveCaption then
+                if saveCaption and caption ~=nil then
                     photo:setRawMetadata('caption', caption)
                 end
 
@@ -151,7 +202,7 @@ local function exportAndAnalyzePhoto(photo, progressScope)
                     end
                 end
 
-                if saveTitle then
+                if saveTitle and title ~= nil then
                     photo:setRawMetadata('title', title)
                 end
             end)
@@ -168,9 +219,9 @@ local function exportAndAnalyzePhoto(photo, progressScope)
             -- Delete temp file.
             LrFileUtils.delete(path)
 
-            return true, inputTokens, outputTokens
+            return true, inputTokens, outputTokens, false
         else
-            return false
+            return false, 0, 0, false
         end
     end
 end
@@ -187,18 +238,26 @@ LrTasks.startAsyncTask(function()
             return
         end
 
+        if not prefs.generateCaption and not prefs.generateTitle and not prefs.generateKeywords then
+            LrDialogs.showError(LOC "$$$/lrc-ai-assistant/GenerateImageInfo/nothingToGenerate=Nothing selected to generate, check add-on manager settings.")
+            return
+        end
+
         local progressScope = LrProgressScope({
             title = "Analyzing photos with " .. prefs.ai,
             functionContext = context,
         })
 
         local totalPhotos = #selectedPhotos
+        local totalFailed = 0
+        local failedPhotos = {}
+        local totalSuccess = 0
         local totalInputTokens = 0
         local totalOutputTokens = 0
         for i, photo in ipairs(selectedPhotos) do
             progressScope:setPortionComplete(i - 1, totalPhotos)
             progressScope:setCaption(LOC("$$$/lrc-ai-assistant/GenerateImageInfo/caption=Analyzing photo with ^1. Photo ^2/^3", prefs.ai, tostring(i), tostring(totalPhotos)))
-            local success, inputTokens, outputTokens = exportAndAnalyzePhoto(photo, progressScope)
+            local success, inputTokens, outputTokens, fatalError = exportAndAnalyzePhoto(photo, progressScope)
             if inputTokens ~= nil then
                 totalInputTokens = totalInputTokens + inputTokens
             end
@@ -206,9 +265,16 @@ LrTasks.startAsyncTask(function()
                 totalOutputTokens = totalOutputTokens + outputTokens
             end
             if not success then
-                progressScope:setCaption(LOC("$$$/lrc-ai-assistant/GenerateImageInfo/analyzeFailed=Failed to analyze photo with AI ^1", tostring(i)))
-                showUsedTokensDialog(totalInputTokens, totalOutputTokens)
-                return false
+                totalFailed = totalFailed + 1
+                table.insert(failedPhotos, photo:getFormattedMetadata("fileName"))
+                if fatalError then
+                    progressScope:setCaption(LOC("$$$/lrc-ai-assistant/GenerateImageInfo/analyzeFailed=Failed to analyze photo with AI ^1", tostring(i)))
+                    LrDialogs.showError(LOC "$$$/lrc-ai-assistant/GenerateImageInfo/fatalError=Fatal error: Cannot continue. Check logs.")
+                    showUsedTokensDialog(totalInputTokens, totalOutputTokens)
+                    return false
+                end
+            else
+                totalSuccess = totalSuccess + 1
             end
             progressScope:setPortionComplete(i, totalPhotos)
             if progressScope:isCanceled() then
@@ -220,5 +286,9 @@ LrTasks.startAsyncTask(function()
 
         progressScope:done()
         showUsedTokensDialog(totalInputTokens, totalOutputTokens)
+
+        if totalFailed > 0 then
+            LrDialogs.message(LOC("$$$/lrc-ai-assistant/GenerateImageInfo/failedPhotos=Failed photos\n^1", table.concat(failedPhotos, "\n")))
+        end
     end)
 end)

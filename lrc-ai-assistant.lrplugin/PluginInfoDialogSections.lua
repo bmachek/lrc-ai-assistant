@@ -22,7 +22,7 @@ function PluginInfoDialogSections.startDialog(propertyTable)
     end
 
     if prefs.generateTitle == nil then
-        prefs.generateTitle = false
+        prefs.generateTitle = true
     end
 
     if prefs.generateKeywords == nil then
@@ -30,7 +30,7 @@ function PluginInfoDialogSections.startDialog(propertyTable)
     end
 
     if prefs.generateCaption == nil then
-        prefs.generateCaption = false
+        prefs.generateCaption = true
     end
 
     if prefs.reviewCaption == nil then
@@ -42,19 +42,7 @@ function PluginInfoDialogSections.startDialog(propertyTable)
     end
 
     if prefs.showCosts == nil then
-        prefs.showCosts = false
-    end
-
-    if prefs.titleTask == nil then
-        prefs.titleTask = Defaults.defaultTitleTask
-    end
-
-    if prefs.captionTask == nil then
-        prefs.captionTask = Defaults.defaultCaptionTask
-    end
-
-    if prefs.keywordsTask == nil then
-        prefs.keywordsTask = Defaults.defaultKeywordsTask
+        prefs.showCosts = true
     end
 
     if prefs.generateLanguage == nil then
@@ -67,9 +55,6 @@ function PluginInfoDialogSections.startDialog(propertyTable)
     propertyTable.generateTitle = prefs.generateTitle
     propertyTable.generateCaption = prefs.generateCaption
     propertyTable.generateKeywords = prefs.generateKeywords
-    propertyTable.titleTask = prefs.titleTask
-    propertyTable.captionTask =  prefs.captionTask
-    propertyTable.keywordsTask = prefs.keywordsTask
     propertyTable.generateLanguage = prefs.generateLanguage
 
     propertyTable.reviewCaption = prefs.reviewCaption
@@ -115,7 +100,7 @@ function PluginInfoDialogSections.sectionsForTopOfDialog(f, propertyTable)
         {
             bind_to_object = propertyTable,
 
-            title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/Title=AI Plugin settings",
+            title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/header=AI Plugin settings",
 
             f:row {
                 f:static_text {
@@ -155,7 +140,34 @@ function PluginInfoDialogSections.sectionsForTopOfDialog(f, propertyTable)
                     width = share 'checkboxWidth'
                 },
             },
-
+            f:row {
+                f:static_text {
+                    title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/generate=Generate the following",
+                    alignment = 'right',
+                    width = share 'labelWidth',
+                },
+                f:checkbox {
+                    value = bind 'generateKeywords',
+                    width = share 'checkboxWidth',
+                },
+                f:static_text {
+                    title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/keywords=Keywords",
+                },
+                f:checkbox {
+                    value = bind 'generateCaption',
+                    width = share 'checkboxWidth',
+                },
+                f:static_text {
+                    title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/caption=Caption",
+                },
+                f:checkbox {
+                    value = bind 'generateTitle',
+                    width = share 'checkboxWidth',
+                },
+                f:static_text {
+                    title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/title=Title",
+                },
+            },
             f:row {
                 f:static_text {
                     title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/validateBeforeSaving=Validate before saving",
@@ -167,19 +179,14 @@ function PluginInfoDialogSections.sectionsForTopOfDialog(f, propertyTable)
                     width = share 'checkboxWidth',
                 },
                 f:static_text {
-                    title = 'Caption',
-                },
-            },
-            f:row {
-                f:spacer {
-                    width = share 'labelWidth',
+                    title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/caption=Caption",
                 },
                 f:checkbox {
                     value = bind 'reviewTitle',
                     width = share 'checkboxWidth',
                 },
                 f:static_text {
-                    title = 'Title',
+                    title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/title=Title",
                 },
             },
         },
@@ -190,11 +197,8 @@ end
 function PluginInfoDialogSections.endDialog(propertyTable)
     prefs.geminiApiKey = propertyTable.geminiApiKey
     prefs.chatgptApiKey = propertyTable.chatgptApiKey
-    prefs.captionTask = propertyTable.captionTask
-    prefs.titleTask = propertyTable.titleTask
     prefs.generateCaption = propertyTable.generateCaption
     prefs.generateTitle = propertyTable.generateTitle
-    prefs.keywordsTask = propertyTable.keywordsTask
     prefs.generateKeywords = propertyTable.generateKeywords
     prefs.generateLanguage = propertyTable.generateLanguage
     prefs.ai = propertyTable.ai
