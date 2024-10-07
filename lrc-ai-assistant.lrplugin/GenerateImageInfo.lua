@@ -57,6 +57,7 @@ local function showUsedTokensDialog(totalInputTokens, totalOutputTokens)
                 size = "small",
                 f:column {
                     f:group_box {
+                        width = share 'groupBoxWidth',
                         title = LOC "$$$/lrc-ai-assistant/GenerateImageInfo/UsedTokenDialog/UsedTokens=Used Tokens",
                         f:spacer {
                             width = share 'spacerWidth',
@@ -82,6 +83,7 @@ local function showUsedTokensDialog(totalInputTokens, totalOutputTokens)
                 f:column {
                     size = "small",
                     f:group_box {
+                        width = share 'groupBoxWidth',
                         title = LOC "$$$/lrc-ai-assistant/GenerateImageInfo/UsedTokenDialog/GeneratedCosts=Generated costs",
                         f:spacer {
                             width = share 'spacerWidth',
