@@ -48,45 +48,70 @@ local function showUsedTokensDialog(totalInputTokens, totalOutputTokens)
         local totalCosts = inputCosts + outputCosts
         -- LrDialogs.message(LOC("$$$/lrc-ai-assistant/GenerateImageInfo/UsedTokens=Used tokens during process\nInput tokens: ^1 (USD ^3)\nOutput tokens: ^2 (USD ^4)\nTotal costs: USD ^5", totalInputTokens, totalOutputTokens, inputCosts, outputCosts, totalCosts))
         local f = LrView.osFactory()
+        local share = LrView.share
         local dialog = {}
         dialog.title = LOC "$$$/lrc-ai-assistant/GenerateImageInfo/UsedTokenDialog/Title=Generation costs"
         dialog.resizable = false
         dialog.contents = f:column {
             f:row {
-                f:static_text {
-                    title = LOC "$$$/lrc-ai-assistant/GenerateImageInfo/UsedTokensDialog/UsedTokens=Used Tokens",
+                size = "small",
+                f:column {
+                    f:group_box {
+                        title = LOC "$$$/lrc-ai-assistant/GenerateImageInfo/UsedTokenDialog/UsedTokens=Used Tokens",
+                        f:spacer {
+                            width = share 'spacerWidth',
+                        },
+                        f:static_text {
+                            title = 'Input:',
+                            font = "<system/bold>",
+                        },
+                        f:static_text {
+                            title = tostring(totalInputTokens),
+                            width = share 'valWidth',
+                        },
+                        f:static_text {
+                            title = 'Output:',
+                            font = "<system/bold>",
+                        },
+                        f:static_text {
+                            title = tostring(totalOutputTokens),
+                            width = share 'valWidth',
+                        },
+                    },
                 },
-                f:static_text {
-                    title = 'Input:'
-                },
-                f:static_text {
-                    title = tostring(totalInputTokens),
-                },
-                f:static_text {
-                    title = 'Output:'
-                },
-                f:static_text {
-                    title = tostring(totalOutputTokens),
+                f:column {
+                    size = "small",
+                    f:group_box {
+                        title = LOC "$$$/lrc-ai-assistant/GenerateImageInfo/UsedTokenDialog/GeneratedCosts=Generated costs",
+                        f:spacer {
+                            width = share 'spacerWidth',
+                        },
+                        f:static_text {
+                            title = 'Input:',
+                            font = "<system/bold>",
+                        },
+                        f:static_text {
+                            title = tostring(inputCosts) .. " USD",
+                            width = share 'valWidth',
+                        },
+                        f:static_text {
+                            title = 'Output:',
+                            font = "<system/bold>",
+                        },
+                        f:static_text {
+                            title = tostring(outputCosts) .. " USD",
+                            width = share 'valWidth',
+                        },
+                    },
                 },
             },
             f:row {
-                f:static_text {
-                    title = LOC "$$$/lrc-ai-assistant/GenerateImageInfo/UsedTokensDialog/GeneratedCosts=Generated costs"
-                },
-                f:static_text {
-                    title = 'Input:'
-                },
-                f:static_text {
-                    title = tostring(inputCosts) .. " USD",
-                },
-                f:static_text {
-                    title = 'Output:'
-                },
-                f:static_text {
-                    title = tostring(outputCosts) .. " USD",
+                f:spacer {
+                    height = 20,
                 },
             },
             f:row {
+                font = "<system/bold>",
                 f:static_text {
                     title = LOC "$$$/lrc-ai-assistant/GenerateImageInfo/UsedTokenDialog/TotalCosts=Total costs:",
                 },

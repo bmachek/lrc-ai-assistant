@@ -29,10 +29,12 @@
 "$$$/lrc-ai-assistant/GenerateImageInfo/saveTopKeyword=KI-generierte Stichwörter speichern."
 "$$$/lrc-ai-assistant/GenerateImageInfo/caption=Analysiere Foto mit ^1. Bild ^2/^3"
 "$$$/lrc-ai-assistant/GenerateImageInfo/analyzeFailed=Fehler beim Analysieren mit ^1"
-"$$$/lrc-ai-assistant/GenerateImageInfo/UsedTokensDialog/Title=Verursachte Kosten"
-"$$$/lrc-ai-assistant/GenerateImageInfo/UsedTokensDialog/UsedTokens=Verbrauchte Tokens"
-"$$$/lrc-ai-assistant/GenerateImageInfo/UsedTokensDialog/GeneratedCosts=Erzeugte Kosten"
+
+"$$$/lrc-ai-assistant/GenerateImageInfo/UsedTokenDialog/Title=Verursachte Kosten"
+"$$$/lrc-ai-assistant/GenerateImageInfo/UsedTokenDialog/UsedTokens=Verbrauchte Tokens"
+"$$$/lrc-ai-assistant/GenerateImageInfo/UsedTokenDialog/GeneratedCosts=Erzeugte Kosten"
 "$$$/lrc-ai-assistant/GenerateImageInfo/UsedTokenDialog/TotalCosts=Kosten insgesamt"
+
 "$$$/lrc-ai-assistant/GenerateImageInfo/SkipFromHere=Die folgenden ohne Überprüfung speichern."
 "$$$/lrc-ai-assistant/GenerateImageInfo/fatalError=Schwerwiegender Fehler: Analyse abgebrochen. Bitte Logdatei überprüfen."
 "$$$/lrc-ai-assistant/GenerateImageInfo/failedPhotos=Fehlgeschlagene Fotos\n^1"
