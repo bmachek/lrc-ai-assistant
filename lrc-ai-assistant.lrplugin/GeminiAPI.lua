@@ -1,7 +1,5 @@
 GeminiAPI = {}
-GeminiAPI.baseUrls = {}
-GeminiAPI.baseUrls['gemini-1.5-flash'] = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key='
-GeminiAPI.baseUrls['gemini-1.5-pro'] = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key='
+
 
 GeminiAPI.__index = GeminiAPI
 
@@ -16,7 +14,7 @@ function GeminiAPI:new()
         self.apiKey = prefs.geminiApiKey
     end
 
-    self.url = GeminiAPI.baseUrls[prefs.ai] .. self.apiKey
+    self.url = Defaults.baseUrls[prefs.ai] .. self.apiKey
     self.model = prefs.ai
 
     return o
