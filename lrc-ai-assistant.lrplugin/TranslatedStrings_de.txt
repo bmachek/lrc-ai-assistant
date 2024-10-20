@@ -1,5 +1,5 @@
 "$$$/lrc-ai-assistant/Defaults/defaultTask=Beschreibe den Bildinhalt."
-"$$$/lrc-ai-assistant/Defaults/defaultSystemInstruction=Generiere immer Titel, Beschreibung und Stichwörter. Sei spezifisch und exakt."
+"$$$/lrc-ai-assistant/Defaults/defaultSystemInstruction=Generiere immer Titel, Beschreibung und Stichwörter. Sei spezifisch und exakt. Maxmimal 25 Stichwörter"
 
 "$$$/lrc-ai-assistant/Defaults/ResponseStructure/keywords/Activities=Aktivitäten"
 "$$$/lrc-ai-assistant/Defaults/ResponseStructure/keywords/Buildings=Gebäude"
