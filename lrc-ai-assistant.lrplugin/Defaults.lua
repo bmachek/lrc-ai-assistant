@@ -1,7 +1,7 @@
 Defaults = {}
 
 Defaults.defaultTask = LOC "$$$/lrc-ai-assistant/Defaults/defaultTask=Describe the image contents, including all recognized objects."
-Defaults.defaultSystemInstruction = LOC "$$$/lrc-ai-assistant/Defaults/defaultSystemInstruction=You are classifying images for photo management. Be very specific an detailed. 25 keywords max."
+Defaults.defaultSystemInstruction = LOC "$$$/lrc-ai-assistant/Defaults/defaultSystemInstruction=You are classifying images for photo management. Be very specific an detailed. Do not return more than 25 unique keywords."
 
 Defaults.keywordsGenerationConfig = {
     keywords = {
@@ -102,13 +102,13 @@ function Defaults.getDefaultGenerationConfig()
 
     if prefs.generateCaption then
         log:trace('Generate caption is enabled.')
-        structure.properties.ImageCaption = { type = "STRING" }
+        structure.properties[LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/ImageCaption=Image caption"] = { type = "STRING" }
 
     end
 
     if prefs.generateTitle then
         log:trace('Generate title is enabled.')
-        structure.properties.ImageTitle = { type = "STRING" }
+        structure.properties[LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/ImageTitle=Image title"] = { type = "STRING" }
     end
 
     if prefs.generateKeywords then

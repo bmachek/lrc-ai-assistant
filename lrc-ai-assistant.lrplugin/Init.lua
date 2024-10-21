@@ -20,6 +20,7 @@ _G.LrStringUtils = import 'LrStringUtils'
 _G.LrLocalization = import 'LrLocalization'
 
 _G.JSON = require "JSON"
+
 _G.inspect = require 'inspect'
 require "Util"
 require "Defaults"
@@ -38,3 +39,7 @@ end
 
 if _G.prefs.apiKey == nil then _G.prefs.apiKey = '' end
 if _G.prefs.url == nil then _G.prefs.url = '' end
+
+function _G.JSON.assert(b, m)
+    LrDialogs.showError("Error decoding JSON response.")
+end

@@ -198,8 +198,8 @@ local function exportAndAnalyzePhoto(photo, progressScope)
             local title, caption, keywords
             if result ~= nil and analyzeSuccess then
                 keywords = result.keywords
-                title = result.ImageTitle
-                caption = result.ImageCaption
+                title = result[LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/ImageTitle=Image title"]
+                caption = result[LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/ImageCaption=Image caption"]
             end
 
 
