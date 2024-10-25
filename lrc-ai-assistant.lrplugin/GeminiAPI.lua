@@ -104,7 +104,7 @@ function GeminiAPI:doRequest(filePath, task, systemInstruction, generationConfig
             log:error('Rate Limit hit 10 times, giving up')
             return false, 'RATE_LIMIT_EXHAUSTED'
         end
-        self:imageTask(task, filePath)
+        self:doRequest(filePath, task, systemInstruction, generationConfig)
     else
         log:error('GeminiAPI POST request failed. ' .. self.url)
         log:error(Util.dumpTable(headers))
