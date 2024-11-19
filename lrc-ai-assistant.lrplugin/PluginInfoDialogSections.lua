@@ -33,6 +33,14 @@ function PluginInfoDialogSections.startDialog(propertyTable)
         prefs.generateCaption = true
     end
 
+    if prefs.generateAltText == nil then
+        prefs.generateAltText = true
+    end
+
+    if prefs.reviewAltText == nil then
+        prefs.reviewAltText = false
+    end
+
     if prefs.reviewCaption == nil then
         prefs.reviewCaption = false
     end
@@ -55,8 +63,9 @@ function PluginInfoDialogSections.startDialog(propertyTable)
     propertyTable.generateTitle = prefs.generateTitle
     propertyTable.generateCaption = prefs.generateCaption
     propertyTable.generateKeywords = prefs.generateKeywords
-    propertyTable.generateLanguage = prefs.generateLanguage
-
+    propertyTable.generateAltText = prefs.generateAltText
+    
+    propertyTable.reviewAltText = prefs.reviewAltText
     propertyTable.reviewCaption = prefs.reviewCaption
     propertyTable.reviewTitle = prefs.reviewTitle
 
@@ -161,6 +170,13 @@ function PluginInfoDialogSections.sectionsForTopOfDialog(f, propertyTable)
                     title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/caption=Caption",
                 },
                 f:checkbox {
+                    value = bind 'generateAltText',
+                    width = share 'checkboxWidth',
+                },
+                f:static_text {
+                    title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/alttext=Alt Text",
+                },
+                f:checkbox {
                     value = bind 'generateTitle',
                     width = share 'checkboxWidth',
                 },
@@ -182,6 +198,13 @@ function PluginInfoDialogSections.sectionsForTopOfDialog(f, propertyTable)
                     title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/caption=Caption",
                 },
                 f:checkbox {
+                    value = bind 'reviewAltText',
+                    width = share 'checkboxWidth',
+                },
+                f:static_text {
+                    title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/alttext=Alt Text",
+                },
+                f:checkbox {
                     value = bind 'reviewTitle',
                     width = share 'checkboxWidth',
                 },
@@ -200,11 +223,12 @@ function PluginInfoDialogSections.endDialog(propertyTable)
     prefs.generateCaption = propertyTable.generateCaption
     prefs.generateTitle = propertyTable.generateTitle
     prefs.generateKeywords = propertyTable.generateKeywords
-    prefs.generateLanguage = propertyTable.generateLanguage
+    prefs.generateAltText = propertyTable.generateAltText
     prefs.ai = propertyTable.ai
 
     prefs.reviewCaption = propertyTable.reviewCaption
     prefs.reviewTitle = propertyTable.reviewTitle
+    prefs.reviewAltText = propertyTable.reviewAltText
 
     prefs.showCosts = propertyTable.showCosts
 

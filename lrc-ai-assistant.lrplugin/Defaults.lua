@@ -111,6 +111,11 @@ function Defaults.getDefaultGenerationConfig()
         structure.properties[LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/ImageTitle=Image title"] = { type = "STRING" }
     end
 
+    if prefs.generateAltText then
+        log:trace('Generate Alt Text is enabled.')
+        structure.properties[LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/ImageAltText=Image Alt Text"] = { type = "STRING" }
+    end
+
     if prefs.generateKeywords then
         log:trace('Generate keywords is enabled.')
         structure.properties.keywords = Defaults.keywordsGenerationConfig.keywords

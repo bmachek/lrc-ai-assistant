@@ -17,6 +17,7 @@
 
 "$$$/lrc-ai-assistant/Defaults/ResponseStructure/ImageCaption=Bildbeschreibung"
 "$$$/lrc-ai-assistant/Defaults/ResponseStructure/ImageTitle=Bildtitel"
+"$$$/lrc-ai-assistant/Defaults/ResponseStructure/ImageAltText=Bild Alt Text"
 
 "$$$/lrc-ai-assistant/Info/GenerateImageInfo/Title=Fotos mit KI analysieren"
 
@@ -52,8 +53,9 @@
 "$$$/lrc-ai-assistant/PluginInfoDialogSections/GoogleApiKey=Google API Schlüssel"
 "$$$/lrc-ai-assistant/PluginInfoDialogSections/aiModel=Zu verwendendes KI Modell"
 "$$$/lrc-ai-assistant/PluginInfoDialogSections/validateBeforeSaving=Vor dem Speichern überprüfen",
-"$$$/lrc-ai-assistant/PluginInfoDialogSections/generate='Folgendes generieren"
+"$$$/lrc-ai-assistant/PluginInfoDialogSections/generate=Folgendes generieren"
 "$$$/lrc-ai-assistant/PluginInfoDialogSections/showCosts=Kosten anzeigen (Ohne jegliche Garantie!!!)"
 "$$$/lrc-ai-assistant/PluginInfoDialogSections/title=Titel"
 "$$$/lrc-ai-assistant/PluginInfoDialogSections/caption=Beschreibung"
 "$$$/lrc-ai-assistant/PluginInfoDialogSections/keywords=Stichwörter"
+"$$$/lrc-ai-assistant/PluginInfoDialogSections/alttext=Alt Text"

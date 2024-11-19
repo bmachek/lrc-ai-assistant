@@ -2,6 +2,7 @@ require "AiModelAPI"
 
 SkipReviewCaptions = false
 SkipReviewTitles = false
+SkipReviewAltText = false
 
 local function validateText(text)
     local f = LrView.osFactory()
@@ -195,11 +196,12 @@ local function exportAndAnalyzePhoto(photo, progressScope)
                 return false, inputTokens, outputTokens, true
             end
 
-            local title, caption, keywords
+            local title, caption, keywords, altText
             if result ~= nil and analyzeSuccess then
                 keywords = result.keywords
                 title = result[LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/ImageTitle=Image title"]
                 caption = result[LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/ImageCaption=Image caption"]
+                altText = result[LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/ImageAltText=Image Alt Text"]
             end
 
 
@@ -231,6 +233,21 @@ local function exportAndAnalyzePhoto(photo, progressScope)
 
                 if saveTitle and title ~= nil then
                     photo:setRawMetadata('title', title)
+                end
+
+                local saveAltText = true
+                if prefs.reviewAltText and not SkipReviewAltText then
+                    -- local existingTitle = photo:getFormattedMetadata('title')
+                    local prop = validateText(altText)
+                    altText = prop.reviewedText
+                    SkipReviewAltText = prop.skipFromHere
+                    if prop.result == 'cancel' then
+                        saveAltText = false
+                    end
+                end
+
+                if saveAltText and altText ~= nil then
+                    photo:setRawMetadata('altTextAccessibility', altText)
                 end
             end)
 
