@@ -1,5 +1,5 @@
-"$$$/lrc-ai-assistant/Defaults/defaultTask=Beschreibe den Bildinhalt."
-"$$$/lrc-ai-assistant/Defaults/defaultSystemInstruction=Generiere immer Titel, Beschreibung und Stichwörter. Sei spezifisch und exakt. Generiere maximal 25 einzigartige Stichwörter."
+"$$$/lrc-ai-assistant/Defaults/defaultTask=Beschreibe den Bildinhalt inklusive aller erkannten Gegenstände"
+"$$$/lrc-ai-assistant/Defaults/defaultSystemInstruction=Du analysierst Bilder für Photo Management. Sei spezifisch und exakt. Generiere maximal 25 einzigartige Stichwörter."
 
 "$$$/lrc-ai-assistant/Defaults/ResponseStructure/keywords/Activities=Aktivitäten"
 "$$$/lrc-ai-assistant/Defaults/ResponseStructure/keywords/Buildings=Gebäude"
@@ -17,7 +17,7 @@
 
 "$$$/lrc-ai-assistant/Defaults/ResponseStructure/ImageCaption=Bildbeschreibung"
 "$$$/lrc-ai-assistant/Defaults/ResponseStructure/ImageTitle=Bildtitel"
-"$$$/lrc-ai-assistant/Defaults/ResponseStructure/ImageAltText=Bild Alt Text"
+"$$$/lrc-ai-assistant/Defaults/ResponseStructure/ImageAltText=Bild Alt-Text"
 
 "$$$/lrc-ai-assistant/Info/GenerateImageInfo/Title=Fotos mit KI analysieren"
 

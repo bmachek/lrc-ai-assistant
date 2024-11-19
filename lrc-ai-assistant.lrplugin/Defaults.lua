@@ -66,7 +66,7 @@ Defaults.keywordsGenerationConfig = {
 Defaults.aiModels = {
     { title = "Google Gemini Flash 1.5", value = "gemini-1.5-flash" },
     { title = "Google Gemini Pro 1.5", value = "gemini-1.5-pro" },
-    { title = "Google Gemini Pro 1.5-002", value = "gemini-1.5-pro-002" },
+--     { title = "Google Gemini Pro 1.5-002", value = "gemini-1.5-pro-002" },
 --    { title = "ChatGPT-4", value = "gpt-4o" },
 }
 
