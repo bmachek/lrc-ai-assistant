@@ -156,13 +156,6 @@ function PluginInfoDialogSections.sectionsForTopOfDialog(f, propertyTable)
                     width = share 'labelWidth',
                 },
                 f:checkbox {
-                    value = bind 'generateKeywords',
-                    width = share 'checkboxWidth',
-                },
-                f:static_text {
-                    title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/keywords=Keywords",
-                },
-                f:checkbox {
                     value = bind 'generateCaption',
                     width = share 'checkboxWidth',
                 },
@@ -182,6 +175,13 @@ function PluginInfoDialogSections.sectionsForTopOfDialog(f, propertyTable)
                 },
                 f:static_text {
                     title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/title=Title",
+                },
+                f:checkbox {
+                    value = bind 'generateKeywords',
+                    width = share 'checkboxWidth',
+                },
+                f:static_text {
+                    title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/keywords=Keywords",
                 },
             },
             f:row {
