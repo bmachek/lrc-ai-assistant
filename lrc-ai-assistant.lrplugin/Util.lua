@@ -15,9 +15,12 @@ end
 
 -- Utility function to dump tables as JSON scrambling the API key.
 function Util.dumpTable(t)
-    local s = inspect(t)
+    local result = inspect(t)
     local pattern = '(data = )"([A-Za-z0-9+/=]+)"'
-    local result, count = s:gsub(pattern, '%1 base64 removed')
+    local count
+    result, count = result:gsub(pattern, '%1 base64 removed')
+    pattern = '(images = ){ "([A-Za-z0-9+/=]+)" }'
+    result, count = result:gsub(pattern, '%1 base64 removed')
     return result
 end
 

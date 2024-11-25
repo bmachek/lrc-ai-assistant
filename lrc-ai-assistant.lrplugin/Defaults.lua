@@ -66,6 +66,10 @@ Defaults.keywordsGenerationConfig = {
 Defaults.aiModels = {
     { title = "Google Gemini Flash 1.5", value = "gemini-1.5-flash" },
     { title = "Google Gemini Pro 1.5", value = "gemini-1.5-pro" },
+--    { title = "Ollama llama3.2-vision", value = "llama3.2-vision" },
+    { title = "Open webui llama3.2-vision", value = "open-webui-llama3.2-vision" },
+    { title = "Open webui gemma2", value = "open-webui-gemma2" },
+    
 --     { title = "Google Gemini Pro 1.5-002", value = "gemini-1.5-pro-002" },
 --    { title = "ChatGPT-4", value = "gpt-4o" },
 }
@@ -74,6 +78,9 @@ Defaults.baseUrls = {}
 Defaults.baseUrls['gemini-1.5-flash'] = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key='
 Defaults.baseUrls['gemini-1.5-pro'] = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key='
 Defaults.baseUrls['gemini-1.5-pro-002'] = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-002:generateContent?key='
+Defaults.baseUrls['llama3.2-vision'] = 'http://localhost:11434/api/generate'
+Defaults.baseUrls['open-webui-llama3.2-vision'] = 'http://localhost:3000/api'
+Defaults.baseUrls['open-webui-gemma2'] = 'http://localhost:3000/api'
 
 Defaults.pricing = {}
 Defaults.pricing["gemini-1.5-pro"] = {}
@@ -90,6 +97,8 @@ Defaults.defaultAiModel = "gemini-1.5-flash"
 
 Defaults.googleTopKeyword = 'Google Gemini'
 Defaults.chatgptTopKeyword = 'ChatGPT'
+Defaults.ollamaTopKeyword = 'Ollama'
+Defaults.openWebuiTopKeyword = 'Open Webui'
 
 Defaults.geminiKeywordsGarbageAtStart = '```json'
 Defaults.geminiKeywordsGarbageAtEnd = '```'

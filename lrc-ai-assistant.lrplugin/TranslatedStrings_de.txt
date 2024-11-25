@@ -27,6 +27,17 @@
 
 "$$$/lrc-ai-assistant/GeminiAPI/NoAPIkey=Kein Gemini API key eingetragen im Zusatzmodul-Manager."
 
+"$$$/lrc-ai-assistant/OpenWebuiAPI/NoAPIkey=Kein Open webui API key eingetragen im Zusatzmodul-Manager."
+"$$$/lrc-ai-assistant/OpenWebuiAPI/keywordTask=Generiere Stichwörter passend zum Bildinhalt."
+"$$$/lrc-ai-assistant/OpenWebuiAPI/titleTask=Generiere einen Bildtitel."
+"$$$/lrc-ai-assistant/OpenWebuiAPI/captionTask=Generiere eine Bildbeschreibung."
+"$$$/lrc-ai-assistant/OpenWebuiAPI/altTextTask=Generiere einen Bild Alt Text."
+
+"$$$/lrc-ai-assistant/OllamaAPI/keywordTask=Generiere Stichwörter zum Bildinhalt. Trenne die Stichwörter mit Kommas."
+"$$$/lrc-ai-assistant/OllamaAPI/titleTask=Generiere einen Bildtitel."
+"$$$/lrc-ai-assistant/OllamaAPI/captionTask=Generiere eine Bildbeschreibung."
+"$$$/lrc-ai-assistant/OllamaAPI/altTextTask=Generiere einen Bild Alt Text."
+
 "$$$/lrc-ai-assistant/GenerateImageInfo/noPhotos=Es muss mindestens ein Foto ausgewählt sein."
 "$$$/lrc-ai-assistant/GenerateImageInfo/rateLimit=Quota erschöpft, Zahlmethode bei Google einrichten, oder ein paar Stunden warten."
 "$$$/lrc-ai-assistant/GenerateImageInfo/saveTitleCaption=Mit KI generierte Bildbeschreibung und Bildtitel speichern"

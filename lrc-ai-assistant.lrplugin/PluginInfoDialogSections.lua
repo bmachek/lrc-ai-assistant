@@ -17,6 +17,10 @@ function PluginInfoDialogSections.startDialog(propertyTable)
         prefs.geminiApiKey = ""
     end
 
+    if prefs.openwebuiApiKey == nil then
+        prefs.openwebuiApiKey = ""
+    end
+
     if prefs.chatgptApiKey == nil then
         prefs.chatgptApiKey = ""
     end
@@ -59,6 +63,7 @@ function PluginInfoDialogSections.startDialog(propertyTable)
 
     propertyTable.logging = prefs.logging
     propertyTable.geminiApiKey = prefs.geminiApiKey
+    propertyTable.openwebuiApiKey = prefs.openwebuiApiKey
     propertyTable.chatgptApiKey = prefs.chatgptApiKey
     propertyTable.generateTitle = prefs.generateTitle
     propertyTable.generateCaption = prefs.generateCaption
@@ -124,6 +129,18 @@ function PluginInfoDialogSections.sectionsForTopOfDialog(f, propertyTable)
                 },
             },
 
+            f:row {
+                f:static_text {
+                    title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/OpenWebUiApiKey=Open webui API key",
+                    alignment = 'right',
+                    width = share 'labelWidth'
+                },
+                f:edit_field {
+                    value = bind 'openwebuiApiKey',
+                    width = share 'inputWidth',
+                    width_in_chars = 40,
+                },
+            },
             f:row {
                 f:static_text {
                     title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/aiModel=AI model to be used",
@@ -220,6 +237,7 @@ end
 function PluginInfoDialogSections.endDialog(propertyTable)
     prefs.geminiApiKey = propertyTable.geminiApiKey
     prefs.chatgptApiKey = propertyTable.chatgptApiKey
+    prefs.openwebuiApiKey = propertyTable.openwebuiApiKey
     prefs.generateCaption = propertyTable.generateCaption
     prefs.generateTitle = propertyTable.generateTitle
     prefs.generateKeywords = propertyTable.generateKeywords
