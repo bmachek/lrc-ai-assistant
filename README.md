@@ -46,6 +46,9 @@ I will implement some kind of cost checking in the future, so you can see how mu
 
 ## Support my work
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/donate/?hosted_button_id=2LL4K9LN5CFA6)
+
+[![Bitcoin donate](https://bitcoli.com/img/logo-20.png)](https://bitcoli.com/donate/boandlk)
+
 I have to pay fees at Google, because developing the plugin requires testing, which involves paying. If you want to support, please feel free to send me money with PayPal.
 
 ## Credits
