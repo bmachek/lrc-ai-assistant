@@ -66,6 +66,7 @@ Defaults.keywordsGenerationConfig = {
 Defaults.aiModels = {
     { title = "Google Gemini Flash 1.5", value = "gemini-1.5-flash" },
     { title = "Google Gemini Pro 1.5", value = "gemini-1.5-pro" },
+    { title = "Google Gemini Flash 2.0", value = "gemini-2.0-flash" },
 --     { title = "Google Gemini Pro 1.5-002", value = "gemini-1.5-pro-002" },
 --    { title = "ChatGPT-4", value = "gpt-4o" },
 }
@@ -73,20 +74,20 @@ Defaults.aiModels = {
 Defaults.baseUrls = {}
 Defaults.baseUrls['gemini-1.5-flash'] = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key='
 Defaults.baseUrls['gemini-1.5-pro'] = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key='
-Defaults.baseUrls['gemini-1.5-pro-002'] = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-002:generateContent?key='
+Defaults.baseUrls['gemini-2.0-flash'] = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key='
 
 Defaults.pricing = {}
 Defaults.pricing["gemini-1.5-pro"] = {}
 Defaults.pricing["gemini-1.5-pro"].input = 3.5 / 1000000
 Defaults.pricing["gemini-1.5-pro"].output= 10.5 / 1000000
-Defaults.pricing["gemini-1.5-pro-002"] = {}
-Defaults.pricing["gemini-1.5-pro-002"].input = 3.5 / 1000000
-Defaults.pricing["gemini-1.5-pro-002"].output= 10.5 / 1000000
 Defaults.pricing["gemini-1.5-flash"] = {}
 Defaults.pricing["gemini-1.5-flash"].input = 0.075 / 1000000
 Defaults.pricing["gemini-1.5-flash"].output= 0.3 / 1000000
+Defaults.pricing["gemini-2.0-flash"] = {}
+Defaults.pricing["gemini-2.0-flash"].input = 0.075 / 1000000
+Defaults.pricing["gemini-2.0-flash"].output= 0.3 / 1000000
 
-Defaults.defaultAiModel = "gemini-1.5-flash"
+Defaults.defaultAiModel = "gemini-2.0-flash"
 
 Defaults.googleTopKeyword = 'Google Gemini'
 Defaults.chatgptTopKeyword = 'ChatGPT'
