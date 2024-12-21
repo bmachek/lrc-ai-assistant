@@ -170,7 +170,7 @@ local function exportAndAnalyzePhoto(photo, progressScope)
         LR_size_units = 'pixels',
         LR_collisionHandling = 'rename',
         LR_includeVideoFiles = false,
-        LR_removeLocationMetadata = false,
+        LR_removeLocationMetadata = true,
         LR_embeddedMetadataOption = "all",
     }
 
@@ -188,8 +188,12 @@ local function exportAndAnalyzePhoto(photo, progressScope)
 
     for _, rendition in exportSession:renditions() do
         local success, path = rendition:waitForRender()
+        local metadata = {}
+
+        metadata.gps = photo:getRawMetadata("gps")
+
         if success then
-            local analyzeSuccess, result, inputTokens, outputTokens = ai:analyzeImage(path)
+            local analyzeSuccess, result, inputTokens, outputTokens = ai:analyzeImage(path, metadata)
 
             if result == 'RATE_LIMIT_EXHAUSTED' then
                 LrDialogs.showError(LOC "$$$/lrc-ai-assistant/GenerateImageInfo/rateLimit=Quota exhausted, set up pay as you go at Google, or wait for some hours.")

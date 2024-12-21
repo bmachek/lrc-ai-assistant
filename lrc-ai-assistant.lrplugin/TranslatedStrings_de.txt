@@ -18,6 +18,7 @@
 "$$$/lrc-ai-assistant/Defaults/defaultSystemInstruction=Du analysierst Bilder für Photo Management. Sei spezifisch und exakt. Generiere maximal 25 einzigartige Stichwörter."
 "$$$/lrc-ai-assistant/Defaults/defaultTask=Beschreibe den Bildinhalt inklusive aller erkannten Gegenstände"
 "$$$/lrc-ai-assistant/GeminiAPI/NoAPIkey=Kein Gemini API key eingetragen im Zusatzmodul-Manager."
+"$$$/lrc-ai-assistant/GeminiAPI/gpsAddon=Dieses Foto wurde an den folgenden Koordinaten aufgenommen: "
 "$$$/lrc-ai-assistant/GenerateImageInfo/SkipFromHere=Die folgenden ohne Überprüfung speichern."
 "$$$/lrc-ai-assistant/GenerateImageInfo/UsedTokenDialog/GeneratedCosts=Erzeugte Kosten"
 "$$$/lrc-ai-assistant/GenerateImageInfo/UsedTokenDialog/Title=Verursachte Kosten"
@@ -44,4 +45,4 @@
 "$$$/lrc-ai-assistant/PluginInfoDialogSections/keywords=Stichwörter"
 "$$$/lrc-ai-assistant/PluginInfoDialogSections/showCosts=Kosten anzeigen (Ohne jegliche Garantie!!!)"
 "$$$/lrc-ai-assistant/PluginInfoDialogSections/title=Titel"
-"$$$/lrc-ai-assistant/PluginInfoDialogSections/validateBeforeSaving=Vor dem Speichern überprüfen","
+"$$$/lrc-ai-assistant/PluginInfoDialogSections/validateBeforeSaving=Vor dem Speichern überprüfen"

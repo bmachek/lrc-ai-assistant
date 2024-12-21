@@ -27,6 +27,6 @@ function AiModelAPI:new()
     return instance
 end
 
-function AiModelAPI:analyzeImage(filePath)
-    return self.usedApi:analyzeImage(filePath)
+function AiModelAPI:analyzeImage(filePath, metadata)
+    return self.usedApi:analyzeImage(filePath, metadata)
 end

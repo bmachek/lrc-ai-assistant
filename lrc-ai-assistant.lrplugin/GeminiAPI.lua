@@ -114,8 +114,9 @@ function GeminiAPI:doRequest(filePath, task, systemInstruction, generationConfig
 end
 
 
-function GeminiAPI:analyzeImage(filePath)
-    local success, result, inputTokenCount, outputTokenCount = GeminiAPI:doRequest(filePath, Defaults.defaultTask, Defaults.defaultSystemInstruction, Defaults.getDefaultGenerationConfig())
+function GeminiAPI:analyzeImage(filePath, metadata)
+    local task = Defaults.defaultTask .. " " .. LOC "$$$/lrc-ai-assistant/GeminiAPI/gpsAddon=This photo was taken at the following coordinates:" .. metadata.gps.latitude .. ", " .. metadata.gps.longitude
+    local success, result, inputTokenCount, outputTokenCount = GeminiAPI:doRequest(filePath, task, Defaults.defaultSystemInstruction, Defaults.getDefaultGenerationConfig())
     if success and result ~= nil then
         result = string.gsub(result, Defaults.geminiKeywordsGarbageAtStart, '')
         result = string.gsub(result, Defaults.geminiKeywordsGarbageAtEnd, '')
