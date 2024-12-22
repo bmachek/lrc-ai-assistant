@@ -19,6 +19,7 @@
 "$$$/lrc-ai-assistant/Defaults/defaultTask=Describe the image contents, including all recognized objects."
 "$$$/lrc-ai-assistant/GeminiAPI/NoAPIkey=No Gemini API key configured in add-ons manager."
 "$$$/lrc-ai-assistant/GeminiAPI/gpsAddon=This photo was taken at the following coordinates: "
+"$$$/lrc-ai-assistant/GeminiAPI/keywordAddon=Some keywords are:"
 "$$$/lrc-ai-assistant/GenerateImageInfo/SkipFromHere=Save following without reviewing."
 "$$$/lrc-ai-assistant/GenerateImageInfo/UsedTokenDialog/GeneratedCosts=Generated costs"
 "$$$/lrc-ai-assistant/GenerateImageInfo/UsedTokenDialog/Title=Generation costs"

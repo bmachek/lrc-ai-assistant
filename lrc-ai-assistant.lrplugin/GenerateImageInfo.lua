@@ -191,6 +191,7 @@ local function exportAndAnalyzePhoto(photo, progressScope)
         local metadata = {}
 
         metadata.gps = photo:getRawMetadata("gps")
+        metadata.keywords = photo:getFormattedMetadata("keywordTagsForExport")
 
         if success then
             local analyzeSuccess, result, inputTokens, outputTokens = ai:analyzeImage(path, metadata)
