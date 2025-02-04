@@ -1,6 +1,6 @@
 # lrc-ai-assistant
 
-A Lightroom Classic to fill keywords, image title and caption by using Google Gemini (gemini-1.5-flash/pro) ~~or ChatGPT (gpt-4o)~~
+A Lightroom Classic to fill keywords, image title and caption by using Google Gemini (gemini-1.5-flash/pro) or ChatGPT (gpt-4o)
 
 ## Privacy / Disclaimer
 ### Your photos will be sent to Google for analysis! Do not use the plugin, if you don't agree with this.
@@ -9,7 +9,7 @@ A Lightroom Classic to fill keywords, image title and caption by using Google Ge
 * Install plugin using Lightroom addon module manager.
 * Obtain an API key for the model you want to use:
   * [Obtain Google Gemini API key](https://aistudio.google.com/app/apikey)
-  * ~~[Obtain ChatGPT API key](https://platform.openai.com/api-keys)~~
+  * [Obtain ChatGPT API key](https://platform.openai.com/api-keys)
 * Configure language and API key in Lightroom module manager.
 * Choose the model you want to use on the Lightroom module manager.
 * Go to Library in Lightroom
@@ -17,11 +17,6 @@ A Lightroom Classic to fill keywords, image title and caption by using Google Ge
 * Go to menu -> Library -> Addon Modules -> Analyze photo(s) with AI
 * If enabled review before save for title and/or caption and the field is already filled with data, a review dialog will show up.
 * Wait it to fill your keywords, caption or title as selected.
-
-## Which model should I use:
-* **gemini-1.5-pro**: If you want the best results, and are willing to pay for big amounts of photos.
-* **gemini-1.5-flash**: If you want very good results for free.
-* ~~**ChatGPT**: IMHO it doesn't make sense to use this model for now, as the results turn out to be very generic.~~
 
 ## Google rate limits
 The free version of gemini-flash-1.5 is limited to 1500 prompts per day. 
