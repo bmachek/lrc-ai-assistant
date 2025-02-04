@@ -13,6 +13,8 @@ function ChatGptAPI:new()
         self.apiKey = prefs.chatgptApiKey
     end
 
+    self.model = prefs.ai
+
     self.url = ChatGptAPI.baseUrl
 
     return o
@@ -20,7 +22,7 @@ end
 
 function ChatGptAPI:doRequest(filePath, task, systemInstruction, generationConfig)
     local body = {
-        model = "gpt-4o",
+        model = self.model,
         response_format = generationConfig,
         messages = {
             {

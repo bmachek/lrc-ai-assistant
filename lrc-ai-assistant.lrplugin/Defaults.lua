@@ -68,6 +68,7 @@ Defaults.aiModels = {
     { title = "Google Gemini Pro 1.5", value = "gemini-1.5-pro" },
     { title = "Google Gemini Flash 2.0", value = "gemini-2.0-flash" },
     { title = "ChatGPT-4", value = "gpt-4o" },
+    { title = "ChatGPT-4 Mini", value = "gpt-4o-mini" },
 }
 
 Defaults.baseUrls = {}
