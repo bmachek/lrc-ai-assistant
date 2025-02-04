@@ -162,7 +162,7 @@ local function exportAndAnalyzePhoto(photo, progressScope)
         LR_export_useSubfolder = false,
         LR_format = 'JPEG',
         LR_jpeg_quality = 0.5,
-        LR_minimizeEmbeddedMetadata = true,
+        LR_minimizeEmbeddedMetadata = false,
         LR_outputSharpeningOn = false,
         LR_size_doConstrain = true,
         LR_size_maxHeight = 3072,
@@ -170,7 +170,7 @@ local function exportAndAnalyzePhoto(photo, progressScope)
         LR_size_units = 'pixels',
         LR_collisionHandling = 'rename',
         LR_includeVideoFiles = false,
-        LR_removeLocationMetadata = true,
+        LR_removeLocationMetadata = false,
         LR_embeddedMetadataOption = "all",
     }
 
