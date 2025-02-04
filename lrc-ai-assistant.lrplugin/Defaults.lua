@@ -1,7 +1,7 @@
 Defaults = {}
 
 Defaults.defaultTask = LOC "$$$/lrc-ai-assistant/Defaults/defaultTask=Describe the image contents, including all recognized objects."
-Defaults.defaultSystemInstruction = LOC "$$$/lrc-ai-assistant/Defaults/defaultSystemInstruction=You are classifying images for photo management. Be very specific an detailed. Do not return more than 25 unique keywords."
+Defaults.defaultSystemInstruction = LOC "$$$/lrc-ai-assistant/Defaults/defaultSystemInstruction=You are classifying images for photo management. Be very specific and detailed. Do not return more than 25 unique keywords."
 
 Defaults.keywordsGenerationConfig = {
     keywords = {
