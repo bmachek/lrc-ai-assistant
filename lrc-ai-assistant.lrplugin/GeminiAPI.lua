@@ -66,9 +66,8 @@ function GeminiAPI:doRequest(filePath, task, systemInstruction, generationConfig
         body.generationConfig = generationConfig
     end
 
-    -- log:trace(Util.dumpTable(body))
-
     log:trace(Util.dumpTable(body))
+
     local response, headers = LrHttp.post(self.url, JSON:encode(body), {{ field = 'Content-Type', value = 'application/json' },})
 
     if headers.status == 200 then
@@ -125,7 +124,7 @@ function GeminiAPI:analyzeImage(filePath, metadata)
         end
     end
 
-    local success, result, inputTokenCount, outputTokenCount = GeminiAPI:doRequest(filePath, task, Defaults.defaultSystemInstruction, Defaults.getDefaultGenerationConfig())
+    local success, result, inputTokenCount, outputTokenCount = GeminiAPI:doRequest(filePath, task, Defaults.defaultSystemInstruction, Defaults.getDefaultGeminiGenerationConfig())
     if success and result ~= nil then
         result = string.gsub(result, Defaults.geminiKeywordsGarbageAtStart, '')
         result = string.gsub(result, Defaults.geminiKeywordsGarbageAtEnd, '')

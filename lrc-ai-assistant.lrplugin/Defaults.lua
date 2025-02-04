@@ -67,8 +67,7 @@ Defaults.aiModels = {
     { title = "Google Gemini Flash 1.5", value = "gemini-1.5-flash" },
     { title = "Google Gemini Pro 1.5", value = "gemini-1.5-pro" },
     { title = "Google Gemini Flash 2.0", value = "gemini-2.0-flash" },
---     { title = "Google Gemini Pro 1.5-002", value = "gemini-1.5-pro-002" },
---    { title = "ChatGPT-4", value = "gpt-4o" },
+    { title = "ChatGPT-4", value = "gpt-4o" },
 }
 
 Defaults.baseUrls = {}
@@ -95,7 +94,7 @@ Defaults.chatgptTopKeyword = 'ChatGPT'
 Defaults.geminiKeywordsGarbageAtStart = '```json'
 Defaults.geminiKeywordsGarbageAtEnd = '```'
 
-function Defaults.getDefaultGenerationConfig()
+function Defaults.getDefaultGeminiGenerationConfig()
     local structure = {
         type = "OBJECT",
         properties = {}
@@ -125,6 +124,67 @@ function Defaults.getDefaultGenerationConfig()
     local generationConfig = {
         response_mime_type = "application/json",
         response_schema = structure,
+    }
+
+    return generationConfig
+end
+
+
+function Defaults.getDefaultChatGPTGenerationConfig()
+    local structure = {
+        type = "OBJECT",
+        properties = {},
+        additionalProperties = false,
+        required = {},
+    }
+
+    if prefs.generateCaption then
+        log:trace('Generate caption is enabled.')
+        structure.properties[LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/ImageCaption=Image caption"] = { type = "STRING" }
+        table.insert(structure.required, LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/ImageCaption=Image caption")
+    end
+
+    if prefs.generateTitle then
+        log:trace('Generate title is enabled.')
+        structure.properties[LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/ImageTitle=Image title"] = { type = "STRING" }
+        table.insert(structure.required, LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/ImageTitle=Image title")
+    end
+
+    if prefs.generateAltText then
+        log:trace('Generate Alt Text is enabled.')
+        structure.properties[LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/ImageAltText=Image Alt Text"] = { type = "STRING" }
+        table.insert(structure.required, LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/ImageAltText=Image Alt Text")
+    end
+
+    if prefs.generateKeywords then
+        log:trace('Generate keywords is enabled.')
+        structure.properties.keywords = Defaults.keywordsGenerationConfig.keywords
+        table.insert(structure.required, "keywords")
+        structure.properties.keywords.additionalProperties = false
+        structure.properties.keywords.required = { 
+            LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/keywords/Activities=Activities",
+            LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/keywords/Buildings=Buildings",
+            LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/keywords/Location=Location",
+            LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/keywords/Objects=Objects",
+            LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/keywords/People=People",
+            LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/keywords/Moods=Moods",
+            LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/keywords/Sceneries=Sceneries",
+            LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/keywords/Texts=Texts",
+            LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/keywords/Companies=Companies",
+            LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/keywords/Weather=Weather",
+            LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/keywords/Plants=Plants",
+            LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/keywords/Animals=Animals",
+            LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/keywords/Vehicles=Vehicles",
+        }
+    end
+
+    local generationConfig = {
+        type = "json_schema",
+        json_schema = {
+            name = "results",
+            strict = true,
+            schema = structure,
+        },
     }
 
     return generationConfig

@@ -7,31 +7,29 @@ function ChatGptAPI:new()
     self.rateLimitHit = 0
 
     if Util.nilOrEmpty(prefs.chatgptApiKey) then
-        Util.handleError('ChatGPT API key not configured.', "$$$/lrc-ai-assistant/ChatGptAPI/NoAPIkey=No ChatGPT API key configured in Add-Ons manager.")
+        Util.handleError('ChatGPT API key not configured.', LOC "$$$/lrc-ai-assistant/ChatGptAPI/NoAPIkey=No ChatGPT API key configured in Add-Ons manager.")
         return nil
     else
         self.apiKey = prefs.chatgptApiKey
     end
 
     self.url = ChatGptAPI.baseUrl
-    self.generateLanguage = prefs.generateLanguage
-    if Util.nilOrEmpty(self.generateLanguage) then
-        self.generateLanguage = 'English'
-    end
 
     return o
 end
 
-function ChatGptAPI:imageTask(task, filePath)
+function ChatGptAPI:doRequest(filePath, task, systemInstruction, generationConfig)
     local body = {
         model = "gpt-4o",
-        response_format = {
-            type = "text"
-        },
+        response_format = generationConfig,
         messages = {
             {
                 role = "system",
-                content = task .. ' in ' .. self.generateLanguage
+                content = systemInstruction,
+            },
+            {
+                role = "user",
+                content = task,
             },
             {
                 role = "user",
@@ -47,7 +45,17 @@ function ChatGptAPI:imageTask(task, filePath)
         }
     }
 
-    local response, headers = LrHttp.post(self.url, JSON:encode(body), {{ field = 'Content-Type', value = 'application/json' },  { field = 'Authorization', value = 'Bearer ' .. self.apiKey }})
+    log:trace(Util.dumpTable(body))
+
+
+    -- This is dirty!
+    local jsonBody = JSON:encode(body)
+    jsonBody = string.gsub(jsonBody, "STRING", "string")
+    jsonBody = string.gsub(jsonBody, "ARRAY", "array")
+    jsonBody = string.gsub(jsonBody, "OBJECT", "object")
+
+
+    local response, headers = LrHttp.post(self.url, jsonBody, {{ field = 'Content-Type', value = 'application/json' },  { field = 'Authorization', value = 'Bearer ' .. self.apiKey }})
 
     if headers.status == 200 then
         self.rateLimitHit = 0
@@ -58,37 +66,38 @@ function ChatGptAPI:imageTask(task, filePath)
                 if decoded.choices[1].finish_reason == 'stop' then
                     local text = decoded.choices[1].message.content
                     log:trace(text)
-                    return true, text
+                    return true, text, 0, 0 -- FIXME
                 else
                     log:error('Blocked: ' .. decoded.choices[1].finish_reason .. Util.dumpTable(decoded.choices[1]))
-                    return false,  decoded.choices[1].finish_reason
+                    return false,  decoded.choices[1].finish_reason, 0, 0
                 end
             end
         else
             log:error('Got empty response from ChatGPT')
         end
-    -- elseif headers.status == 429 then
-    --     log:error('Rate limit exceeded for ' .. tostring(self.rateLimitHit) .. ' times')
-    --     LrTasks.sleep(5)
-    --     self.rateLimitHit = self.rateLimitHit + 1
-    --     if self.rateLimitHit >= 10 then
-    --         log:error('Rate Limit hit 10 times, giving up')
-    --         return false, 'RATE_LIMIT_EXHAUSTED'
-    --     end
-    --     self:imageTask(task, filePath)
     else
         log:error('ChatGptAPI POST request failed. ' .. self.url)
         log:error(Util.dumpTable(headers))
         log:error(response)
-        return false, nil
+        return false, nil, 0, 0 -- FIXME
     end
 end
 
 
-function ChatGptAPI:keywordsTask(filePath)
-    local success, keywordsString = self:imageTask(Defaults.defaultKeywordsTask, filePath)
-    if success then
-        return success, Util.string_split(keywordsString, ',')
+function ChatGptAPI:analyzeImage(filePath, metadata)
+    local task = Defaults.defaultTask
+    if metadata ~= nil then
+        if metadata.gps ~= nil then
+            task = task .. " " .. LOC "$$$/lrc-ai-assistant/ChatGptAPI/gpsAddon=This photo was taken at the following coordinates:" .. metadata.gps.latitude .. ", " .. metadata.gps.longitude
+        end
+        if metadata.keywords ~= nil then
+            task = task .. " " .. LOC "$$$/lrc-ai-assistant/ChatGptAPI/keywordAddon=Some keywords are:" .. metadata.keywords
+        end
     end
-    return false, keywordsString
+
+    local success, result, inputTokenCount, outputTokenCount = self:doRequest(filePath, task, Defaults.defaultSystemInstruction, Defaults.getDefaultChatGPTGenerationConfig())
+    if success then
+        return success, JSON:decode(result), inputTokenCount, outputTokenCount
+    end
+    return false, "", inputTokenCount, outputTokenCount
 end

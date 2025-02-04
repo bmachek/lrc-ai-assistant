@@ -123,6 +123,19 @@ function PluginInfoDialogSections.sectionsForTopOfDialog(f, propertyTable)
                     width_in_chars = 40,
                 },
             },
+            
+            f:row {
+                f:static_text {
+                    title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/ChatGPTApiKey=ChatGPT API key",
+                    alignment = 'right',
+                    width = share 'labelWidth'
+                },
+                f:edit_field {
+                    value = bind 'chatgptApiKey',
+                    width = share 'inputWidth',
+                    width_in_chars = 40,
+                },
+            },
 
             f:row {
                 f:static_text {
@@ -219,6 +232,7 @@ end
 
 function PluginInfoDialogSections.endDialog(propertyTable)
     prefs.geminiApiKey = propertyTable.geminiApiKey
+    prefs.chatgptApiKey = propertyTable.chatgptApiKey
     prefs.chatgptApiKey = propertyTable.chatgptApiKey
     prefs.generateCaption = propertyTable.generateCaption
     prefs.generateTitle = propertyTable.generateTitle

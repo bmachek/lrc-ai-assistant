@@ -165,7 +165,7 @@ local function exportAndAnalyzePhoto(photo, progressScope)
         LR_minimizeEmbeddedMetadata = true,
         LR_outputSharpeningOn = false,
         LR_size_doConstrain = true,
-        LR_size_maxHeight = 2048,
+        LR_size_maxHeight = 3072,
         LR_size_resizeType = 'longEdge',
         LR_size_units = 'pixels',
         LR_collisionHandling = 'rename',
@@ -204,9 +204,13 @@ local function exportAndAnalyzePhoto(photo, progressScope)
             local title, caption, keywords, altText
             if result ~= nil and analyzeSuccess then
                 keywords = result.keywords
+                log:trace(keywords)
                 title = result[LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/ImageTitle=Image title"]
+                log:trace(title)
                 caption = result[LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/ImageCaption=Image caption"]
+                log:trace(caption)
                 altText = result[LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/ImageAltText=Image Alt Text"]
+                log:trace(altText)
             end
 
 
