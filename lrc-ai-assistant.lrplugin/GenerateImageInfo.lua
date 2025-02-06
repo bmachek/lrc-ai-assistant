@@ -4,7 +4,7 @@ SkipReviewCaptions = false
 SkipReviewTitles = false
 SkipReviewAltText = false
 
-local function validateText(text)
+local function validateText(typeOfText, text)
     local f = LrView.osFactory()
     local bind = LrView.bind
     local share = LrView.share
@@ -15,6 +15,11 @@ local function validateText(text)
 
     local dialogView = f:column {
         bind_to_object = propertyTable,
+        f:row {
+            f:static_text {
+                title = typeOfText,
+            },
+        },
         f:row {
             f:edit_field {
                 value = bind 'reviewedText',
@@ -33,7 +38,8 @@ local function validateText(text)
     }
 
     local result = LrDialogs.presentModalDialog({
-        title = 'Review Results',
+        -- title = 'Review Results',
+        title = LOC "$$$/lrc-ai-assistant/GenerateImageInfo/ReviewWindowTitle=Review results",
         contents = dialogView,
     })
 
@@ -216,9 +222,9 @@ local function exportAndAnalyzePhoto(photo, progressScope)
 
             photo.catalog:withWriteAccessDo(LOC "$$$/lrc-ai-assistant/GenerateImageInfo/saveTitleCaption=Save AI generated title and caption", function()
                 local saveCaption = true
-                if prefs.reviewCaption and not SkipReviewCaptions then
+                if prefs.generateCaption and prefs.reviewCaption and not SkipReviewCaptions then
                     -- local existingCaption = photo:getFormattedMetadata('caption')
-                    local prop = validateText(caption)
+                    local prop = validateText(LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/ImageCaption=Image caption", caption)
                     caption = prop.reviewedText
                     SkipReviewCaptions = prop.skipFromHere
                     if prop.result == 'cancel' then
@@ -230,9 +236,9 @@ local function exportAndAnalyzePhoto(photo, progressScope)
                 end
 
                 local saveTitle = true
-                if prefs.reviewTitle and not SkipReviewTitles then
+                if prefs.generateTitle and prefs.reviewTitle and not SkipReviewTitles then
                     -- local existingTitle = photo:getFormattedMetadata('title')
-                    local prop = validateText(title)
+                    local prop = validateText(LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/ImageTitle=Image title", title)
                     title = prop.reviewedText
                     SkipReviewTitles = prop.skipFromHere
                     if prop.result == 'cancel' then
@@ -245,9 +251,9 @@ local function exportAndAnalyzePhoto(photo, progressScope)
                 end
 
                 local saveAltText = true
-                if prefs.reviewAltText and not SkipReviewAltText then
+                if prefs.generateAltText and prefs.reviewAltText and not SkipReviewAltText then
                     -- local existingTitle = photo:getFormattedMetadata('title')
-                    local prop = validateText(altText)
+                    local prop = validateText(LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/ImageAltText=Image Alt Text", altText)
                     altText = prop.reviewedText
                     SkipReviewAltText = prop.skipFromHere
                     if prop.result == 'cancel' then

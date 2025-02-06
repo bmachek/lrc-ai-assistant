@@ -75,6 +75,8 @@ Defaults.baseUrls = {}
 Defaults.baseUrls['gemini-1.5-flash'] = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key='
 Defaults.baseUrls['gemini-1.5-pro'] = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key='
 Defaults.baseUrls['gemini-2.0-flash'] = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key='
+Defaults.baseUrls['gpt-4o'] = 'https://api.openai.com/v1/chat/completions'
+Defaults.baseUrls['gpt-4o-mini'] = 'https://api.openai.com/v1/chat/completions'
 
 Defaults.pricing = {}
 Defaults.pricing["gemini-1.5-pro"] = {}
@@ -86,6 +88,13 @@ Defaults.pricing["gemini-1.5-flash"].output= 0.3 / 1000000
 Defaults.pricing["gemini-2.0-flash"] = {}
 Defaults.pricing["gemini-2.0-flash"].input = 0.075 / 1000000
 Defaults.pricing["gemini-2.0-flash"].output= 0.3 / 1000000
+Defaults.pricing["gpt-4o"] = {}
+Defaults.pricing["gpt-4o"].input = 2.5 / 1000000
+Defaults.pricing["gpt-4o"].output= 10 / 1000000
+Defaults.pricing["gpt-4o-mini"] = {}
+Defaults.pricing["gpt-4o-mini"].input = 0.15 / 1000000
+Defaults.pricing["gpt-4o-mini"].output= 0.6 / 1000000
+
 
 Defaults.defaultAiModel = "gemini-2.0-flash"
 
