@@ -66,11 +66,15 @@ function ChatGptAPI:doRequest(filePath, task, systemInstruction, generationConfi
             if decoded ~= nil then
                 if decoded.choices[1].finish_reason == 'stop' then
                     local text = decoded.choices[1].message.content
+                    local inputTokenCount = decoded.usage.prompt_tokens
+                    local outputTokenCount = decoded.usage.completion_tokens
                     log:trace(text)
-                    return true, text, 0, 0 -- FIXME
+                    return true, text, inputTokenCount, outputTokenCount -- FIXME
                 else
                     log:error('Blocked: ' .. decoded.choices[1].finish_reason .. Util.dumpTable(decoded.choices[1]))
-                    return false,  decoded.choices[1].finish_reason, 0, 0
+                    local inputTokenCount = decoded.usage.prompt_tokens
+                    local outputTokenCount = decoded.usage.completion_tokens
+                    return false,  decoded.choices[1].finish_reason, inputTokenCount, outputTokenCount
                 end
             end
         else
