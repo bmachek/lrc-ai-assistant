@@ -3,7 +3,7 @@
 A Lightroom Classic to fill keywords, image title and caption by using Google Gemini (gemini-1.5-flash/pro) or ChatGPT (gpt-4o)
 
 ## Privacy / Disclaimer
-### Your photos will be sent to Google for analysis! Do not use the plugin, if you don't agree with this.
+### Your photos will be sent to Google or OpenAI for analysis! Do not use the plugin, if you don't agree with this.
 
 ## Usage
 * Install plugin using Lightroom addon module manager.
