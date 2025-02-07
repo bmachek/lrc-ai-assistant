@@ -57,6 +57,14 @@ function PluginInfoDialogSections.startDialog(propertyTable)
         prefs.generateLanguage = Defaults.defaultGenerateLanguage
     end
 
+    if prefs.exportSize == nil then
+        prefs.exportSize = Defaults.defaultExportSize
+    end
+
+    if prefs.exportQuality == nil then
+        prefs.exportQuality = Defaults.defaultExportQuality
+    end
+
     propertyTable.logging = prefs.logging
     propertyTable.geminiApiKey = prefs.geminiApiKey
     propertyTable.chatgptApiKey = prefs.chatgptApiKey
@@ -70,6 +78,8 @@ function PluginInfoDialogSections.startDialog(propertyTable)
     propertyTable.reviewTitle = prefs.reviewTitle
 
     propertyTable.ai  = prefs.ai
+    propertyTable.exportSize = prefs.exportSize
+    propertyTable.exportQuality = prefs.exportQuality
 
     propertyTable.showCosts = prefs.showCosts
 
@@ -225,6 +235,30 @@ function PluginInfoDialogSections.sectionsForTopOfDialog(f, propertyTable)
                     title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/title=Title",
                 },
             },
+            f:row {
+                f:static_text {
+                    title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/exportSize=Export size in pixel (long edge)",
+                },
+                f:popup_menu {
+                    value = bind 'exportSize',
+                    items = Defaults.exportSizes,
+                },
+            },
+            f:row {
+                f:static_text {
+                    title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/exportQuality=Export JPEG quality in percent",
+                },
+                f:slider {
+                    value = bind 'exportQuality',
+                    min = 1,
+                    max = 100,
+                    integral = true,
+                    immediate = true,
+                },
+                f:static_text {
+                    title = bind 'exportQuality'
+                },
+            },
         },
     }
 end
@@ -239,6 +273,8 @@ function PluginInfoDialogSections.endDialog(propertyTable)
     prefs.generateKeywords = propertyTable.generateKeywords
     prefs.generateAltText = propertyTable.generateAltText
     prefs.ai = propertyTable.ai
+    prefs.exportSize = propertyTable.exportSize
+    prefs.exportQuality = propertyTable.exportQuality
 
     prefs.reviewCaption = propertyTable.reviewCaption
     prefs.reviewTitle = propertyTable.reviewTitle

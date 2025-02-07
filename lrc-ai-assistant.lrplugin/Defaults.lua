@@ -71,6 +71,10 @@ Defaults.aiModels = {
     { title = "ChatGPT-4 Mini", value = "gpt-4o-mini" },
 }
 
+Defaults.exportSizes = {
+    "512", "1024", "2048", "3072", "4096"
+}
+
 Defaults.baseUrls = {}
 Defaults.baseUrls['gemini-1.5-flash'] = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key='
 Defaults.baseUrls['gemini-1.5-pro'] = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key='
@@ -96,7 +100,10 @@ Defaults.pricing["gpt-4o-mini"].input = 0.15 / 1000000
 Defaults.pricing["gpt-4o-mini"].output= 0.6 / 1000000
 
 
-Defaults.defaultAiModel = "gemini-2.0-flash"
+Defaults.defaultAiModel = "gpt-4o-mini"
+
+Defaults.defaultExportSize = "2048"
+Defaults.defaultExportQuality = 50
 
 Defaults.googleTopKeyword = 'Google Gemini'
 Defaults.chatgptTopKeyword = 'ChatGPT'

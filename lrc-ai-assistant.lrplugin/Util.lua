@@ -18,8 +18,8 @@ function Util.dumpTable(t)
     local s = inspect(t)
     local pattern = '(data = )"([A-Za-z0-9+/=]+)"'
     local result, count = s:gsub(pattern, '%1 base64 removed')
-    pattern = 'data:image/jpeg;base64,"([A-Za-z0-9+/=]+)"'
-    result, count = s:gsub(pattern, '%1 base64 removed')
+    pattern = '(url = "data:image/jpeg;base64,)([A-Za-z0-9+/]+=?=?)"'
+    result, count = result:gsub(pattern, '%1 base64 removed')
     return result
 end
 

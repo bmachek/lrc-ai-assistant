@@ -52,3 +52,6 @@
 "$$$/lrc-ai-assistant/PluginInfoDialogSections/showCosts=Kosten anzeigen (Ohne jegliche Garantie!!!)"
 "$$$/lrc-ai-assistant/PluginInfoDialogSections/title=Titel"
 "$$$/lrc-ai-assistant/PluginInfoDialogSections/validateBeforeSaving=Vor dem Speichern überprüfen"
+
+"$$$/lrc-ai-assistant/PluginInfoDialogSections/exportSize=Export Bildgröße in Pixel (Lange Kante)"
+"$$$/lrc-ai-assistant/PluginInfoDialogSections/exportQuality=Export JPEG Qualität in Prozent"

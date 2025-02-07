@@ -167,11 +167,11 @@ local function exportAndAnalyzePhoto(photo, progressScope)
         LR_export_destinationPathPrefix = tempDir,
         LR_export_useSubfolder = false,
         LR_format = 'JPEG',
-        LR_jpeg_quality = 0.5,
+        LR_jpeg_quality = prefs.exportQuality / 100,
         LR_minimizeEmbeddedMetadata = false,
         LR_outputSharpeningOn = false,
         LR_size_doConstrain = true,
-        LR_size_maxHeight = 3072,
+        LR_size_maxHeight = prefs.exportSize,
         LR_size_resizeType = 'longEdge',
         LR_size_units = 'pixels',
         LR_collisionHandling = 'rename',
@@ -179,6 +179,8 @@ local function exportAndAnalyzePhoto(photo, progressScope)
         LR_removeLocationMetadata = false,
         LR_embeddedMetadataOption = "all",
     }
+
+    log:trace('Export settings are: ' .. prefs.exportSize .. "px (long edge) and " .. prefs.exportQuality .. "% JPEG quality")
 
     local exportSession = LrExportSession({
         photosToExport = { photo },
@@ -200,6 +202,7 @@ local function exportAndAnalyzePhoto(photo, progressScope)
         metadata.keywords = photo:getFormattedMetadata("keywordTagsForExport")
 
         if success then
+            log:trace("Export file size: " .. (LrFileUtils.fileAttributes(path).fileSize / 1024) .. "kB")
             local analyzeSuccess, result, inputTokens, outputTokens = ai:analyzeImage(path, metadata)
 
             if result == 'RATE_LIMIT_EXHAUSTED' then
