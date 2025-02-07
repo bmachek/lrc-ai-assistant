@@ -55,3 +55,8 @@
 
 "$$$/lrc-ai-assistant/PluginInfoDialogSections/exportSize=Export Bildgröße in Pixel (Lange Kante)"
 "$$$/lrc-ai-assistant/PluginInfoDialogSections/exportQuality=Export JPEG Qualität in Prozent"
+
+
+"$$$/lrc-ai-assistant/PluginInfoDialogSections/ApiKeys=API Schlüssel"
+"$$$/lrc-ai-assistant/PluginInfoDialogSections/ContentValidateConfig=Inhalts- und Kontrollkonfiguration"
+"$$$/lrc-ai-assistant/PluginInfoDialogSections/exportSettings=Exporteinstellungen"

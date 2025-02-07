@@ -103,7 +103,7 @@ function PluginInfoDialogSections.sectionsForBottomOfDialog(f, propertyTable)
                 f:static_text {
                     title = "Enable debug logging",
                     alignment = 'right',
-                    width = share 'labelWidth'
+                    -- width = share 'labelWidth'
                 },
             },
         },
@@ -121,142 +121,151 @@ function PluginInfoDialogSections.sectionsForTopOfDialog(f, propertyTable)
 
             title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/header=AI Plugin settings",
 
-            f:row {
-                f:static_text {
-                    title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/GoogleApiKey=Google API key",
-                    alignment = 'right',
-                    width = share 'labelWidth'
-                },
-                f:edit_field {
-                    value = bind 'geminiApiKey',
-                    width = share 'inputWidth',
-                    width_in_chars = 40,
-                },
-            },
-            
-            f:row {
-                f:static_text {
-                    title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/ChatGPTApiKey=ChatGPT API key",
-                    alignment = 'right',
-                    width = share 'labelWidth'
-                },
-                f:edit_field {
-                    value = bind 'chatgptApiKey',
-                    width = share 'inputWidth',
-                    width_in_chars = 40,
+            f:group_box {
+                width = share 'groupBoxWidth',
+                title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/aiModel=AI model to be used",
+                f:row {
+                    f:popup_menu {
+                        value = bind 'ai',
+                        items = Defaults.aiModels,
+                    },
+                    f:static_text {
+                        title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/showCosts=Show costs (without any warranty!!!)",
+                        -- alignment = 'right',
+                        -- width = share 'labelWidth',
+                    },
+                    f:checkbox {
+                        value = bind 'showCosts',
+                        width = share 'checkboxWidth'
+                    },
                 },
             },
 
-            f:row {
-                f:static_text {
-                    title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/aiModel=AI model to be used",
-                    alignment = 'right',
-                    width = share 'labelWidth',
+            f:group_box {
+                width = share 'groupBoxWidth',
+                title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/ApiKeys=API keys",
+                f:row {
+                    f:static_text {
+                        title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/GoogleApiKey=Google API key",
+                        -- alignment = 'right',
+                        width = share 'labelWidth'
+                    },
+                    f:edit_field {
+                        value = bind 'geminiApiKey',
+                        width = share 'inputWidth',
+                        width_in_chars = 40,
+                    },
                 },
-
-                f:popup_menu {
-                    value = bind 'ai',
-                    items = Defaults.aiModels,
+                f:row {
+                    f:static_text {
+                        title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/ChatGPTApiKey=ChatGPT API key",
+                        -- alignment = 'right',
+                        width = share 'labelWidth'
+                    },
+                    f:edit_field {
+                        value = bind 'chatgptApiKey',
+                        width = share 'inputWidth',
+                        width_in_chars = 40,
+                    },
+                },
+            },
+            f:group_box {
+                width = share 'groupBoxWidth',
+                title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/ContentValidateConfig=Content and Validation Configuration",
+                f:row {
+                    f:static_text {
+                        title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/generate=Generate the following",
+                        -- alignment = 'right',
+                        width = share 'labelWidth',
+                    },
+                    f:checkbox {
+                        value = bind 'generateCaption',
+                        width = share 'checkboxWidth',
+                    },
+                    f:static_text {
+                        title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/caption=Caption",
+                    },
+                    f:checkbox {
+                        value = bind 'generateAltText',
+                        width = share 'checkboxWidth',
+                    },
+                    f:static_text {
+                        title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/alttext=Alt Text",
+                    },
+                    f:checkbox {
+                        value = bind 'generateTitle',
+                        width = share 'checkboxWidth',
+                    },
+                    f:static_text {
+                        title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/title=Title",
+                    },
+                    f:checkbox {
+                        value = bind 'generateKeywords',
+                        width = share 'checkboxWidth',
+                    },
+                    f:static_text {
+                        title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/keywords=Keywords",
+                    },
+                },
+                f:row {
+                    f:static_text {
+                        title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/validateBeforeSaving=Validate before saving",
+                        -- alignment = 'right',
+                        width = share 'labelWidth',
+                    },
+                    f:checkbox {
+                        value = bind 'reviewCaption',
+                        width = share 'checkboxWidth',
+                        enabled = bind 'generateCaption',
+                    },
+                    f:static_text {
+                        title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/caption=Caption",
+                    },
+                    f:checkbox {
+                        value = bind 'reviewAltText',
+                        width = share 'checkboxWidth',
+                        enabled = bind 'generateAltText',
+                    },
+                    f:static_text {
+                        title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/alttext=Alt Text",
+                    },
+                    f:checkbox {
+                        value = bind 'reviewTitle',
+                        width = share 'checkboxWidth',
+                        enabled = bind 'generateTitle',
+                    },
+                    f:static_text {
+                        title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/title=Title",
+                    },
                 },
             },
 
-            f:row {
-                f:static_text {
-                    title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/showCosts=Show costs (without any warranty!!!)",
-                    alignment = 'right',
-                    width = share 'labelWidth',
+            f:group_box {
+                width = share 'groupBoxWidth',
+                title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/exportSettings=Export settings",
+                f:row {
+                    f:static_text {
+                        title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/exportSize=Export size in pixel (long edge)",
+                    },
+                    f:popup_menu {
+                        value = bind 'exportSize',
+                        items = Defaults.exportSizes,
+                    },
                 },
-
-                f:checkbox {
-                    value = bind 'showCosts',
-                    width = share 'checkboxWidth'
-                },
-            },
-            f:row {
-                f:static_text {
-                    title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/generate=Generate the following",
-                    alignment = 'right',
-                    width = share 'labelWidth',
-                },
-                f:checkbox {
-                    value = bind 'generateCaption',
-                    width = share 'checkboxWidth',
-                },
-                f:static_text {
-                    title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/caption=Caption",
-                },
-                f:checkbox {
-                    value = bind 'generateAltText',
-                    width = share 'checkboxWidth',
-                },
-                f:static_text {
-                    title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/alttext=Alt Text",
-                },
-                f:checkbox {
-                    value = bind 'generateTitle',
-                    width = share 'checkboxWidth',
-                },
-                f:static_text {
-                    title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/title=Title",
-                },
-                f:checkbox {
-                    value = bind 'generateKeywords',
-                    width = share 'checkboxWidth',
-                },
-                f:static_text {
-                    title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/keywords=Keywords",
-                },
-            },
-            f:row {
-                f:static_text {
-                    title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/validateBeforeSaving=Validate before saving",
-                    alignment = 'right',
-                    width = share 'labelWidth',
-                },
-                f:checkbox {
-                    value = bind 'reviewCaption',
-                    width = share 'checkboxWidth',
-                },
-                f:static_text {
-                    title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/caption=Caption",
-                },
-                f:checkbox {
-                    value = bind 'reviewAltText',
-                    width = share 'checkboxWidth',
-                },
-                f:static_text {
-                    title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/alttext=Alt Text",
-                },
-                f:checkbox {
-                    value = bind 'reviewTitle',
-                    width = share 'checkboxWidth',
-                },
-                f:static_text {
-                    title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/title=Title",
-                },
-            },
-            f:row {
-                f:static_text {
-                    title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/exportSize=Export size in pixel (long edge)",
-                },
-                f:popup_menu {
-                    value = bind 'exportSize',
-                    items = Defaults.exportSizes,
-                },
-            },
-            f:row {
-                f:static_text {
-                    title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/exportQuality=Export JPEG quality in percent",
-                },
-                f:slider {
-                    value = bind 'exportQuality',
-                    min = 1,
-                    max = 100,
-                    integral = true,
-                    immediate = true,
-                },
-                f:static_text {
-                    title = bind 'exportQuality'
+                f:row {
+                    f:static_text {
+                        title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/exportQuality=Export JPEG quality in percent",
+                    },
+                    f:slider {
+                        value = bind 'exportQuality',
+                        min = 1,
+                        max = 100,
+                        integral = true,
+                        immediate = true,
+                    },
+                    f:static_text {
+                        title = bind 'exportQuality'
+                    },
                 },
             },
         },

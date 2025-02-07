@@ -55,3 +55,7 @@
 
 "$$$/lrc-ai-assistant/PluginInfoDialogSections/exportSize=Export size in pixel (long edge)"
 "$$$/lrc-ai-assistant/PluginInfoDialogSections/exportQuality=Export JPEG quality in percent"
+
+"$$$/lrc-ai-assistant/PluginInfoDialogSections/ApiKeys=API keys"
+"$$$/lrc-ai-assistant/PluginInfoDialogSections/ContentValidateConfig=Content and Validation Configuration"
+"$$$/lrc-ai-assistant/PluginInfoDialogSections/exportSettings=Export settings"
