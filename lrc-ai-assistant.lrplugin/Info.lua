@@ -15,6 +15,10 @@ return {
 			title = LOC "$$$/lrc-ai-assistant/Info/GenerateImageInfo/Title=Analyze photos with AI",
 			file = "GenerateImageInfo.lua",
 		},
+		{
+			title = "Debug ResponseStructure",
+			file = "ResponseStructure.lua",
+		},
 	},
 
 }
