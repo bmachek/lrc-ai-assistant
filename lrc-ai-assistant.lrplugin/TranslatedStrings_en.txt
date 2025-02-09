@@ -61,4 +61,9 @@
 "$$$/lrc-ai-assistant/PluginInfoDialogSections/exportSettings=Export settings"
 
 "$$$/lrc-ai-assistant/ResponseStructure/ConfigureResponseStructure=Configure data generation and mapping"
-"$$$/lrc-ai-assistant/ResponseStructure/ConfigureResponseStructure=Keywords"
+"$$$/lrc-ai-assistant/ResponseStructure/Keywords=Keywords"
+
+"$$$/lrc-ai-assistant/ResponseStructure/ResetToDefaultKeywordStructure=Reset to default keyword categories?"
+"$$$/lrc-ai-assistant/ResponseStructure/ResetToDefault=Reset to defaults"
+"$$$/lrc-ai-assistant/ResponseStructure/AddKeywordCategory=Add"
+"$$$/lrc-ai-assistant/ResponseStructure/NewKeywordCategory=New Category"

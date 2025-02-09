@@ -6,9 +6,9 @@ return {
 	LrPluginName = LOC "$$$/lrc-ai-assistant/Info/PluginName=Lightroom AI assistant",
 	LrInitPlugin = "Init.lua",
 	LrPluginInfoProvider = 'PluginInfo.lua',
-	LrPluginInfoURL = 'https://github.com/bmachek/lrc-ai-assistant',
+	-- LrPluginInfoURL = 'https://github.com/bmachek/lrc-ai-assistant',
 
-	VERSION = { major = 2, minor = 0, revision = 0, build = 0, },
+	VERSION = { major = 3, minor = 0, revision = 0, build = 0, },
 
 	LrLibraryMenuItems = {
 		{
@@ -16,7 +16,7 @@ return {
 			file = "GenerateImageInfo.lua",
 		},
 		{
-			title = "Debug ResponseStructure",
+			title = "Edit Keyword Categories",
 			file = "ResponseStructure.lua",
 		},
 	},
