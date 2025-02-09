@@ -160,7 +160,5 @@ end
 LrTasks.startAsyncTask(function()
     LrFunctionContext.callWithContext("Edit keyword categories", function(context)
         showDataConfigurationDialog()
-        local rs = ResponseStructure:new()
-        rs:generateResponseStructure()
     end)
 end)
