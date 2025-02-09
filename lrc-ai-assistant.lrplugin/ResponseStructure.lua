@@ -44,29 +44,15 @@ end
 
 function ResponseStructure:generateResponseStructure()
 
-    local catalog = LrApplication.activeCatalog()
-    local structure
-
-    catalog:withWriteAccessDo("Create keyword structure in catalog.", function()
-        local topKeyword = catalog:createKeyword(self.topKeywordName, {}, false, nil, true)
-        log:trace("Got or created top-level keyword: " .. self.topKeywordName)
-        if #(topKeyword:getChildren()) == 0 then
-            -- There is no keyword structure for this AI in the Lightroom catalog yet. Create default structure.
-            log:trace("Trying to create missing keyword structure in catalog.")
-            for _, keywordName in ipairs(Defaults.defaultKeywordCategories) do
-                local keyword = catalog:createKeyword(keywordName, {}, false, topKeyword, true)
-            end
-            structure = Defaults.defaultKeywordCategories
-        elseif #(topKeyword:getChildren()) > 0 then
-            -- Read structure from catalog.
-            log:trace("Trying to read keyword structure from catalog.")
-            structure = ResponseStructure:readKeywordStructureRecurse(topKeyword)
-            log:trace(Util.dumpTable(structure))
+    local keywords = {}
+    keywords = Defaults.defaultKeywordCategories
+    if prefs.keywordCategories ~= nil then
+        if type(prefs.keywordCategories) == "table" then
+            keywords = prefs.keywordCategories
         end
-    end)
+    end
 
-    local responseStructure = {}
-    responseStructure.keywords = ResponseStructure:tableToResponseStructureRecurse(structure)
+    local responseStructure = ResponseStructure:tableToResponseStructureRecurse(keywords)
     log:trace(Util.dumpTable(responseStructure))
     return responseStructure
 
@@ -88,11 +74,9 @@ function ResponseStructure:tableToResponseStructureRecurse(table)
             child.type = self.strObject
             child.properties = ResponseStructure:tableToResponseStructureRecurse(v)
         end
-        -- table.insert(responseStructure.properties, child)
         responseStructure.properties[v] = child
     end
 
-    -- log:trace(Util.dumpTable(responseStructure))
     return responseStructure
 end
 
@@ -110,6 +94,8 @@ local function showDataConfigurationDialog()
             keywords = prefs.keywordCategories
         end
     end
+
+    table.sort(keywords)
 
     local editFields = {}
     for i = 1, #keywords do
@@ -136,6 +122,8 @@ local function showDataConfigurationDialog()
                     title = LOC "$$$/lrc-ai-assistant/ResponseStructure/AddKeywordCategory=Add",
                     action = function (button)
                         table.insert(prefs.keywordCategories, propertyTable.new)
+                        LrDialogs.stopModalWithResult(keywordBox, "cancel")
+                        showDataConfigurationDialog()
                     end
                 }
             },
@@ -155,9 +143,11 @@ local function showDataConfigurationDialog()
         prefs.keywordCategories = {}
         for i = 1, #keywords do
             local key = "keywordCategory_" .. i
-            table.insert(prefs.keywordCategories, propertyTable[key])
-            log:trace(Util.dumpTable(prefs.keywordCategories))
+            if propertyTable[key] ~= nil and propertyTable[key] ~= "" then 
+                table.insert(prefs.keywordCategories, propertyTable[key])
+            end
         end
+        log:trace(Util.dumpTable(prefs.keywordCategories))
     elseif result == 'other' then
         local confirmed = LrDialogs.confirm(LOC "$$$/lrc-ai-assistant/ResponseStructure/ResetToDefaultKeywordStructure=Reset to default keyword structure?")
         if confirmed == 'ok' then
@@ -168,7 +158,9 @@ local function showDataConfigurationDialog()
 end
 
 LrTasks.startAsyncTask(function()
-    LrFunctionContext.callWithContext("Test ResponseStructure", function(context)
+    LrFunctionContext.callWithContext("Edit keyword categories", function(context)
         showDataConfigurationDialog()
+        local rs = ResponseStructure:new()
+        rs:generateResponseStructure()
     end)
 end)
