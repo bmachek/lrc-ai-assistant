@@ -59,3 +59,6 @@
 "$$$/lrc-ai-assistant/PluginInfoDialogSections/ApiKeys=API keys"
 "$$$/lrc-ai-assistant/PluginInfoDialogSections/ContentValidateConfig=Content and Validation Configuration"
 "$$$/lrc-ai-assistant/PluginInfoDialogSections/exportSettings=Export settings"
+
+"$$$/lrc-ai-assistant/ResponseStructure/ConfigureResponseStructure=Configure data generation and mapping"
+"$$$/lrc-ai-assistant/ResponseStructure/ConfigureResponseStructure=Keywords"

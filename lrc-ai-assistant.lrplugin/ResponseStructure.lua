@@ -96,12 +96,50 @@ function ResponseStructure:tableToResponseStructureRecurse(table)
     return responseStructure
 end
 
+local function showDataConfigurationDialog()
+    local f = LrView.osFactory()
+    local bind = LrView.bind
+    local share = LrView.share
+
+    local propertyTable = {}
+
+    propertyTable.keywordCategories = table.concat(Defaults.defaultKeywordCategories, "\n")
+
+     local dialogView = f:row {
+        bind_to_object = propertyTable,
+        f:group_box {
+            title = LOC "$$$/lrc-ai-assistant/ResponseStructure/ConfigureResponseStructure=Keywords",
+            f:edit_field {
+                height_in_lines = #Defaults.defaultKeywordCategories,
+                value = bind 'keywordCategories'
+            },
+        },
+    }
+
+    log:trace("PATSCH5")
+
+    table.insert(dialogView, f:row {
+            bind_to_object = propertyTable,
+            f:group_box {
+                title = LOC "$$$/lrc-ai-assistant/ResponseStructure/ConfigureResponseStructure=Keywords",
+                f:static_text {
+                    title = Defaults.defaultKeywordCategories,
+                },
+            },
+        }
+    )
+
+    log:trace(Util.dumpTable(dialogView))
+
+    local result = LrDialogs.presentModalDialog({
+        title = LOC "$$$/lrc-ai-assistant/ResponseStructure/ConfigureResponseStructure=Configure data generation and mapping",
+        contents = dialogView,
+    })
+    log:trace("PATSCH6")
+end
 
 LrTasks.startAsyncTask(function()
     LrFunctionContext.callWithContext("Test ResponseStructure", function(context)
-        log:trace("PATSCH")
-        local rs = ResponseStructure:new()
-        log:trace("PATSCH2")
-        log:trace(Util.dumpTable(rs:generateResponseStructure()))
+        showDataConfigurationDialog()
     end)
 end)
