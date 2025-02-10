@@ -17,7 +17,7 @@ return {
 		},
 		{
 			title = "Edit Keyword Categories",
-			file = "ResponseStructure.lua",
+			file = "KeywordConfigurator.lua",
 		},
 	},
 

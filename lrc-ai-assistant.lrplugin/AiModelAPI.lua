@@ -1,5 +1,6 @@
 require "GeminiAPI"
 require "ChatGptAPI"
+require "ResponseStructure"
 
 
 AiModelAPI = {}

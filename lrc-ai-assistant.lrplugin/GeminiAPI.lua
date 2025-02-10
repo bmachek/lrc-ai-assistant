@@ -124,7 +124,7 @@ function GeminiAPI:analyzeImage(filePath, metadata)
         end
     end
 
-    local success, result, inputTokenCount, outputTokenCount = GeminiAPI:doRequest(filePath, task, Defaults.defaultSystemInstruction, Defaults.getDefaultGeminiGenerationConfig())
+    local success, result, inputTokenCount, outputTokenCount = GeminiAPI:doRequest(filePath, task, Defaults.defaultSystemInstruction, ResponseStructure:new():generateResponseStructure())
     if success and result ~= nil then
         result = string.gsub(result, Defaults.geminiKeywordsGarbageAtStart, '')
         result = string.gsub(result, Defaults.geminiKeywordsGarbageAtEnd, '')

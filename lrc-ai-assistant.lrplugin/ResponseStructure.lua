@@ -29,11 +29,13 @@ function ResponseStructure:new()
         self.strArray = "ARRAY"
         self.strObject = "OBJECT"
         self.strString = "STRING"
+        self.ai = 'gemini'
     elseif string.sub(prefs.ai, 1, 3) == 'gpt' then
         self.topKeywordName = Defaults.chatgptTopKeyword
         self.strArray = "array"
         self.strObject = "object"
         self.strString = "string"
+        self.ai = "chatgpt"
     else
         Util.handleError('Configuration error: No valid AI model selected, check Module Manager for Configuration', LOC "$$$/lrc-ai-assistant/ResponseStructure/NoModelSelectedError=No AI model selected, check Configuration in Add-Ons manager")
     end
@@ -52,17 +54,67 @@ function ResponseStructure:generateResponseStructure()
         end
     end
 
-    local responseStructure = ResponseStructure:tableToResponseStructureRecurse(keywords)
-    log:trace(Util.dumpTable(responseStructure))
-    return responseStructure
+    local result = {}
+    result.properties = {}
+    result.type = self.strObject
+    if self.ai == 'chatgpt' then
+        result.required = {}
+        result.additionalProperties = false
+    end
 
+    if prefs.generateCaption then
+        result.properties[LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/ImageCaption=Image caption"] = { type = self.strString }
+        if self.ai == 'chatgpt' then
+            table.insert(result.required, LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/ImageCaption=Image caption")
+        end
+    end
+
+    if prefs.generateTitle then
+        result.properties[LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/ImageTitle=Image title"] = { type = self.strString }
+        if self.ai == 'chatgpt' then
+            table.insert(result.required, LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/ImageTitle=Image title")
+        end
+    end
+
+    if prefs.generateAltText then
+        result.properties[LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/ImageAltText=Image Alt Text"] = { type = self.strString }
+        if self.ai == 'chatgpt' then
+            table.insert(result.required, LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/ImageAltText=Image Alt Text")
+        end
+    end
+
+    if self.ai == 'chatgpt' then
+        table.insert(result.required, "keywords")
+    end
+
+    result.properties.keywords =  ResponseStructure:keywordTableToResponseStructureRecurse(keywords)
+    
+    if self.ai == 'chatgpt' then
+        return {
+            type = "json_schema",
+            json_schema = {
+                name = "results",
+                strict = true,
+                schema = result,
+            },
+        }
+    elseif self.ai == 'gemini' then
+        return {
+            response_mime_type = "application/json",
+            response_schema = result,
+        }
+    end
 end
 
 -- Convert table into proper formatted table before converting it to JSON
-function ResponseStructure:tableToResponseStructureRecurse(table)
+function ResponseStructure:keywordTableToResponseStructureRecurse(table)
     local responseStructure = {}
     responseStructure.properties = {}
     responseStructure.type = self.strObject
+    if self.ai == 'chatgpt' then
+        responseStructure.required = table
+        responseStructure.additionalProperties = false
+    end
 
     for _, v in pairs(table) do
         local child = {}
@@ -72,93 +124,10 @@ function ResponseStructure:tableToResponseStructureRecurse(table)
             child.items.type = self.strString
         elseif type(v) == "table" then
             child.type = self.strObject
-            child.properties = ResponseStructure:tableToResponseStructureRecurse(v)
+            child.properties = ResponseStructure:keywordTableToResponseStructureRecurse(v)
         end
         responseStructure.properties[v] = child
     end
 
     return responseStructure
 end
-
-local function showDataConfigurationDialog()
-    local f = LrView.osFactory()
-    local bind = LrView.bind
-    local share = LrView.share
-
-    local propertyTable = {}
-
-    local keywords = {}
-    keywords = Defaults.defaultKeywordCategories
-    if prefs.keywordCategories ~= nil then
-        if type(prefs.keywordCategories) == "table" then
-            keywords = prefs.keywordCategories
-        end
-    end
-
-    table.sort(keywords)
-
-    local editFields = {}
-    for i = 1, #keywords do
-        local key = "keywordCategory_" .. i
-        propertyTable[key] = keywords[i]
-        table.insert(editFields, f:edit_field { value = bind(key), immediate = true })
-    end
-    editFields.title = LOC "$$$/lrc-ai-assistant/ResponseStructure/ConfigureResponseStructure=Keywords"
-
-    local keywordBox = f:group_box(editFields)
-
-    local dialogView = f:row {
-        bind_to_object = propertyTable,
-        f:column {
-            keywordBox,
-        },
-        f:column {
-            f:group_box {
-                title = LOC "$$$/lrc-ai-assistant/ResponseStructure/NewKeywordCategory=New Category",
-                f:edit_field {
-                    value = bind 'new',
-                },
-                f:push_button {
-                    title = LOC "$$$/lrc-ai-assistant/ResponseStructure/AddKeywordCategory=Add",
-                    action = function (button)
-                        table.insert(prefs.keywordCategories, propertyTable.new)
-                        LrDialogs.stopModalWithResult(keywordBox, "cancel")
-                        showDataConfigurationDialog()
-                    end
-                }
-            },
-        },
-    }
-
-    log:trace(Util.dumpTable(dialogView))
-
-    local result = LrDialogs.presentModalDialog({
-        title = LOC "$$$/lrc-ai-assistant/ResponseStructure/ConfigureResponseStructure=Configure data generation and mapping",
-        contents = dialogView,
-        otherVerb = LOC "$$$/lrc-ai-assistant/ResponseStructure/ResetToDefault=Reset to defaults"
-    })
-
-    if result == 'ok' then
-        log:trace('Saving changes to keyword categories.')
-        prefs.keywordCategories = {}
-        for i = 1, #keywords do
-            local key = "keywordCategory_" .. i
-            if propertyTable[key] ~= nil and propertyTable[key] ~= "" then 
-                table.insert(prefs.keywordCategories, propertyTable[key])
-            end
-        end
-        log:trace(Util.dumpTable(prefs.keywordCategories))
-    elseif result == 'other' then
-        local confirmed = LrDialogs.confirm(LOC "$$$/lrc-ai-assistant/ResponseStructure/ResetToDefaultKeywordStructure=Reset to default keyword structure?")
-        if confirmed == 'ok' then
-            log:trace("Reset keyword categories to default")
-            prefs.keywordCategories = Defaults.defaultKeywordCategories
-        end
-    end
-end
-
-LrTasks.startAsyncTask(function()
-    LrFunctionContext.callWithContext("Edit keyword categories", function(context)
-        showDataConfigurationDialog()
-    end)
-end)

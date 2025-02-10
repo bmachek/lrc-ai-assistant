@@ -100,7 +100,7 @@ function ChatGptAPI:analyzeImage(filePath, metadata)
         end
     end
 
-    local success, result, inputTokenCount, outputTokenCount = self:doRequest(filePath, task, Defaults.defaultSystemInstruction, Defaults.getDefaultChatGPTGenerationConfig())
+    local success, result, inputTokenCount, outputTokenCount = self:doRequest(filePath, task, Defaults.defaultSystemInstruction, ResponseStructure:new():generateResponseStructure())
     if success then
         return success, JSON:decode(result), inputTokenCount, outputTokenCount
     end
