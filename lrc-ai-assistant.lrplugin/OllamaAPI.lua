@@ -13,7 +13,7 @@ end
 function OllamaAPI:doRequest(filePath, task, systemInstruction, generationConfig)
     local body = {
         model = self.ollamaModel,
-        format = generationConfig,
+        response_format = generationConfig,
         messages = {
             {
                 role = "system",
@@ -22,9 +22,18 @@ function OllamaAPI:doRequest(filePath, task, systemInstruction, generationConfig
             {
                 role = "user",
                 content = task,
-                images = Util.encodePhotoToBase64(filePath),
-                stream = false,
             },
+            {
+                role = "user",
+                content = {
+                    {
+                        type = "image_url",
+                        image_url = {
+                            url = "data:image/jpeg;base64," .. Util.encodePhotoToBase64(filePath)
+                        }
+                    }
+                }
+            }
         }
     }
 

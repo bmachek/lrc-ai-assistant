@@ -94,6 +94,7 @@ Defaults.aiModels = {
     { title = "ChatGPT-4 Mini", value = "gpt-4o-mini" },
     { title = 'Ollama deepseek-r1', value = 'ollama-deepseek-r1' },
     { title = 'Ollama llama3.2-vision', value = 'ollama-llama3.2-vision' },
+    { title = 'Ollama llava', value = 'ollama-llava' },
 }
 
 Defaults.exportSizes = {

@@ -112,7 +112,14 @@ function ResponseStructure:generateResponseStructure()
             response_schema = result,
         }
     elseif self.ai == 'ollama' then
-        return result
+        return {
+            type = "json_schema",
+            json_schema = {
+                name = "results",
+                strict = true,
+                schema = result,
+            },
+        }
     end
 end
 
