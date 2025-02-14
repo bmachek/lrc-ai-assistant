@@ -92,6 +92,8 @@ Defaults.aiModels = {
     { title = "Google Gemini Flash 2.0", value = "gemini-2.0-flash" },
     { title = "ChatGPT-4", value = "gpt-4o" },
     { title = "ChatGPT-4 Mini", value = "gpt-4o-mini" },
+    { title = 'Ollama deepseek-r1', value = 'ollama-deepseek-r1' },
+    { title = 'Ollama llama3.2-vision', value = 'ollama-llama3.2-vision' },
 }
 
 Defaults.exportSizes = {
@@ -104,6 +106,7 @@ Defaults.baseUrls['gemini-1.5-pro'] = 'https://generativelanguage.googleapis.com
 Defaults.baseUrls['gemini-2.0-flash'] = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key='
 Defaults.baseUrls['gpt-4o'] = 'https://api.openai.com/v1/chat/completions'
 Defaults.baseUrls['gpt-4o-mini'] = 'https://api.openai.com/v1/chat/completions'
+Defaults.baseUrls['ollama'] = 'http://localhost:11434/v1/chat/completions'
 
 Defaults.pricing = {}
 Defaults.pricing["gemini-1.5-pro"] = {}
@@ -130,6 +133,7 @@ Defaults.defaultExportQuality = 50
 
 Defaults.googleTopKeyword = 'Google Gemini'
 Defaults.chatgptTopKeyword = 'ChatGPT'
+Defaults.ollamaTopKeyWord = 'Ollama'
 
 Defaults.geminiKeywordsGarbageAtStart = '```json'
 Defaults.geminiKeywordsGarbageAtEnd = '```'

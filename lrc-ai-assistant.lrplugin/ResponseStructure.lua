@@ -36,6 +36,12 @@ function ResponseStructure:new()
         self.strObject = "object"
         self.strString = "string"
         self.ai = "chatgpt"
+    elseif string.sub(prefs.ai, 1, 6) == 'ollama' then
+        self.topKeywordName = Defaults.ollamaTopKeyWord
+        self.strArray = "array"
+        self.strObject = "object"
+        self.strString = "string"
+        self.ai = "ollama"
     else
         Util.handleError('Configuration error: No valid AI model selected, check Module Manager for Configuration', LOC "$$$/lrc-ai-assistant/ResponseStructure/NoModelSelectedError=No AI model selected, check Configuration in Add-Ons manager")
     end
@@ -60,30 +66,32 @@ function ResponseStructure:generateResponseStructure()
     if self.ai == 'chatgpt' then
         result.required = {}
         result.additionalProperties = false
+    elseif self.ai == 'ollama' then
+        result.required = {}
     end
 
     if prefs.generateCaption then
         result.properties[LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/ImageCaption=Image caption"] = { type = self.strString }
-        if self.ai == 'chatgpt' then
+        if self.ai == 'chatgpt' or self.ai == 'ollama' then
             table.insert(result.required, LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/ImageCaption=Image caption")
         end
     end
 
     if prefs.generateTitle then
         result.properties[LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/ImageTitle=Image title"] = { type = self.strString }
-        if self.ai == 'chatgpt' then
+        if self.ai == 'chatgpt' or self.ai == 'ollama' then
             table.insert(result.required, LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/ImageTitle=Image title")
         end
     end
 
     if prefs.generateAltText then
         result.properties[LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/ImageAltText=Image Alt Text"] = { type = self.strString }
-        if self.ai == 'chatgpt' then
+        if self.ai == 'chatgpt' or self.ai == 'ollama' then
             table.insert(result.required, LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/ImageAltText=Image Alt Text")
         end
     end
 
-    if self.ai == 'chatgpt' then
+    if self.ai == 'chatgpt' or self.ai == 'ollama' then
         table.insert(result.required, "keywords")
     end
 
@@ -103,6 +111,8 @@ function ResponseStructure:generateResponseStructure()
             response_mime_type = "application/json",
             response_schema = result,
         }
+    elseif self.ai == 'ollama' then
+        return result
     end
 end
 

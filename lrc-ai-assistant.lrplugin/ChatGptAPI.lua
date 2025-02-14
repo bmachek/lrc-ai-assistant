@@ -3,7 +3,6 @@ ChatGptAPI.__index = ChatGptAPI
 
 function ChatGptAPI:new()
     local o = setmetatable({}, ChatGptAPI)
-    self.rateLimitHit = 0
 
     if Util.nilOrEmpty(prefs.chatgptApiKey) then
         Util.handleError('ChatGPT API key not configured.', LOC "$$$/lrc-ai-assistant/ChatGptAPI/NoAPIkey=No ChatGPT API key configured in Add-Ons manager.")
@@ -48,18 +47,9 @@ function ChatGptAPI:doRequest(filePath, task, systemInstruction, generationConfi
 
     log:trace(Util.dumpTable(body))
 
-
-    -- This is dirty!
-    local jsonBody = JSON:encode(body)
-    jsonBody = string.gsub(jsonBody, "STRING", "string")
-    jsonBody = string.gsub(jsonBody, "ARRAY", "array")
-    jsonBody = string.gsub(jsonBody, "OBJECT", "object")
-
-
-    local response, headers = LrHttp.post(self.url, jsonBody, {{ field = 'Content-Type', value = 'application/json' },  { field = 'Authorization', value = 'Bearer ' .. self.apiKey }})
+    local response, headers = LrHttp.post(self.url, JSON:encode(body), {{ field = 'Content-Type', value = 'application/json' },  { field = 'Authorization', value = 'Bearer ' .. self.apiKey }})
 
     if headers.status == 200 then
-        self.rateLimitHit = 0
         if response ~= nil then
             log:trace(response)
             local decoded = JSON:decode(response)
@@ -69,7 +59,7 @@ function ChatGptAPI:doRequest(filePath, task, systemInstruction, generationConfi
                     local inputTokenCount = decoded.usage.prompt_tokens
                     local outputTokenCount = decoded.usage.completion_tokens
                     log:trace(text)
-                    return true, text, inputTokenCount, outputTokenCount -- FIXME
+                    return true, text, inputTokenCount, outputTokenCount
                 else
                     log:error('Blocked: ' .. decoded.choices[1].finish_reason .. Util.dumpTable(decoded.choices[1]))
                     local inputTokenCount = decoded.usage.prompt_tokens
@@ -84,7 +74,7 @@ function ChatGptAPI:doRequest(filePath, task, systemInstruction, generationConfi
         log:error('ChatGptAPI POST request failed. ' .. self.url)
         log:error(Util.dumpTable(headers))
         log:error(response)
-        return false, nil, 0, 0 -- FIXME
+        return false, nil, 0, 0 
     end
 end
 

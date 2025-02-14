@@ -50,8 +50,18 @@ end
 
 local function showUsedTokensDialog(totalInputTokens, totalOutputTokens)
     if prefs.showCosts then
-        local inputCosts = totalInputTokens * Defaults.pricing[prefs.ai].input
-        local outputCosts = totalOutputTokens * Defaults.pricing[prefs.ai].output
+        local inputCostPerToken = 0
+        if Defaults.pricing[prefs.ai].input ~= nil then
+            inputCostPerToken = Defaults.pricing[prefs.ai].input
+        end
+
+        local outputCostPerToken = 0
+        if Defaults.pricing[prefs.ai].output ~= nil then
+            outputCostPerToken = Defaults.pricing[prefs.ai].output
+        end
+
+        local inputCosts = totalInputTokens * inputCostPerToken
+        local outputCosts = totalOutputTokens * outputCostPerToken
         local totalCosts = inputCosts + outputCosts
         -- LrDialogs.message(LOC("$$$/lrc-ai-assistant/GenerateImageInfo/UsedTokens=Used tokens during process\nInput tokens: ^1 (USD ^3)\nOutput tokens: ^2 (USD ^4)\nTotal costs: USD ^5", totalInputTokens, totalOutputTokens, inputCosts, outputCosts, totalCosts))
         local f = LrView.osFactory()
@@ -167,11 +177,11 @@ local function exportAndAnalyzePhoto(photo, progressScope)
         LR_export_destinationPathPrefix = tempDir,
         LR_export_useSubfolder = false,
         LR_format = 'JPEG',
-        LR_jpeg_quality = prefs.exportQuality / 100,
+        LR_jpeg_quality = tonumber(prefs.exportQuality) / 100,
         LR_minimizeEmbeddedMetadata = false,
         LR_outputSharpeningOn = false,
         LR_size_doConstrain = true,
-        LR_size_maxHeight = prefs.exportSize,
+        LR_size_maxHeight = tonumber(prefs.exportSize),
         LR_size_resizeType = 'longEdge',
         LR_size_units = 'pixels',
         LR_collisionHandling = 'rename',
