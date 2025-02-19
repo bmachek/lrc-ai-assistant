@@ -18,6 +18,8 @@ _G.LrProgressScope = import 'LrProgressScope'
 _G.LrExportSession = import 'LrExportSession'
 _G.LrStringUtils = import 'LrStringUtils'
 _G.LrLocalization = import 'LrLocalization'
+_G.LrShell = import 'LrShell'
+_G.LrSystemInfo = import 'LrSystemInfo'
 
 _G.JSON = require "JSON"
 

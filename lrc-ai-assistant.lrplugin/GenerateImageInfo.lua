@@ -215,6 +215,10 @@ local function exportAndAnalyzePhoto(photo, progressScope)
             log:trace("Export file size: " .. (LrFileUtils.fileAttributes(path).fileSize / 1024) .. "kB")
             local analyzeSuccess, result, inputTokens, outputTokens = ai:analyzeImage(path, metadata)
 
+            if not analyzeSuccess then
+                LrDialogs.showError(LOC "$$$/lrc-ai-assistant/GenerateImageInfo/unsuccessful=AI analysis failed, please check logfiles.")
+            end
+
             if result == 'RATE_LIMIT_EXHAUSTED' then
                 LrDialogs.showError(LOC "$$$/lrc-ai-assistant/GenerateImageInfo/rateLimit=Quota exhausted, set up pay as you go at Google, or wait for some hours.")
                 return false, inputTokens, outputTokens, true

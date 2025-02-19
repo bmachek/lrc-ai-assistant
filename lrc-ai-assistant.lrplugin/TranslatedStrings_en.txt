@@ -67,3 +67,7 @@
 "$$$/lrc-ai-assistant/ResponseStructure/ResetToDefault=Reset to defaults"
 "$$$/lrc-ai-assistant/ResponseStructure/AddKeywordCategory=Add"
 "$$$/lrc-ai-assistant/ResponseStructure/NewKeywordCategory=New Category"
+
+
+"$$$/lrc-ai-assistant/GenerateImageInfo/unsuccessful=AI analysis failed, please check logfiles."
+"$$$/lrc-ai-assistant/PluginInfoDialogSections/ShowLogFile=Show logfile"

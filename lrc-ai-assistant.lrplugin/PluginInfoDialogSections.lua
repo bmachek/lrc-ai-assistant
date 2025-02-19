@@ -93,9 +93,13 @@ function PluginInfoDialogSections.sectionsForBottomOfDialog(f, propertyTable)
 
         {
             bind_to_object = propertyTable,
-
             title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/Logging=Activate debug logging",
 
+            f:row {
+                f:static_text {
+                    title = Util.getLogfilePath(),
+                }
+            },
             f:row {
                 f:checkbox {
                     value = bind 'logging',

@@ -4,7 +4,7 @@ Util = {}
 
 -- Utility function to check if table contains a value
 function Util.table_contains(tbl, x)
-    found = false
+    local found = false
     for _, v in pairs(tbl) do
         if v == x then
             found = true
@@ -64,4 +64,28 @@ function Util.encodePhotoToBase64(filePath)
 
     local base64 = LrStringUtils.encodeBase64(data)
     return base64
+end
+
+function Util.getLogfilePath()
+    local filename = "AIPlugin.log"
+    local macPath14 = "$HOME/Library/Logs/Adobe/Lightroom/LrClassicLogs/"
+    local winPath14 = "%LOCALAPPDATA%\\Adobe\\Lightroom\\Logs\\LrClassicLogs\\"
+    local macPathOld = "$HOME/Documents/LrClassicLogs/"
+    local winPathOld = "%USERPROFILE%\\Documents\\LrClassicLogs\\"
+
+    local lightroomVersion = LrApplication.versionTable()
+
+    if lightroomVersion.major >= 14 then
+        if string.sub(LrSystemInfo.summaryString(), 1, 1) == '1' then
+            return macPath14 .. filename
+        else
+            return winPath14 .. filename
+        end
+    else
+        if string.sub(LrSystemInfo.summaryString(), 1, 1) == '1' then
+            return macPathOld .. filename
+        else
+            return winPathOld .. filename
+        end
+    end
 end
