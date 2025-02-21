@@ -280,7 +280,6 @@ end
 function PluginInfoDialogSections.endDialog(propertyTable)
     prefs.geminiApiKey = propertyTable.geminiApiKey
     prefs.chatgptApiKey = propertyTable.chatgptApiKey
-    prefs.chatgptApiKey = propertyTable.chatgptApiKey
     prefs.generateCaption = propertyTable.generateCaption
     prefs.generateTitle = propertyTable.generateTitle
     prefs.generateKeywords = propertyTable.generateKeywords

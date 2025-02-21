@@ -74,7 +74,7 @@ function ChatGptAPI:doRequest(filePath, task, systemInstruction, generationConfi
         log:error('ChatGptAPI POST request failed. ' .. self.url)
         log:error(Util.dumpTable(headers))
         log:error(response)
-        return false, nil, 0, 0 
+        return false, 'ChatGptAPI POST request failed. ' .. self.url, 0, 0 
     end
 end
 

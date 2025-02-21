@@ -211,17 +211,17 @@ local function exportAndAnalyzePhoto(photo, progressScope)
         metadata.gps = photo:getRawMetadata("gps")
         metadata.keywords = photo:getFormattedMetadata("keywordTagsForExport")
 
-        if success then
+        if success then -- Export successful
+            
             log:trace("Export file size: " .. (LrFileUtils.fileAttributes(path).fileSize / 1024) .. "kB")
             local analyzeSuccess, result, inputTokens, outputTokens = ai:analyzeImage(path, metadata)
 
-            if not analyzeSuccess then
-                LrDialogs.showError(LOC "$$$/lrc-ai-assistant/GenerateImageInfo/unsuccessful=AI analysis failed, please check logfiles.")
-            end
-
-            if result == 'RATE_LIMIT_EXHAUSTED' then
-                LrDialogs.showError(LOC "$$$/lrc-ai-assistant/GenerateImageInfo/rateLimit=Quota exhausted, set up pay as you go at Google, or wait for some hours.")
-                return false, inputTokens, outputTokens, true
+            if not analyzeSuccess then -- AI API request failed.
+                if result == 'RATE_LIMIT_EXHAUSTED' then
+                    LrDialogs.showError(LOC "$$$/lrc-ai-assistant/GenerateImageInfo/rateLimit=Quota exhausted, set up pay as you go at Google, or wait for some hours.")
+                    return false, inputTokens, outputTokens, true, result
+                end
+                return false, inputTokens, outputTokens, false, result
             end
 
             local title, caption, keywords, altText
@@ -295,9 +295,9 @@ local function exportAndAnalyzePhoto(photo, progressScope)
             -- Delete temp file.
             LrFileUtils.delete(path)
 
-            return true, inputTokens, outputTokens, false
+            return true, inputTokens, outputTokens, false, ""
         else
-            return false, 0, 0, false
+            return false, 0, 0, false, "Photo rendering failed."
         end
     end
 end
@@ -326,14 +326,14 @@ LrTasks.startAsyncTask(function()
 
         local totalPhotos = #selectedPhotos
         local totalFailed = 0
-        local failedPhotos = {}
+        local errorMessages = {}
         local totalSuccess = 0
         local totalInputTokens = 0
         local totalOutputTokens = 0
         for i, photo in ipairs(selectedPhotos) do
             progressScope:setPortionComplete(i - 1, totalPhotos)
             progressScope:setCaption(LOC("$$$/lrc-ai-assistant/GenerateImageInfo/caption=Analyzing photo with ^1. Photo ^2/^3", prefs.ai, tostring(i), tostring(totalPhotos)))
-            local success, inputTokens, outputTokens, fatalError = exportAndAnalyzePhoto(photo, progressScope)
+            local success, inputTokens, outputTokens, fatalError, errorMessage = exportAndAnalyzePhoto(photo, progressScope)
             if inputTokens ~= nil then
                 totalInputTokens = totalInputTokens + inputTokens
             end
@@ -342,7 +342,7 @@ LrTasks.startAsyncTask(function()
             end
             if not success then
                 totalFailed = totalFailed + 1
-                table.insert(failedPhotos, photo:getFormattedMetadata("fileName"))
+                errorMessages[photo:getFormattedMetadata('fileName')] = errorMessage
                 if fatalError then
                     progressScope:setCaption(LOC("$$$/lrc-ai-assistant/GenerateImageInfo/analyzeFailed=Failed to analyze photo with AI ^1", tostring(i)))
                     LrDialogs.showError(LOC "$$$/lrc-ai-assistant/GenerateImageInfo/fatalError=Fatal error: Cannot continue. Check logs.")
@@ -364,7 +364,11 @@ LrTasks.startAsyncTask(function()
         showUsedTokensDialog(totalInputTokens, totalOutputTokens)
 
         if totalFailed > 0 then
-            LrDialogs.message(LOC("$$$/lrc-ai-assistant/GenerateImageInfo/failedPhotos=Failed photos\n^1", table.concat(failedPhotos, "\n")))
+            local errorList
+            for name, error in pairs(errorMessages) do
+                errorList = name .. " : " .. error .. "\n"
+            end
+            LrDialogs.message(LOC("$$$/lrc-ai-assistant/GenerateImageInfo/failedPhotos=Failed photos\n^1", errorList))
         end
     end)
 end)

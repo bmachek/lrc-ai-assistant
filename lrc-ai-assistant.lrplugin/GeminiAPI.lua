@@ -101,14 +101,14 @@ function GeminiAPI:doRequest(filePath, task, systemInstruction, generationConfig
         self.rateLimitHit = self.rateLimitHit + 1
         if self.rateLimitHit >= 10 then
             log:error('Rate Limit hit 10 times, giving up')
-            return false, 'RATE_LIMIT_EXHAUSTED'
+            return false, 'RATE_LIMIT_EXHAUSTED', 0, 0
         end
         self:doRequest(filePath, task, systemInstruction, generationConfig)
     else
-        log:error('GeminiAPI POST request failed. ' .. self.url)
+        log:error('GeminiAPI POST request failed.')
         log:error(Util.dumpTable(headers))
         log:error(response)
-        return false, nil
+        return false, 'GeminiAPI POST request failed. ' .. self.url, 0, 0
     end
 end
 
