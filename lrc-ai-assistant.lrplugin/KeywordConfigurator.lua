@@ -43,7 +43,7 @@ local function showDataConfigurationDialog()
 
     table.sort(keywords)
 
-    LrDialogs.message(keywordTableToString(keywords))
+    -- LrDialogs.message(keywordTableToString(keywords))
 
     local editFields = {}
     for i = 1, #keywords do
