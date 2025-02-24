@@ -1,5 +1,31 @@
 require "ResponseStructure"
 
+
+local function keywordTableToString(keywords, parent)
+    local result = ""
+    if Util.nilOrEmpty(parent) then
+        parent = ""
+    end
+
+    for index, keyword in pairs(keywords) do
+        if type(keyword) == "string" then
+            if parent ~= "" then
+                result = result .. "\n" .. parent .. ">" .. keyword
+            else
+                result = result .. "\n" .. keyword
+            end
+        elseif type(keyword) == "table" then
+            local newParent = index
+            if parent ~= "" then
+                newParent = parent .. ">" .. index
+            end
+            result = result .. keywordTableToString(keyword, newParent)
+        end
+    end
+
+    return result
+end
+
 local function showDataConfigurationDialog()
     local f = LrView.osFactory()
     local bind = LrView.bind
@@ -16,6 +42,8 @@ local function showDataConfigurationDialog()
     end
 
     table.sort(keywords)
+
+    LrDialogs.message(keywordTableToString(keywords))
 
     local editFields = {}
     for i = 1, #keywords do
@@ -49,8 +77,6 @@ local function showDataConfigurationDialog()
             },
         },
     }
-
-    -- log:trace(Util.dumpTable(dialogView))
 
     local result = LrDialogs.presentModalDialog({
         title = LOC "$$$/lrc-ai-assistant/ResponseStructure/ConfigureResponseStructure=Configure data generation and mapping",
