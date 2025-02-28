@@ -49,6 +49,10 @@ function PluginInfoDialogSections.startDialog(propertyTable)
         prefs.reviewTitle = false
     end
 
+    if prefs.reviewKeywords == nil then
+        prefs.reviewKeywords = false
+    end
+
     if prefs.showCosts == nil then
         prefs.showCosts = true
     end
@@ -76,6 +80,7 @@ function PluginInfoDialogSections.startDialog(propertyTable)
     propertyTable.reviewAltText = prefs.reviewAltText
     propertyTable.reviewCaption = prefs.reviewCaption
     propertyTable.reviewTitle = prefs.reviewTitle
+    propertyTable.reviewKeywords = prefs.reviewKeywords
 
     propertyTable.ai  = prefs.ai
     propertyTable.exportSize = prefs.exportSize
@@ -241,6 +246,13 @@ function PluginInfoDialogSections.sectionsForTopOfDialog(f, propertyTable)
                     f:static_text {
                         title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/title=Title",
                     },
+                    f:checkbox {
+                        value = bind 'reviewKeywords',
+                        width = share 'checkboxWidth',
+                    },
+                    f:static_text {
+                        title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/keywords=Keywords",
+                    },
                 },
             },
 
@@ -291,6 +303,7 @@ function PluginInfoDialogSections.endDialog(propertyTable)
     prefs.reviewCaption = propertyTable.reviewCaption
     prefs.reviewTitle = propertyTable.reviewTitle
     prefs.reviewAltText = propertyTable.reviewAltText
+    prefs.reviewKeywords = propertyTable.reviewKeywords
 
     prefs.showCosts = propertyTable.showCosts
 

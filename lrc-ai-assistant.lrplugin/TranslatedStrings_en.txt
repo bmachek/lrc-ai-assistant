@@ -71,3 +71,5 @@
 
 "$$$/lrc-ai-assistant/GenerateImageInfo/unsuccessful=AI analysis failed, please check logfiles."
 "$$$/lrc-ai-assistant/PluginInfoDialogSections/ShowLogFile=Show logfile"
+
+"$$$/lrc-ai-assistant/Defaults/ResponseStructure/keywords/Nature=Nature"

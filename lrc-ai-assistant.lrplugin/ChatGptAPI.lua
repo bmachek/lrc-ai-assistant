@@ -54,18 +54,20 @@ function ChatGptAPI:doRequest(filePath, task, systemInstruction, generationConfi
             log:trace(response)
             local decoded = JSON:decode(response)
             if decoded ~= nil then
-                if decoded.choices[1].finish_reason == 'stop' then
-                    local text = decoded.choices[1].message.content
-                    local inputTokenCount = decoded.usage.prompt_tokens
-                    local outputTokenCount = decoded.usage.completion_tokens
-                    log:trace(text)
-                    return true, text, inputTokenCount, outputTokenCount
-                else
-                    log:error('Blocked: ' .. decoded.choices[1].finish_reason .. Util.dumpTable(decoded.choices[1]))
-                    local inputTokenCount = decoded.usage.prompt_tokens
-                    local outputTokenCount = decoded.usage.completion_tokens
-                    return false,  decoded.choices[1].finish_reason, inputTokenCount, outputTokenCount
-                end
+                    if decoded.choices ~= nil then
+                        if decoded.choices[1].finish_reason == 'stop' then
+                            local text = decoded.choices[1].message.content
+                            local inputTokenCount = decoded.usage.prompt_tokens
+                            local outputTokenCount = decoded.usage.completion_tokens
+                            log:trace(text)
+                            return true, text, inputTokenCount, outputTokenCount
+                        end
+                    else
+                        log:error('Blocked: ' .. decoded.choices[1].finish_reason .. Util.dumpTable(decoded.choices[1]))
+                        local inputTokenCount = decoded.usage.prompt_tokens
+                        local outputTokenCount = decoded.usage.completion_tokens
+                        return false,  decoded.choices[1].finish_reason, inputTokenCount, outputTokenCount
+                    end
             end
         else
             log:error('Got empty response from ChatGPT')

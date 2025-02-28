@@ -3,6 +3,7 @@ require "AiModelAPI"
 SkipReviewCaptions = false
 SkipReviewTitles = false
 SkipReviewAltText = false
+SkipReviewKeywords = false
 
 local function validateText(typeOfText, text)
     local f = LrView.osFactory()
@@ -47,6 +48,8 @@ local function validateText(typeOfText, text)
 
     return propertyTable
 end
+
+
 
 local function showUsedTokensDialog(totalInputTokens, totalOutputTokens)
     if prefs.showCosts then
