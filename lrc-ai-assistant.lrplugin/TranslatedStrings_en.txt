@@ -73,3 +73,5 @@
 "$$$/lrc-ai-assistant/PluginInfoDialogSections/ShowLogFile=Show logfile"
 
 "$$$/lrc-ai-assistant/Defaults/ResponseStructure/keywords/Nature=Nature"
+
+"$$$/lrc-ai-assistant/PluginInfoDialogSections/=ShowLogfile=Show logfile"

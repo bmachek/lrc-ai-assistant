@@ -68,10 +68,10 @@ end
 
 function Util.getLogfilePath()
     local filename = "AIPlugin.log"
-    local macPath14 = "$HOME/Library/Logs/Adobe/Lightroom/LrClassicLogs/"
-    local winPath14 = "%LOCALAPPDATA%\\Adobe\\Lightroom\\Logs\\LrClassicLogs\\"
-    local macPathOld = "$HOME/Documents/LrClassicLogs/"
-    local winPathOld = "%USERPROFILE%\\Documents\\LrClassicLogs\\"
+    local macPath14 = LrPathUtils.getStandardFilePath('home') .. "/Library/Logs/Adobe/Lightroom/LrClassicLogs/"
+    local winPath14 = LrPathUtils.getStandardFilePath('home') .. "\\AppData\\Local\\Adobe\\Lightroom\\Logs\\LrClassicLogs\\"
+    local macPathOld = LrPathUtils.getStandardFilePath('documents') .. "/LrClassicLogs/"
+    local winPathOld = LrPathUtils.getStandardFilePath('documents') .. "\\LrClassicLogs\\"
 
     local lightroomVersion = LrApplication.versionTable()
 

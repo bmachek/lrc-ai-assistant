@@ -103,7 +103,7 @@ function PluginInfoDialogSections.sectionsForBottomOfDialog(f, propertyTable)
             f:row {
                 f:static_text {
                     title = Util.getLogfilePath(),
-                }
+                },
             },
             f:row {
                 f:checkbox {
@@ -113,6 +113,12 @@ function PluginInfoDialogSections.sectionsForBottomOfDialog(f, propertyTable)
                     title = "Enable debug logging",
                     alignment = 'right',
                     -- width = share 'labelWidth'
+                },
+                f:push_button {
+                    title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/ShowLogfile=Show logfile",
+                    action = function (button)
+                        LrShell.revealInShell(Util.getLogfilePath())
+                    end,
                 },
             },
         },
