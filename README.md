@@ -10,7 +10,7 @@ A Lightroom Classic to fill keywords, image title and caption by using Google Ge
 * Obtain an API key for the model you want to use or install Ollama:
   * [Obtain Google Gemini API key](https://aistudio.google.com/app/apikey)
   * [Obtain ChatGPT API key](https://platform.openai.com/api-keys)
-  * [Download&Install Ollama](https://ollama.com/download)
+  * [Download & Install Ollama](https://ollama.com/download)
 * Configure API key in Lightroom module manager. (Not needed for Ollama.)
 * Choose the model you want to use on the Lightroom module manager.
 * Go to Library in Lightroom
