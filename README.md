@@ -1,16 +1,17 @@
 # lrc-ai-assistant
 
-A Lightroom Classic to fill keywords, image title and caption by using Google Gemini (gemini-1.5-flash/pro) or ChatGPT (gpt-4o)
+A Lightroom Classic to fill keywords, image title and caption by using Google Gemini (gemini-flash/pro) or ChatGPT (gpt-4o). There is also experimental support for a local Ollama installation. Ollama has to be installed manually.
 
 ## Privacy / Disclaimer
-### Your photos will be sent to Google or OpenAI for analysis! Do not use the plugin, if you don't agree with this.
+### Your photos will be sent to Google or OpenAI for analysis! Do not use the plugin or use Ollama, if you don't agree with this.
 
 ## Usage
 * Install plugin using Lightroom addon module manager.
-* Obtain an API key for the model you want to use:
+* Obtain an API key for the model you want to use or install Ollama:
   * [Obtain Google Gemini API key](https://aistudio.google.com/app/apikey)
   * [Obtain ChatGPT API key](https://platform.openai.com/api-keys)
-* Configure language and API key in Lightroom module manager.
+  * [Download&Install Ollama](https://ollama.com/download)
+* Configure API key in Lightroom module manager. (Not needed for Ollama.)
 * Choose the model you want to use on the Lightroom module manager.
 * Go to Library in Lightroom
 * Select some photos
@@ -19,7 +20,7 @@ A Lightroom Classic to fill keywords, image title and caption by using Google Ge
 * Wait it to fill your keywords, caption or title as selected.
 
 ## Google rate limits
-The free version of gemini-flash-1.5 is limited to 1500 prompts per day. 
+The free version of gemini-flash is limited to 1500 prompts per day. 
 There's also a soft limit on how many requests per minute are allowed, which can of course be circumvented by waiting for a few seconds, when a request is denied.
 The plugin waits for 5 seconds after each denied prompt, if the error 'RESOURCE_EXHAUSTED' persists for 10 of these wait loops, it assumes that the daily limit has been hit, and stops the process with an error message. 
 
