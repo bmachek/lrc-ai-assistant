@@ -96,6 +96,7 @@ Defaults.aiModels = {
     { title = 'Ollama deepseek-r1', value = 'ollama-deepseek-r1' },
     { title = 'Ollama llama3.2-vision', value = 'ollama-llama3.2-vision' },
     { title = 'Ollama llava', value = 'ollama-llava' },
+    { title = 'Ollama gemma3', value = 'ollama-gemma3' },
 }
 
 Defaults.exportSizes = {
