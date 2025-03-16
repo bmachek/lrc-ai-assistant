@@ -255,6 +255,7 @@ function PluginInfoDialogSections.sectionsForTopOfDialog(f, propertyTable)
                     f:checkbox {
                         value = bind 'reviewKeywords',
                         width = share 'checkboxWidth',
+                        enabled = false,
                     },
                     f:static_text {
                         title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/keywords=Keywords",

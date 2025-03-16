@@ -46,6 +46,8 @@ local function validateText(typeOfText, text)
 
     propertyTable.result = result
 
+    log:trace(result)
+
     return propertyTable
 end
 
@@ -204,7 +206,7 @@ local function exportAndAnalyzePhoto(photo, progressScope)
     ai = AiModelAPI:new()
 
     if ai == nil then
-        return false, 0, 0, true
+        return false, 0, 0, "fatal"
     end
 
     for _, rendition in exportSession:renditions() do
@@ -222,9 +224,9 @@ local function exportAndAnalyzePhoto(photo, progressScope)
             if not analyzeSuccess then -- AI API request failed.
                 if result == 'RATE_LIMIT_EXHAUSTED' then
                     LrDialogs.showError(LOC "$$$/lrc-ai-assistant/GenerateImageInfo/rateLimit=Quota exhausted, set up pay as you go at Google, or wait for some hours.")
-                    return false, inputTokens, outputTokens, true, result
+                    return false, inputTokens, outputTokens, "fatal", result
                 end
-                return false, inputTokens, outputTokens, false, result
+                return false, inputTokens, outputTokens, "non-fatal", result
             end
 
             local title, caption, keywords, altText
@@ -239,8 +241,9 @@ local function exportAndAnalyzePhoto(photo, progressScope)
                 log:trace(altText)
             end
 
-
+            local canceledByUser = false
             photo.catalog:withWriteAccessDo(LOC "$$$/lrc-ai-assistant/GenerateImageInfo/saveTitleCaption=Save AI generated title and caption", function()
+                
                 local saveCaption = true
                 if prefs.generateCaption and prefs.reviewCaption and not SkipReviewCaptions then
                     -- local existingCaption = photo:getFormattedMetadata('caption')
@@ -248,7 +251,8 @@ local function exportAndAnalyzePhoto(photo, progressScope)
                     caption = prop.reviewedText
                     SkipReviewCaptions = prop.skipFromHere
                     if prop.result == 'cancel' then
-                        saveCaption = false
+                        log:trace("Canceled by caption validation dialog.")
+                        canceledByUser = true
                     end
                 end
                 if saveCaption and caption ~=nil then
@@ -262,7 +266,8 @@ local function exportAndAnalyzePhoto(photo, progressScope)
                     title = prop.reviewedText
                     SkipReviewTitles = prop.skipFromHere
                     if prop.result == 'cancel' then
-                        saveTitle = false
+                        log:trace("Canceled by title validation dialog.")
+                        canceledByUser = true
                     end
                 end
 
@@ -274,6 +279,10 @@ local function exportAndAnalyzePhoto(photo, progressScope)
                 if prefs.generateAltText and prefs.reviewAltText and not SkipReviewAltText then
                     -- local existingTitle = photo:getFormattedMetadata('title')
                     local prop = validateText(LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/ImageAltText=Image Alt Text", altText)
+                    if prop.result == 'cancel' then
+                        log:trace("Canceled by Alt-Text validation dialog.")
+                        canceledByUser = true
+                    end
                     altText = prop.reviewedText
                     SkipReviewAltText = prop.skipFromHere
                     if prop.result == 'cancel' then
@@ -298,9 +307,13 @@ local function exportAndAnalyzePhoto(photo, progressScope)
             -- Delete temp file.
             LrFileUtils.delete(path)
 
-            return true, inputTokens, outputTokens, false, ""
+            if canceledByUser then
+               return false, inputTokens, outputTokens, "canceled", "Canceled by user."
+            end
+
+            return true, inputTokens, outputTokens, "non-fatal", ""
         else
-            return false, 0, 0, false, "Photo rendering failed."
+            return false, 0, 0, "non-fatal", "Photo rendering failed."
         end
     end
 end
@@ -336,7 +349,7 @@ LrTasks.startAsyncTask(function()
         for i, photo in ipairs(selectedPhotos) do
             progressScope:setPortionComplete(i - 1, totalPhotos)
             progressScope:setCaption(LOC("$$$/lrc-ai-assistant/GenerateImageInfo/caption=Analyzing photo with ^1. Photo ^2/^3", prefs.ai, tostring(i), tostring(totalPhotos)))
-            local success, inputTokens, outputTokens, fatalError, errorMessage = exportAndAnalyzePhoto(photo, progressScope)
+            local success, inputTokens, outputTokens, cause, errorMessage = exportAndAnalyzePhoto(photo, progressScope)
             if inputTokens ~= nil then
                 totalInputTokens = totalInputTokens + inputTokens
             end
@@ -346,12 +359,19 @@ LrTasks.startAsyncTask(function()
             if not success then
                 totalFailed = totalFailed + 1
                 errorMessages[photo:getFormattedMetadata('fileName')] = errorMessage
-                if fatalError then
+                log:error("Unsuccessful photo analysis: " .. photo:getFormattedMetadata('fileName'))
+                if cause == "fatal" then
+                    log:trace("Fatal error received. Stopping.")
                     progressScope:setCaption(LOC("$$$/lrc-ai-assistant/GenerateImageInfo/analyzeFailed=Failed to analyze photo with AI ^1", tostring(i)))
                     LrDialogs.showError(LOC "$$$/lrc-ai-assistant/GenerateImageInfo/fatalError=Fatal error: Cannot continue. Check logs.")
                     showUsedTokensDialog(totalInputTokens, totalOutputTokens)
                     return false
+                elseif cause == "canceled" then
+                    log:trace("Canceled by user validation dialog.")
+                    showUsedTokensDialog(totalInputTokens, totalOutputTokens)
+                    return false
                 end
+                    
             else
                 totalSuccess = totalSuccess + 1
             end
