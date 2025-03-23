@@ -19,6 +19,10 @@ return {
 			title = "Edit Keyword Categories",
 			file = "KeywordConfigurator.lua",
 		},
+        {
+            title = "Show Tree",
+            file = "TreeWidget.lua",
+        },
 	},
 
 }
