@@ -20,8 +20,8 @@ return {
 			file = "KeywordConfigurator.lua",
 		},
         {
-            title = "Show Tree",
-            file = "TreeWidget.lua",
+            title = "Edit Keyword Hierarchy",
+            file = "KeywordHierarchyManager.lua",
         },
 	},
 
