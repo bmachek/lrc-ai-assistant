@@ -58,11 +58,15 @@ local function showUsedTokensDialog(totalInputTokens, totalOutputTokens)
         local inputCostPerToken = 0
         if Defaults.pricing[prefs.ai].input ~= nil then
             inputCostPerToken = Defaults.pricing[prefs.ai].input
+        else
+            return nil
         end
 
         local outputCostPerToken = 0
         if Defaults.pricing[prefs.ai].output ~= nil then
             outputCostPerToken = Defaults.pricing[prefs.ai].output
+        else
+            return nil
         end
 
         local inputCosts = totalInputTokens * inputCostPerToken
