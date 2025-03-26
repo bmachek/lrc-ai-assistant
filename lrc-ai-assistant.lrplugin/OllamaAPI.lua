@@ -46,9 +46,9 @@ function OllamaAPI:doRequest(filePath, task, systemInstruction, generationConfig
             log:trace(response)
             local decoded = JSON:decode(response)
             if decoded ~= nil then
-                if decoded.done_reason == 'stop' then
-                    local text = decoded.response
-                    log:trace(text)
+                if decoded.choices[1].finish_reason == 'stop' then
+                    local text = decoded.choices[1].message.content
+                    log:trace(Util.dumpTable(text))
                     return true, text, 0, 0
                 else
                     log:error('Blocked: ' .. decoded.choices[1].finish_reason .. Util.dumpTable(decoded.choices[1]))
@@ -80,7 +80,7 @@ function OllamaAPI:analyzeImage(filePath, metadata)
 
     local success, result, inputTokenCount, outputTokenCount = self:doRequest(filePath, task, Defaults.defaultSystemInstruction, ResponseStructure:new():generateResponseStructure())
     if success then
-        return success, JSON:decode(result), inputTokenCount, outputTokenCount
+        return success, result, inputTokenCount, outputTokenCount
     end
     return false, "", inputTokenCount, outputTokenCount
 end
