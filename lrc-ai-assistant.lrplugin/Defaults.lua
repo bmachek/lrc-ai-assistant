@@ -20,7 +20,7 @@ Defaults.defaultKeywordCategories = {
 }
 
 Defaults.defaultKeywordHierarchy = {
-    [LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/keywords/Activities=Activities"] = {},    
+    [LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/keywords/Activities=Activities"] = {},
     [LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/keywords/Location=Location"] = {},
     [LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/keywords/Objects=Objects"] = {
         [LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/keywords/Vehicles=Vehicles"] = {},
@@ -38,6 +38,27 @@ Defaults.defaultKeywordHierarchy = {
         [LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/keywords/Animals=Animals"] = {},
     },
 }
+
+setmetatable(Defaults.defaultKeywordHierarchy, {
+    __index = function(t, k)
+        if type(k) == "table" then
+            log:trace("Trying to access nested table: " .. Util.dumpTable(k))
+            for i,v in ipairs(k) do
+                if not t then error("attempt to index nil") end
+                t = rawget(t, v)
+            end
+            log:trace("Returning nested table: " .. Util.dumpTable(t))
+            return t
+        else
+            log:trace("Trying to access value: " .. k)
+            if rawget(t, k) ~= nil then
+                log:trace("Returning value: " .. rawget(t, k))
+            end
+            return rawget(t, k)
+        end
+    end
+    }
+)
 
 
 Defaults.targetDataFields = {

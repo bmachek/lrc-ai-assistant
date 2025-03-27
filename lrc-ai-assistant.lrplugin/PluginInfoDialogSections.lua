@@ -1,8 +1,4 @@
-require "GeminiAPI"
-
-
 PluginInfoDialogSections = {}
-
 
 function PluginInfoDialogSections.startDialog(propertyTable)
     if prefs.logging == nil then

@@ -89,3 +89,25 @@ function Util.getLogfilePath()
         end
     end
 end
+
+function Util.deepcopy(o, seen)
+
+    seen = seen or {}
+    if o == nil then return nil end
+    if seen[o] then return seen[o] end
+
+    local no
+    if type(o) == 'table' then
+        no = {}
+        seen[o] = no
+
+        for k, v in next, o, nil do
+            no[Util.deepcopy(k, seen)] = Util.deepcopy(v, seen)
+        end
+    setmetatable(no, Util.deepcopy(getmetatable(o), seen))
+    else
+        no = o
+    end
+    return no
+
+end
