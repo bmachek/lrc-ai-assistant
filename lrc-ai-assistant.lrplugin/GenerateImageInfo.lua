@@ -56,6 +56,11 @@ end
 
 
 local function showUsedTokensDialog(totalInputTokens, totalOutputTokens)
+    if Defaults.pricing[prefs.ai] == nil then
+        log:trace("No cost information for selected AI model, not showing usedTokenDialog.")
+        return nil
+    end
+
     if prefs.showCosts then
         local inputCostPerToken = 0
         if Defaults.pricing[prefs.ai].input ~= nil then
