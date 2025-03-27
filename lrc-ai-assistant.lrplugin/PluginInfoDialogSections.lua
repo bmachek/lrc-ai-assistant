@@ -65,6 +65,10 @@ function PluginInfoDialogSections.startDialog(propertyTable)
         prefs.exportQuality = Defaults.defaultExportQuality
     end
 
+    if prefs.showPreflightDialog == nil then
+        prefs.showPreflightDialog = false
+    end
+
     propertyTable.logging = prefs.logging
     propertyTable.geminiApiKey = prefs.geminiApiKey
     propertyTable.chatgptApiKey = prefs.chatgptApiKey
@@ -83,6 +87,8 @@ function PluginInfoDialogSections.startDialog(propertyTable)
     propertyTable.exportQuality = prefs.exportQuality
 
     propertyTable.showCosts = prefs.showCosts
+
+    propertyTable.showPreflightDialog = prefs.showPreflightDialog
 
 end
 
@@ -257,6 +263,19 @@ function PluginInfoDialogSections.sectionsForTopOfDialog(f, propertyTable)
                         title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/keywords=Keywords",
                     },
                 },
+                f:row {
+                    f:spacer {
+                        width = share 'labelWidth',
+                    },
+                    f:checkbox {
+                        value = bind 'showPreflightDialog',
+                        width = share 'checkboxWidth'
+                    },
+                    f:static_text {
+                        title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/showPreflightDialog=Show Preflight dialog",
+                        width = share 'labelWidth',
+                    },
+                },
             },
 
             f:group_box {
@@ -309,6 +328,8 @@ function PluginInfoDialogSections.endDialog(propertyTable)
     prefs.reviewKeywords = propertyTable.reviewKeywords
 
     prefs.showCosts = propertyTable.showCosts
+
+    prefs.showPreflightDialog = propertyTable.showPreflightDialog
 
     prefs.logging = propertyTable.logging
     if propertyTable.logging then

@@ -122,6 +122,10 @@ function GeminiAPI:analyzeImage(filePath, metadata)
         if metadata.keywords ~= nil then
             task = task .. " " .. LOC "$$$/lrc-ai-assistant/GeminiAPI/keywordAddon=Some keywords are:" .. metadata.keywords
         end
+        if metadata.context ~= nil and metadata.context ~= "" then
+            log:trace("Preflight context given")
+            task = task .. " " .. metadata.context
+        end
     end
 
     local success, result, inputTokenCount, outputTokenCount = GeminiAPI:doRequest(filePath, task, Defaults.defaultSystemInstruction, ResponseStructure:new():generateResponseStructure())

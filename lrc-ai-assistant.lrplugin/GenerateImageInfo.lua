@@ -4,6 +4,8 @@ SkipReviewCaptions = false
 SkipReviewTitles = false
 SkipReviewAltText = false
 SkipReviewKeywords = false
+SkipPreflightDialog = false
+PreflightData = ""
 
 local function validateText(typeOfText, text)
     local f = LrView.osFactory()
@@ -177,6 +179,50 @@ local function addKeywordRecursively(photo, keywordSubTable, parent)
     end
 end
 
+local function showPreflightDialog()
+    local f = LrView.osFactory()
+    local bind = LrView.bind
+    local share = LrView.share
+
+    local propertyTable = {}
+    propertyTable.skipFromHere = SkipPreflightDialog
+    propertyTable.preflightData = PreflightData
+
+    local dialogView = f:column {
+        bind_to_object = propertyTable,
+        f:row {
+            f:edit_field {
+                value = bind 'preflightData',
+                width_in_chars = 40,
+                height_in_lines = 10,
+            },
+        },
+        f:row {
+            f:checkbox {
+                value = bind 'skipFromHere'
+            },
+            f:static_text {
+                title = LOC "$$$/lrc-ai-assistant/GenerateImageInfo/SkipPreflightFromHere=Use for all following pictures.",
+            },
+        },
+    }
+
+    local result = LrDialogs.presentModalDialog({
+        title = LOC "$$$/lrc-ai-assistant/GenerateImageInfo/PreflightDialogTitle=Preflight Dialog",
+        contents = dialogView,
+    })
+
+    SkipPreflightDialog = propertyTable.skipFromHere
+
+    if result == "ok" then
+        PreflightData = propertyTable.preflightData
+        return PreflightData
+    elseif result == "cancel" then
+        PreflightData = ""
+        return PreflightData
+    end
+end
+
 local function exportAndAnalyzePhoto(photo, progressScope)
     local tempDir = LrPathUtils.getStandardFilePath('temp')
     local photoName = LrPathUtils.leafName(photo:getFormattedMetadata('fileName'))
@@ -223,6 +269,13 @@ local function exportAndAnalyzePhoto(photo, progressScope)
         if success then -- Export successful
             
             log:trace("Export file size: " .. (LrFileUtils.fileAttributes(path).fileSize / 1024) .. "kB")
+
+            -- Preflight Dialog
+            if prefs.showPreflightDialog then
+                if not SkipPreflightDialog then showPreflightDialog() end
+                metadata.context = PreflightData
+            end
+
             local analyzeSuccess, result, inputTokens, outputTokens = ai:analyzeImage(path, metadata)
 
             if not analyzeSuccess then -- AI API request failed.

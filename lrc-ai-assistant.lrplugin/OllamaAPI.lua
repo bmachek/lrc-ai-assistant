@@ -76,6 +76,10 @@ function OllamaAPI:analyzeImage(filePath, metadata)
         if metadata.keywords ~= nil then
             task = task .. " " .. LOC "$$$/lrc-ai-assistant/ChatGptAPI/keywordAddon=Some keywords are:" .. metadata.keywords
         end
+        if metadata.context ~= nil and metadata.context ~= "" then
+            log:trace("Preflight context given")
+            task = task .. " " .. metadata.context
+        end
     end
 
     local success, result, inputTokenCount, outputTokenCount = self:doRequest(filePath, task, Defaults.defaultSystemInstruction, ResponseStructure:new():generateResponseStructure())

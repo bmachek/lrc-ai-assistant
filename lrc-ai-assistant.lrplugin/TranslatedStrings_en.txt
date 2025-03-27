@@ -75,3 +75,6 @@
 "$$$/lrc-ai-assistant/Defaults/ResponseStructure/keywords/Nature=Nature"
 
 "$$$/lrc-ai-assistant/PluginInfoDialogSections/=ShowLogfile=Show logfile"
+
+"$$$/lrc-ai-assistant/GenerateImageInfo/PreflightDialogTitle=Preflight Dialog"
+"$$$/lrc-ai-assistant/GenerateImageInfo/SkipPreflightFromHere=Use for all following pictures."

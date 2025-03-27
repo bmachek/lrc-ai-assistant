@@ -19,10 +19,10 @@ return {
 			title = "Edit Keyword Categories",
 			file = "KeywordConfigurator.lua",
 		},
-        {
-            title = "Edit Keyword Hierarchy",
-            file = "KeywordHierarchyManager.lua",
-        },
+        -- {
+        --     title = "Edit Keyword Hierarchy",
+        --     file = "KeywordHierarchyManager.lua",
+        -- },
 	},
 
 }
