@@ -47,8 +47,9 @@ function OllamaAPI:doRequest(filePath, task, systemInstruction, generationConfig
             local decoded = JSON:decode(response)
             if decoded ~= nil then
                 if decoded.choices[1].finish_reason == 'stop' then
-                    local text = decoded.choices[1].message.content
+                    local text = JSON:decode(decoded.choices[1].message.content)
                     log:trace(Util.dumpTable(text))
+                    log:trace(text)
                     return true, text, 0, 0
                 else
                     log:error('Blocked: ' .. decoded.choices[1].finish_reason .. Util.dumpTable(decoded.choices[1]))
