@@ -334,7 +334,7 @@ LrTasks.startAsyncTask(function()
             return
         end
 
-        if not prefs.generateCaption and not prefs.generateTitle and not prefs.generateKeywords then
+        if not prefs.generateCaption and not prefs.generateTitle and not prefs.generateKeywords and not prefs.generateAltText then
             LrDialogs.showError(LOC "$$$/lrc-ai-assistant/GenerateImageInfo/nothingToGenerate=Nothing selected to generate, check add-on manager settings.")
             return
         end
