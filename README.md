@@ -1,6 +1,18 @@
 # lrc-ai-assistant
 
-A Lightroom Classic to fill keywords, image title and caption by using Google Gemini (gemini-flash/pro) or ChatGPT (gpt-4o). There is also experimental support for a local Ollama installation. Ollama has to be installed manually.
+A Lightroom Classic to fill keywords, image title and caption by using ChatGPT or Gemini. There is also advancing support for local Ollama models. Ollama and the models have to be installed manually.
+
+## Available models 28.03.2025
+* gpt-4o-mini
+* gpt-4o
+* Gemini 1.5 flash/pro
+* Gemini 2.0 flash
+* Gemini 2.0 pro exp
+* Ollama
+  * deepseek-r1
+  * gemma
+  * llama3.2-vision
+  * llava
 
 ## Privacy / Disclaimer
 ### Your photos will be sent to Google or OpenAI for analysis! Do not use the plugin or use Ollama, if you don't agree with this.
