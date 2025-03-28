@@ -164,13 +164,13 @@ end
 local function addKeywordRecursively(photo, keywordSubTable, parent)
     for key, value in pairs(keywordSubTable) do
         local keyword
-        if type(key) == 'string' then
+        if type(key) == 'string' and key ~= "" then
             photo.catalog:withWriteAccessDo("Create category keyword", function()
                 -- log:trace('Creating keyword: ' .. key)
                 keyword = photo.catalog:createKeyword(key, {}, false, parent, true)
                 -- photo:addKeyword(keyword)
             end)
-        elseif type(key) == 'number' then
+        elseif type(key) == 'number' and value ~= nil and value ~= "" then
             photo.catalog:withWriteAccessDo("Create and add keyword", function()
                 -- log:trace('Creating keyword: ' .. value)
                 keyword = photo.catalog:createKeyword(value, {}, true, parent, true)
@@ -294,7 +294,7 @@ local function exportAndAnalyzePhoto(photo, progressScope)
             local title, caption, keywords, altText
             if result ~= nil and analyzeSuccess then
                 keywords = result.keywords
-                log:trace(keywords)
+                log:trace(Util.dumpTable(keywords))
                 title = result[LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/ImageTitle=Image title"]
                 log:trace(title)
                 caption = result[LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/ImageCaption=Image caption"]
