@@ -16,6 +16,7 @@ A Lightroom Classic to fill keywords, image title and caption by using Google Ge
 * Go to Library in Lightroom
 * Select some photos
 * Go to menu -> Library -> Addon Modules -> Analyze photo(s) with AI
+* If enabled a preflight dialogs pops up, where you cand enter additional information on the photo to the AI, to enhance the results.
 * If enabled review before save for title and/or caption and the field is already filled with data, a review dialog will show up.
 * Wait it to fill your keywords, caption or title as selected.
 
