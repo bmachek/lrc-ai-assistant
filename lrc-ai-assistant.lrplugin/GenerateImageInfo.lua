@@ -411,6 +411,9 @@ LrTasks.startAsyncTask(function()
         for i, photo in ipairs(selectedPhotos) do
             progressScope:setPortionComplete(i - 1, totalPhotos)
             progressScope:setCaption(LOC("$$$/lrc-ai-assistant/GenerateImageInfo/caption=Analyzing photo with ^1. Photo ^2/^3", prefs.ai, tostring(i), tostring(totalPhotos)))
+
+            log:trace("Analyzing " .. photo:getFormattedMetadata('fileName'))
+
             local success, inputTokens, outputTokens, cause, errorMessage = exportAndAnalyzePhoto(photo, progressScope)
             if inputTokens ~= nil then
                 totalInputTokens = totalInputTokens + inputTokens
