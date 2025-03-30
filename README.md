@@ -10,7 +10,7 @@ A Lightroom Classic to fill keywords, image title and caption by using ChatGPT o
 * Gemini 2.0 pro exp
 * Ollama
   * deepseek-r1
-  * gemma
+  * gemma3
   * llama3.2-vision
   * llava
 
