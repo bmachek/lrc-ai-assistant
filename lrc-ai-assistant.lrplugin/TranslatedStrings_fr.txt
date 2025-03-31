@@ -61,3 +61,23 @@
 "$$$/lrc-ai-assistant/PluginInfoDialogSections/ApiKeys=Clés API"
 "$$$/lrc-ai-assistant/PluginInfoDialogSections/ContentValidateConfig=Configuration du contenu et de la validation"
 "$$$/lrc-ai-assistant/PluginInfoDialogSections/exportSettings=Paramètres d'exportation"
+
+"$$$/lrc-ai-assistant/ResponseStructure/ConfigureResponseStructure=Configurer la génération et le mappage des données"
+"$$$/lrc-ai-assistant/ResponseStructure/Keywords=Mots-clés"
+
+"$$$/lrc-ai-assistant/ResponseStructure/ResetToDefaultKeywordStructure=Réinitialiser les catégories de mots clés par défaut ?"
+"$$$/lrc-ai-assistant/ResponseStructure/ResetToDefault=Réinitialiser les paramètres par défaut"
+"$$$/lrc-ai-assistant/ResponseStructure/AddKeywordCategory=Ajouter"
+"$$$/lrc-ai-assistant/ResponseStructure/NewKeywordCategory=Nouvelle catégorie"
+
+
+"$$$/lrc-ai-assistant/GenerateImageInfo/unsuccessful=L'analyse de l'IA a échoué, veuillez vérifier les fichiers journaux."
+"$$$/lrc-ai-assistant/PluginInfoDialogSections/ShowLogFile=Afficher le fichier journal"
+
+"$$$/lrc-ai-assistant/Defaults/ResponseStructure/keywords/Nature=Nature"
+
+"$$$/lrc-ai-assistant/GenerateImageInfo/PreflightDialogTitle=Preflight Dialog"
+"$$$/lrc-ai-assistant/GenerateImageInfo/SkipPreflightFromHere=Utiliser pour toutes les images suivantes."
+
+"$$$/lrc-ai-assistant/GenerateImageInfo/PhotoContextDialogData=Contexte de la photo"
+"$$$/lrc-ai-assistant/PluginInfoDialogSections/showPhotoContextDialog=Afficher la boîte de dialogue Contexte de la photo"

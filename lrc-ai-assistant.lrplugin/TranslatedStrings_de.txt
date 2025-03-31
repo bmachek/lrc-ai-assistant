@@ -60,3 +60,26 @@
 "$$$/lrc-ai-assistant/PluginInfoDialogSections/ApiKeys=API Schlüssel"
 "$$$/lrc-ai-assistant/PluginInfoDialogSections/ContentValidateConfig=Inhalts- und Kontrollkonfiguration"
 "$$$/lrc-ai-assistant/PluginInfoDialogSections/exportSettings=Exporteinstellungen"
+
+
+
+
+"$$$/lrc-ai-assistant/ResponseStructure/ConfigureResponseStructure=Konfiguration der Datenzuordnung"
+"$$$/lrc-ai-assistant/ResponseStructure/Keywords=Stichwörter"
+
+"$$$/lrc-ai-assistant/ResponseStructure/ResetToDefaultKeywordStructure=Auf Standard Stichwortkategorien zurücksetzen?"
+"$$$/lrc-ai-assistant/ResponseStructure/ResetToDefault=Auf Standard zurücksetzen"
+"$$$/lrc-ai-assistant/ResponseStructure/AddKeywordCategory=Hinzufügen"
+"$$$/lrc-ai-assistant/ResponseStructure/NewKeywordCategory=Neue Kategorie"
+
+
+"$$$/lrc-ai-assistant/GenerateImageInfo/unsuccessful=KI Analyse fehlgeschlagen, bitte Log Dateien überprüfen."
+"$$$/lrc-ai-assistant/PluginInfoDialogSections/ShowLogFile=Logdatei anzeigen"
+
+"$$$/lrc-ai-assistant/Defaults/ResponseStructure/keywords/Nature=Natur"
+
+"$$$/lrc-ai-assistant/GenerateImageInfo/PreflightDialogTitle=Preflight Dialog"
+"$$$/lrc-ai-assistant/GenerateImageInfo/SkipPreflightFromHere=Für alle folgenden Fotos verwenden."
+
+"$$$/lrc-ai-assistant/GenerateImageInfo/PhotoContextDialogData=Kontext zum Foto"
+"$$$/lrc-ai-assistant/PluginInfoDialogSections/showPhotoContextDialog=Zeige den Foto Kontext Dialog."
