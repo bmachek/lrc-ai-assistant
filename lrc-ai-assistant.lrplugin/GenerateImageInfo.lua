@@ -166,19 +166,21 @@ local function addKeywordRecursively(photo, keywordSubTable, parent)
         local keyword
         if type(key) == 'string' and key ~= "" then
             photo.catalog:withWriteAccessDo("Create category keyword", function()
-                -- log:trace('Creating keyword: ' .. key)
-                keyword = photo.catalog:createKeyword(key, {}, false, parent, true)
-                -- photo:addKeyword(keyword)
+                -- Some ollama models return "None" or "none" if a keyword category is empty.
+                if key ~= "None" and key ~= "none" then
+                    keyword = photo.catalog:createKeyword(key, {}, false, parent, true)
+                end
             end)
         elseif type(key) == 'number' and value ~= nil and value ~= "" then
             photo.catalog:withWriteAccessDo("Create and add keyword", function()
-                -- log:trace('Creating keyword: ' .. value)
-                keyword = photo.catalog:createKeyword(value, {}, true, parent, true)
-                photo:addKeyword(keyword)
+                -- Some ollama models return "None" or "none" if a keyword category is empty.
+                if value ~= "None" and value ~= "none" then
+                    keyword = photo.catalog:createKeyword(value, {}, true, parent, true)
+                    photo:addKeyword(keyword)
+                end
             end)
         end
         if type(value) == 'table' then
-            -- log:trace('recurse')
             addKeywordRecursively(photo, value, keyword)
         end
     end
