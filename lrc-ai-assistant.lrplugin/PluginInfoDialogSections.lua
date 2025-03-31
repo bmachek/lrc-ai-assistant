@@ -24,6 +24,9 @@ function PluginInfoDialogSections.startDialog(propertyTable)
     propertyTable.showPreflightDialog = prefs.showPreflightDialog
     propertyTable.showPhotoContextDialog = prefs.showPhotoContextDialog
 
+    propertyTable.submitGPS = prefs.submitGPS
+    propertyTable.submitKeywords = prefs.submitKeywords
+
 end
 
 function PluginInfoDialogSections.sectionsForBottomOfDialog(f, propertyTable)
@@ -198,6 +201,26 @@ function PluginInfoDialogSections.sectionsForTopOfDialog(f, propertyTable)
                     },
                 },
                 f:row {
+                    f:static_text {
+                        title = "Submit existing metadata:",
+                        width = share 'labelWidth',
+                    },
+                    f:checkbox {
+                        value = bind 'submitGPS',
+                        width = share 'checkboxWidth',
+                    },
+                    f:static_text {
+                        title = "GPS",
+                    },
+                    f:checkbox {
+                        value = bind 'submitKeywords',
+                        width = share 'checkboxWidth',
+                    },
+                    f:static_text {
+                        title = "Keywords",
+                    },
+                },
+                f:row {
                     f:spacer {
                         width = share 'labelWidth',
                     },
@@ -278,6 +301,9 @@ function PluginInfoDialogSections.endDialog(propertyTable)
 
     prefs.showPreflightDialog = propertyTable.showPreflightDialog
     prefs.showPhotoContextDialog = propertyTable.showPhotoContextDialog
+
+    prefs.submitGPS = propertyTable.submitGPS
+    prefs.submitKeywords = propertyTable.submitKeywords
 
     prefs.logging = propertyTable.logging
     if propertyTable.logging then

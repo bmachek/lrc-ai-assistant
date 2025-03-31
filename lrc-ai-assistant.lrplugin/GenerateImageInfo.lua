@@ -325,6 +325,9 @@ local function showPreflightDialog()
     propertyTable.showCosts = prefs.showCosts
     propertyTable.showPhotoContextDialog = prefs.showPhotoContextDialog
 
+    propertyTable.submitGPS = prefs.submitGPS
+    propertyTable.submitKeywords = prefs.submitKeywords
+
 
     local dialogView = f:column {
         spacing = 10,
@@ -514,6 +517,9 @@ local function showPreflightDialog()
         prefs.ai = propertyTable.ai
         prefs.showCosts = propertyTable.showCosts
         prefs.showPhotoContextDialog = propertyTable.showPhotoContextDialog
+
+        prefs.submitGPS = propertyTable.submitGPS
+        prefs.submitKeywords = propertyTable.submitKeywords
         return true
     elseif result == "cancel" then
         return false
