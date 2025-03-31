@@ -4,8 +4,8 @@ SkipReviewCaptions = false
 SkipReviewTitles = false
 SkipReviewAltText = false
 SkipReviewKeywords = false
-SkipPreflightDialog = false
-PreflightData = ""
+SkipPhotoContextDialog = false
+PhotoContextData = ""
 
 local function validateText(typeOfText, text)
     local f = LrView.osFactory()
@@ -184,22 +184,94 @@ local function addKeywordRecursively(photo, keywordSubTable, parent)
     end
 end
 
-local function showPreflightDialog()
+local function showPhotoContextDialog(photo)
     local f = LrView.osFactory()
     local bind = LrView.bind
     local share = LrView.share
 
     local propertyTable = {}
-    propertyTable.skipFromHere = SkipPreflightDialog
-    propertyTable.preflightData = PreflightData
+    propertyTable.skipFromHere = SkipPhotoContextDialog
+    propertyTable.photoContextData = PhotoContextData
+
+    local tempDir = LrPathUtils.getStandardFilePath('temp')
+    local exportSettings = {
+        LR_export_destinationType = 'specificFolder',
+        LR_export_destinationPathPrefix = tempDir,
+        LR_export_useSubfolder = false,
+        LR_format = 'JPEG',
+        LR_jpeg_quality = 60,
+        LR_minimizeEmbeddedMetadata = true,
+        LR_outputSharpeningOn = false,
+        LR_size_doConstrain = true,
+        LR_size_maxHeight = 460,
+        LR_size_resizeType = 'longEdge',
+        LR_size_units = 'pixels',
+        LR_collisionHandling = 'rename',
+        LR_includeVideoFiles = false,
+        LR_removeLocationMetadata = true,
+        LR_embeddedMetadataOption = "copyrightOnly",
+    }
+
+    local exportSession = LrExportSession({
+        photosToExport = { photo },
+        exportSettings = exportSettings
+    })
+
+    local photoPath = ""
+    local renderSuccess = false
+    for _, rendition in exportSession:renditions() do
+        local success, path = rendition:waitForRender()
+        if success then
+            photoPath = path
+            renderSuccess = success
+        end
+    end
 
     local dialogView = f:column {
         bind_to_object = propertyTable,
         f:row {
+            f:static_text {
+                title = photo:getFormattedMetadata('fileName'),
+            },
+        },
+        f:row {
+            f:spacer {
+                height = 10,
+            },
+        },
+        f:row {
+            alignment = "center",
+            f:picture {
+                alignment = "center",
+                value = photoPath,
+                frame_width = 0,
+            },
+        },
+        f:row {
+            f:spacer {
+                height = 10,
+            },
+        },
+        f:row {
+            f:static_text {
+                title = LOC "$$$/lrc-ai-assistant/GenerateImageInfo/PhotoContextDialogData=Photo Context",
+            },
+        },
+        f:row {
+            f:spacer {
+                height = 10,
+            },
+        },
+        f:row {
             f:edit_field {
-                value = bind 'preflightData',
+                value = bind 'photoContextData',
                 width_in_chars = 40,
                 height_in_lines = 10,
+            },
+        },
+        f:row {
+            f:spacer {
+                height = 10,
             },
         },
         f:row {
@@ -213,18 +285,20 @@ local function showPreflightDialog()
     }
 
     local result = LrDialogs.presentModalDialog({
-        title = LOC "$$$/lrc-ai-assistant/GenerateImageInfo/PreflightDialogTitle=Preflight Dialog",
+        title = LOC "$$$/lrc-ai-assistant/GenerateImageInfo/PhotoContextDialogData=Photo Context",
         contents = dialogView,
     })
+
+    if renderSuccess then LrFileUtils.delete(photoPath) end
 
     SkipPreflightDialog = propertyTable.skipFromHere
 
     if result == "ok" then
-        PreflightData = propertyTable.preflightData
-        return PreflightData
+        PhotoContextData = propertyTable.photoContextData
+        return true
     elseif result == "cancel" then
-        PreflightData = ""
-        return PreflightData
+        PhotoContextData = ""
+        return false
     end
 end
 
@@ -275,10 +349,15 @@ local function exportAndAnalyzePhoto(photo, progressScope)
             
             log:trace("Export file size: " .. (LrFileUtils.fileAttributes(path).fileSize / 1024) .. "kB")
 
-            -- Preflight Dialog
-            if prefs.showPreflightDialog then
-                if not SkipPreflightDialog then showPreflightDialog() end
-                metadata.context = PreflightData
+            -- Photo Context Dialog
+            if prefs.showPhotoContextDialog then
+                if not SkipPhotoContextDialog then 
+                    local contextResult = showPhotoContextDialog(photo)
+                    if not contextResult then
+                        return false, 0, 0, "canceled", "Canceled by user in context dialog."
+                    end
+                end
+                metadata.context = PhotoContextData
             end
 
             local analyzeSuccess, result, inputTokens, outputTokens = ai:analyzeImage(path, metadata)

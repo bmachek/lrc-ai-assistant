@@ -78,3 +78,6 @@
 
 "$$$/lrc-ai-assistant/GenerateImageInfo/PreflightDialogTitle=Preflight Dialog"
 "$$$/lrc-ai-assistant/GenerateImageInfo/SkipPreflightFromHere=Use for all following pictures."
+
+"$$$/lrc-ai-assistant/GenerateImageInfo/PhotoContextDialogData=Photo Context"
+"$$$/lrc-ai-assistant/PluginInfoDialogSections/showPhotoContextDialog=Show Photo Context dialog"

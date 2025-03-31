@@ -66,7 +66,11 @@ function PluginInfoDialogSections.startDialog(propertyTable)
     end
 
     if prefs.showPreflightDialog == nil then
-        prefs.showPreflightDialog = false
+        prefs.showPreflightDialog = true
+    end
+
+    if prefs.showPhotoContextDialog == nil then
+        prefs.showPhotoContextDialog = true
     end
 
     propertyTable.logging = prefs.logging
@@ -89,6 +93,7 @@ function PluginInfoDialogSections.startDialog(propertyTable)
     propertyTable.showCosts = prefs.showCosts
 
     propertyTable.showPreflightDialog = prefs.showPreflightDialog
+    propertyTable.showPhotoContextDialog = prefs.showPhotoContextDialog
 
 end
 
@@ -276,6 +281,19 @@ function PluginInfoDialogSections.sectionsForTopOfDialog(f, propertyTable)
                         width = share 'labelWidth',
                     },
                 },
+                f:row {
+                    f:spacer {
+                        width = share 'labelWidth',
+                    },
+                    f:checkbox {
+                        value = bind 'showPhotoContextDialog',
+                        width = share 'checkboxWidth'
+                    },
+                    f:static_text {
+                        title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/showPhotoContextDialog=Show Photo Context dialog",
+                        width = share 'labelWidth',
+                    },
+                },
             },
 
             f:group_box {
@@ -330,6 +348,7 @@ function PluginInfoDialogSections.endDialog(propertyTable)
     prefs.showCosts = propertyTable.showCosts
 
     prefs.showPreflightDialog = propertyTable.showPreflightDialog
+    prefs.showPhotoContextDialog = propertyTable.showPhotoContextDialog
 
     prefs.logging = propertyTable.logging
     if propertyTable.logging then
