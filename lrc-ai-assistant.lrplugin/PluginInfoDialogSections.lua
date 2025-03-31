@@ -143,6 +143,17 @@ function PluginInfoDialogSections.sectionsForTopOfDialog(f, propertyTable)
                     }
                 },
                 f:row {
+                    f:spacer {
+                        width = share 'labelWidth',
+                    },
+                    f:push_button {
+                        title = "Defaults",
+                        action = function (button)
+                            propertyTable.task = Defaults.defaultTask
+                        end,
+                    },
+                },
+                f:row {
                     f:static_text {
                         width = share 'labelWidth',
                         title = "System instruction:",
@@ -154,6 +165,17 @@ function PluginInfoDialogSections.sectionsForTopOfDialog(f, propertyTable)
                         height_in_lines = 5,
                         wraps = true,
                     }
+                },
+                f:row {
+                    f:spacer {
+                        width = share 'labelWidth',
+                    },
+                    f:push_button {
+                        title = "Defaults",
+                        action = function (button)
+                            propertyTable.systemInstruction = Defaults.defaultSystemInstruction
+                        end,
+                    },
                 },
             },
             f:group_box {
