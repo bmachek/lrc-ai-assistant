@@ -116,10 +116,10 @@ end
 function GeminiAPI:analyzeImage(filePath, metadata)
     local task = prefs.task
     if metadata ~= nil then
-        if metadata.gps ~= nil then
+        if prefs.submitGPS and metadata.gps ~= nil then
             task = task .. " " .. LOC "$$$/lrc-ai-assistant/GeminiAPI/gpsAddon=This photo was taken at the following coordinates:" .. metadata.gps.latitude .. ", " .. metadata.gps.longitude
         end
-        if metadata.keywords ~= nil then
+        if prefs.submitKeywords and metadata.keywords ~= nil then
             task = task .. " " .. LOC "$$$/lrc-ai-assistant/GeminiAPI/keywordAddon=Some keywords are:" .. metadata.keywords
         end
         if metadata.context ~= nil and metadata.context ~= "" then

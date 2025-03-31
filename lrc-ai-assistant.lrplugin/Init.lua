@@ -118,6 +118,13 @@ if _G.prefs.systemInstruction == nil then
     _G.prefs.systemInstruction = Defaults.defaultSystemInstruction
 end
 
+if _G.prefs.submitKeywords == nil then
+    _G.prefs.submitKeywords = true
+end
+
+if _G.prefs.submitGPS == nil then
+    _G.prefs.submitGPS = true
+end
 
 function _G.JSON.assert(b, m)
     LrDialogs.showError("Error decoding JSON response.")

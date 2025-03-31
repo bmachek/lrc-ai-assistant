@@ -369,6 +369,27 @@ local function showPreflightDialog()
         f:row {
             f:static_text {
                 width = share 'labelWidth',
+                alignment = "right",
+                title = "Submit:",
+            },
+            f:checkbox {
+                value = bind 'submitKeywords',
+                width = share 'checkboxWidth',
+            },
+            f:static_text {
+                title = "Existing keywords"
+            },
+            f:checkbox {
+                value = bind 'submitGPS',
+                width = share 'checkboxWidth',
+            },
+            f:static_text {
+                title = "GPS coordinates"
+            },
+        },
+        f:row {
+            f:static_text {
+                width = share 'labelWidth',
                 title = "Costs:",
                 alignment = "right",
             },
