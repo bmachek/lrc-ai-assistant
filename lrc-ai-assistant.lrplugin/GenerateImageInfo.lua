@@ -660,7 +660,7 @@ local function exportAndAnalyzePhoto(photo, progressScope)
                 end
             end)
 
-            if keywords ~= nil and type(keywords) == 'table' and #keywords > 0 then
+            if keywords ~= nil and type(keywords) == 'table' then
                 local topKeyword
                 photo.catalog:withWriteAccessDo("$$$/lrc-ai-assistant/GenerateImageInfo/saveTopKeyword=Save AI generated keywords", function()
                     topKeyword = photo.catalog:createKeyword(ai.topKeyword, {}, false, nil, true)
