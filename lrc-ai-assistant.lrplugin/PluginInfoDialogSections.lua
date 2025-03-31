@@ -27,6 +27,9 @@ function PluginInfoDialogSections.startDialog(propertyTable)
     propertyTable.submitGPS = prefs.submitGPS
     propertyTable.submitKeywords = prefs.submitKeywords
 
+    propertyTable.task = prefs.task
+    propertyTable.systemInstruction = prefs.systemInstruction
+
 end
 
 function PluginInfoDialogSections.sectionsForBottomOfDialog(f, propertyTable)
@@ -121,6 +124,36 @@ function PluginInfoDialogSections.sectionsForTopOfDialog(f, propertyTable)
                         width = share 'inputWidth',
                         width_in_chars = 40,
                     },
+                },
+            },
+            f:group_box {
+                width = share 'groupBoxWidth',
+                title = "Prompts",
+                f:row {
+                    f:static_text {
+                        width = share 'labelWidth',
+                        title = "Task:",
+                        alignment = "right",
+                    },
+                    f:edit_field {
+                        value = bind 'task',
+                        width_in_chars = 40,
+                        height_in_lines = 5,
+                        wraps = true,
+                    }
+                },
+                f:row {
+                    f:static_text {
+                        width = share 'labelWidth',
+                        title = "System instruction:",
+                        alignment = "right",
+                    },
+                    f:edit_field {
+                        value = bind 'systemInstruction',
+                        width_in_chars = 40,
+                        height_in_lines = 5,
+                        wraps = true,
+                    }
                 },
             },
             f:group_box {
@@ -304,6 +337,9 @@ function PluginInfoDialogSections.endDialog(propertyTable)
 
     prefs.submitGPS = propertyTable.submitGPS
     prefs.submitKeywords = propertyTable.submitKeywords
+
+    prefs.task = propertyTable.task
+    prefs.systemInstruction = propertyTable.systemInstruction
 
     prefs.logging = propertyTable.logging
     if propertyTable.logging then
