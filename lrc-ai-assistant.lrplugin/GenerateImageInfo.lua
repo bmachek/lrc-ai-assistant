@@ -302,6 +302,203 @@ local function showPhotoContextDialog(photo)
     end
 end
 
+local function showPreflightDialog()
+    local f = LrView.osFactory()
+    local bind = LrView.bind
+    local share = LrView.share
+
+    local propertyTable = {}
+    propertyTable.task = prefs.task
+    propertyTable.systemInstruction = prefs.systemInstruction
+
+    propertyTable.generateTitle = prefs.generateTitle
+    propertyTable.generateCaption = prefs.generateCaption
+    propertyTable.generateKeywords = prefs.generateKeywords
+    propertyTable.generateAltText = prefs.generateAltText
+
+    propertyTable.reviewTitle = prefs.reviewTitle
+    propertyTable.reviewCaption = prefs.reviewCaption
+    propertyTable.reviewKeywords = prefs.reviewKeywords
+    propertyTable.reviewAltText = prefs.reviewAltText
+
+    propertyTable.ai = prefs.ai
+    propertyTable.showCosts = prefs.showCosts
+    propertyTable.showPhotoContextDialog = prefs.showPhotoContextDialog
+
+
+    local dialogView = f:column {
+        spacing = 10,
+        bind_to_object = propertyTable,
+        f:row {
+            f:static_text {
+                width = share 'labelWidth',
+                title = "Model:",
+                alignment = "right",
+            },
+            f:popup_menu {
+                value = bind 'ai',
+                items = Defaults.aiModels,
+            },
+        },
+        f:row {
+            f:static_text {
+                width = share 'labelWidth',
+                title = "Task:",
+                alignment = "right",
+            },
+            f:edit_field {
+                value = bind 'task',
+                width_in_chars = 40,
+                height_in_lines = 5,
+                wraps = true,
+            }
+        },
+        f:row {
+            f:static_text {
+                width = share 'labelWidth',
+                title = "System instruction:",
+                alignment = "right",
+            },
+            f:edit_field {
+                value = bind 'systemInstruction',
+                width_in_chars = 40,
+                height_in_lines = 5,
+                wraps = true,
+            }
+        },
+        f:row {
+            f:static_text {
+                width = share 'labelWidth',
+                title = "Costs:",
+                alignment = "right",
+            },
+            f:checkbox {
+                value = bind 'showCosts',
+                width = share 'checkboxWidth'
+            },
+            f:static_text {
+                title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/showCosts=Show costs (without any warranty!!!)",
+            },
+        },
+        f:row {
+            f:static_text {
+                title = "Generate:",
+                alignment = 'right',
+                width = share 'labelWidth',
+            },
+            f:checkbox {
+                value = bind 'generateCaption',
+                width = share 'checkboxWidth',
+            },
+            f:static_text {
+                title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/caption=Caption",
+            },
+            f:checkbox {
+                value = bind 'generateAltText',
+                width = share 'checkboxWidth',
+            },
+            f:static_text {
+                title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/alttext=Alt Text",
+            },
+            f:checkbox {
+                value = bind 'generateTitle',
+                width = share 'checkboxWidth',
+            },
+            f:static_text {
+                title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/title=Title",
+            },
+            f:checkbox {
+                value = bind 'generateKeywords',
+                width = share 'checkboxWidth',
+            },
+            f:static_text {
+                title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/keywords=Keywords",
+            },
+        },
+        f:row {
+            f:static_text {
+                title = "Validate:",
+                alignment = 'right',
+                width = share 'labelWidth',
+            },
+            f:checkbox {
+                value = bind 'reviewCaption',
+                width = share 'checkboxWidth',
+                enabled = bind 'generateCaption',
+            },
+            f:static_text {
+                title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/caption=Caption",
+            },
+            f:checkbox {
+                value = bind 'reviewAltText',
+                width = share 'checkboxWidth',
+                enabled = bind 'generateAltText',
+            },
+            f:static_text {
+                title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/alttext=Alt Text",
+            },
+            f:checkbox {
+                value = bind 'reviewTitle',
+                width = share 'checkboxWidth',
+                enabled = bind 'generateTitle',
+            },
+            f:static_text {
+                title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/title=Title",
+            },
+            f:checkbox {
+                value = bind 'reviewKeywords',
+                width = share 'checkboxWidth',
+                enabled = false,
+            },
+            f:static_text {
+                title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/keywords=Keywords",
+            },
+        },
+        f:row {
+            f:static_text {
+                title = "Context:",
+                width = share 'labelWidth',
+                alignment = "right",
+            },
+            f:checkbox {
+                value = bind 'showPhotoContextDialog',
+                width = share 'checkboxWidth'
+            },
+            f:static_text {
+                title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/showPhotoContextDialog=Show Photo Context dialog",
+                width = share 'labelWidth',
+            },
+        },
+    }
+
+    local result = LrDialogs.presentModalDialog({
+        title = LOC "$$$/lrc-ai-assistant/GenerateImageInfo/PreflightDialogTitle=Preflight Dialog",
+        contents = dialogView,
+    })
+
+    if result == "ok" then
+        prefs.task = propertyTable.task
+        prefs.systemInstruction = propertyTable.systemInstruction
+    
+        prefs.generateTitle = propertyTable.generateTitle
+        prefs.generateCaption = propertyTable.generateCaption
+        prefs.generateKeywords = propertyTable.generateKeywords
+        prefs.generateAltText = propertyTable.generateAltText
+    
+        prefs.reviewTitle = propertyTable.reviewTitle
+        prefs.reviewCaption = propertyTable.reviewCaption
+        prefs.reviewKeywords = propertyTable.reviewKeywords
+        prefs.reviewAltText = propertyTable.reviewAltText
+    
+        prefs.ai = propertyTable.ai
+        prefs.showCosts = propertyTable.showCosts
+        prefs.showPhotoContextDialog = propertyTable.showPhotoContextDialog
+        return true
+    elseif result == "cancel" then
+        return false
+    end
+end
+
 local function exportAndAnalyzePhoto(photo, progressScope)
     local tempDir = LrPathUtils.getStandardFilePath('temp')
     local photoName = LrPathUtils.leafName(photo:getFormattedMetadata('fileName'))
@@ -474,6 +671,14 @@ LrTasks.startAsyncTask(function()
         if not prefs.generateCaption and not prefs.generateTitle and not prefs.generateKeywords and not prefs.generateAltText then
             LrDialogs.showError(LOC "$$$/lrc-ai-assistant/GenerateImageInfo/nothingToGenerate=Nothing selected to generate, check add-on manager settings.")
             return
+        end
+
+        if prefs.showPreflightDialog then
+            local preflightResult = showPreflightDialog()
+            if not preflightResult then
+                log:trace("Canceled by preflight dialog")
+                return false
+            end
         end
 
         local progressScope = LrProgressScope({

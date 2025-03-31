@@ -69,7 +69,7 @@ end
 
 
 function OllamaAPI:analyzeImage(filePath, metadata)
-    local task = Defaults.defaultTask
+    local task = prefs.task
     if metadata ~= nil then
         if metadata.gps ~= nil then
             task = task .. " " .. LOC "$$$/lrc-ai-assistant/ChatGptAPI/gpsAddon=This photo was taken at the following coordinates:" .. metadata.gps.latitude .. ", " .. metadata.gps.longitude
@@ -83,7 +83,7 @@ function OllamaAPI:analyzeImage(filePath, metadata)
         end
     end
 
-    local success, result, inputTokenCount, outputTokenCount = self:doRequest(filePath, task, Defaults.defaultSystemInstruction, ResponseStructure:new():generateResponseStructure())
+    local success, result, inputTokenCount, outputTokenCount = self:doRequest(filePath, task, prefs.systemInstruction, ResponseStructure:new():generateResponseStructure())
     if success then
         return success, result, inputTokenCount, outputTokenCount
     end
