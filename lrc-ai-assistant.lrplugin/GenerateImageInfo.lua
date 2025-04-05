@@ -293,7 +293,7 @@ local function showPhotoContextDialog(photo)
 
     if renderSuccess then LrFileUtils.delete(photoPath) end
 
-    SkipPreflightDialog = propertyTable.skipFromHere
+    SkipPhotoContextDialog = propertyTable.skipFromHere
 
     if result == "ok" then
         PhotoContextData = propertyTable.photoContextData
