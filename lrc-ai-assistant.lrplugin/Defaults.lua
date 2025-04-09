@@ -79,6 +79,7 @@ Defaults.aiModels = {
     { title = 'Ollama llama3.2-vision', value = 'ollama-llama3.2-vision' },
     { title = 'Ollama llava', value = 'ollama-llava' },
     { title = 'Ollama gemma3', value = 'ollama-gemma3' },
+    { title = 'Ollama mistral-small3.1', value = 'ollama-mistral-small3.1' },
 }
 
 Defaults.exportSizes = {

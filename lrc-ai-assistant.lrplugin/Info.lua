@@ -8,7 +8,7 @@ return {
 	LrPluginInfoProvider = 'PluginInfo.lua',
 	LrPluginInfoURL = 'https://github.com/bmachek/lrc-ai-assistant',
 
-	VERSION = { major = 3, minor = 3, revision = 1, build = 0, },
+	VERSION = { major = 3, minor = 4, revision = 0, build = 0, },
 
 	LrLibraryMenuItems = {
 		{
