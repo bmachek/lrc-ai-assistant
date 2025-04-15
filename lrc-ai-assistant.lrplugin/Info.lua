@@ -6,9 +6,9 @@ return {
 	LrPluginName = LOC "$$$/lrc-ai-assistant/Info/PluginName=Lightroom AI assistant",
 	LrInitPlugin = "Init.lua",
 	LrPluginInfoProvider = 'PluginInfo.lua',
-	LrPluginInfoURL = 'https://github.com/bmachek/lrc-ai-assistant',
+	LrPluginInfoURL = 'https://blog.fokuspunk.de/lrc-ai-assistant/',
 
-	VERSION = { major = 3, minor = 4, revision = 0, build = 0, },
+	VERSION = { major = 3, minor = 5, revision = 0, build = 0, },
 
 	LrLibraryMenuItems = {
 		{

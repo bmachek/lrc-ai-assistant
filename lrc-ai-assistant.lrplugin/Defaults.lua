@@ -75,6 +75,9 @@ Defaults.aiModels = {
     { title = "Google Gemini Pro 2.5 (experimental)", value = "gemini-2.5-pro-exp-03-25" },
     { title = "ChatGPT-4", value = "gpt-4o" },
     { title = "ChatGPT-4 Mini", value = "gpt-4o-mini" },
+    { title = "ChatGPT 4.1", value = "gpt-4.1" },
+    { title = "ChatGPT 4.1 Mini", value = "gpt-4.1-mini" },
+    { title = "ChatGPT 4.1 Nano", value = "gpt-4.1-nano" },
     { title = 'Ollama deepseek-r1', value = 'ollama-deepseek-r1' },
     { title = 'Ollama llama3.2-vision', value = 'ollama-llama3.2-vision' },
     { title = 'Ollama llava', value = 'ollama-llava' },
@@ -91,8 +94,14 @@ Defaults.baseUrls['gemini-1.5-pro'] = 'https://generativelanguage.googleapis.com
 Defaults.baseUrls['gemini-2.0-flash'] = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key='
 Defaults.baseUrls['gemini-2.0-flash-lite'] = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key='
 Defaults.baseUrls['gemini-2.5-pro-exp-03-25'] = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro-exp-03-25:generateContent?key='
+
 Defaults.baseUrls['gpt-4o'] = 'https://api.openai.com/v1/chat/completions'
 Defaults.baseUrls['gpt-4o-mini'] = 'https://api.openai.com/v1/chat/completions'
+
+Defaults.baseUrls['gpt-4.1'] = 'https://api.openai.com/v1/chat/completions'
+Defaults.baseUrls['gpt-4.1-mini'] = 'https://api.openai.com/v1/chat/completions'
+Defaults.baseUrls['gpt-4.1-nano'] = 'https://api.openai.com/v1/chat/completions'
+
 Defaults.baseUrls['ollama'] = 'http://localhost:11434/v1/chat/completions'
 
 Defaults.pricing = {}
@@ -115,8 +124,20 @@ Defaults.pricing["gpt-4o-mini"] = {}
 Defaults.pricing["gpt-4o-mini"].input = 0.15 / 1000000
 Defaults.pricing["gpt-4o-mini"].output= 0.6 / 1000000
 
+Defaults.pricing["gpt-4.1"] = {}
+Defaults.pricing["gpt-4.1"].input = 2 / 1000000
+Defaults.pricing["gpt-4.1"].output= 8 / 1000000
 
-Defaults.defaultAiModel = "gpt-4o-mini"
+Defaults.pricing["gpt-4.1-mini"] = {}
+Defaults.pricing["gpt-4.1-mini"].input = 0.4 / 1000000
+Defaults.pricing["gpt-4.1-mini"].output= 1.6 / 1000000
+
+Defaults.pricing["gpt-4.1-nano"] = {}
+Defaults.pricing["gpt-4.1-nano"].input = 0.1 / 1000000
+Defaults.pricing["gpt-4.1-nano"].output= 0.4 / 1000000
+
+
+Defaults.defaultAiModel = "gpt-4.1-nano"
 
 Defaults.defaultExportSize = "2048"
 Defaults.defaultExportQuality = 50
