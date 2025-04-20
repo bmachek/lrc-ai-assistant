@@ -79,3 +79,7 @@
 
 "$$$/lrc-ai-assistant/GenerateImageInfo/PhotoContextDialogData=Photo Context"
 "$$$/lrc-ai-assistant/PluginInfoDialogSections/showPhotoContextDialog=Show Photo Context dialog"
+
+"$$$/lrc-ai-assistant/AIMetadataProvider/aiLastRun=Last AI run"
+"$$$/lrc-ai-assistant/AIMetadataProvider/aiModel=AI model"
+"$$$/lrc-ai-assistant/AIMetadataProvider/photoContext=Photo context"

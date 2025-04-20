@@ -53,8 +53,6 @@ local function validateText(typeOfText, text)
     return propertyTable
 end
 
-
-
 local function showUsedTokensDialog(totalInputTokens, totalOutputTokens)
     if Defaults.pricing[prefs.ai] == nil then
         log:trace("No cost information for selected AI model, not showing usedTokenDialog.")
@@ -193,6 +191,10 @@ local function showPhotoContextDialog(photo)
 
     local propertyTable = {}
     propertyTable.skipFromHere = SkipPhotoContextDialog
+    local photoContextFromCatalog = photo:getPropertyForPlugin(_PLUGIN, 'photoContext')
+    if photoContextFromCatalog ~= nil then
+        PhotoContextData = photoContextFromCatalog
+    end
     propertyTable.photoContextData = PhotoContextData
 
     local tempDir = LrPathUtils.getStandardFilePath('temp')
@@ -531,6 +533,7 @@ end
 local function exportAndAnalyzePhoto(photo, progressScope)
     local tempDir = LrPathUtils.getStandardFilePath('temp')
     local photoName = LrPathUtils.leafName(photo:getFormattedMetadata('fileName'))
+    local catalog = LrApplication.activeCatalog()
 
     local exportSettings = {
         LR_export_destinationType = 'specificFolder',
@@ -577,13 +580,18 @@ local function exportAndAnalyzePhoto(photo, progressScope)
 
             -- Photo Context Dialog
             if prefs.showPhotoContextDialog then
-                if not SkipPhotoContextDialog then 
+                if not SkipPhotoContextDialog then
                     local contextResult = showPhotoContextDialog(photo)
                     if not contextResult then
                         return false, 0, 0, "canceled", "Canceled by user in context dialog."
                     end
                 end
                 metadata.context = PhotoContextData
+                catalog:withPrivateWriteAccessDo(function(context)
+                        log:trace("Saving photo context data to metadata.")
+                        photo:setPropertyForPlugin(_PLUGIN, 'photoContext', PhotoContextData)
+                    end
+                )
             end
 
             local analyzeSuccess, result, inputTokens, outputTokens = ai:analyzeImage(path, metadata)
@@ -673,6 +681,16 @@ local function exportAndAnalyzePhoto(photo, progressScope)
 
             -- Delete temp file.
             LrFileUtils.delete(path)
+
+            -- Save metadata informations to catalog.
+            catalog:withPrivateWriteAccessDo(function(context)
+                log:trace("Save AI run model and date to metadata")
+                photo:setPropertyForPlugin(_PLUGIN, 'aiModel', prefs.ai)
+                local offset, daylight = LrDate.timeZone()
+                local lastRunDateTime = LrDate.timeToW3CDate(LrDate.currentTime() + offset)
+                photo:setPropertyForPlugin(_PLUGIN, 'aiLastRun', lastRunDateTime)
+            end
+        )
 
             if canceledByUser then
                return false, inputTokens, outputTokens, "canceled", "Canceled by user."

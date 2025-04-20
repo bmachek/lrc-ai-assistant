@@ -10,6 +10,9 @@ return {
 
 	VERSION = { major = 3, minor = 5, revision = 0, build = 0, },
 
+	LrMetadataProvider = "AIMetadataProvider.lua",
+
+
 	LrLibraryMenuItems = {
 		{
 			title = LOC "$$$/lrc-ai-assistant/Info/GenerateImageInfo/Title=Analyze photos with AI",
