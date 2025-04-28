@@ -16,3 +16,7 @@ I have to pay fees at Google, because developing the plugin requires testing, wh
 * @gesteves for [his plugin](https://github.com/gesteves/lightroom-alt-text-plugin), which gave me the idea for this one, and on which the source code is based on.
 * @kikito for [inspect.lua](http://github.com/kikito/inspect.lua)
 * Jeffrey Friedl for [JSON.lua](http://regex.info/blog/lua/json)
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=bmachek/lrc-ai-assistant&type=Date)](https://www.star-history.com/#bmachek/lrc-ai-assistant&Date)
