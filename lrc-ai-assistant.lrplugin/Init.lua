@@ -26,6 +26,11 @@ _G.JSON = require "JSON"
 _G.inspect = require 'inspect'
 require "Util"
 require "Defaults"
+require "AiModelAPI"
+require "GeminiAPI"
+require "ChatGptAPI"
+require "OllamaAPI"
+require "ResponseStructure"
 
 -- Global initializations
 _G.prefs = _G.LrPrefs.prefsForPlugin()

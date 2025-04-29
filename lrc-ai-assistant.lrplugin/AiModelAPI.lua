@@ -1,8 +1,3 @@
-require "GeminiAPI"
-require "ChatGptAPI"
-require "OllamaAPI"
-require "ResponseStructure"
-
 
 AiModelAPI = {}
 AiModelAPI.__index = AiModelAPI

@@ -68,9 +68,15 @@ function PluginInfoDialogSections.sectionsForBottomOfDialog(f, propertyTable)
 end
 
 function PluginInfoDialogSections.sectionsForTopOfDialog(f, propertyTable)
+
     local bind = LrView.bind
     local share = LrView.share
 
+    LrTasks.startAsyncTask(function (context)
+            propertyTable.models = Defaults.getAvailableAiModels()
+        end
+    )
+    
     return {
 
         {
@@ -84,7 +90,7 @@ function PluginInfoDialogSections.sectionsForTopOfDialog(f, propertyTable)
                 f:row {
                     f:popup_menu {
                         value = bind 'ai',
-                        items = Defaults.getAvailableAiModels(),
+                        items = bind 'models',
                     },
                     f:static_text {
                         title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/showCosts=Show costs (without any warranty!!!)",
