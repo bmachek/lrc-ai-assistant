@@ -110,6 +110,7 @@ function ResponseStructure:generateResponseStructure()
         return {
             response_mime_type = "application/json",
             response_schema = result,
+            temperature = prefs.temperature, -- Dirty -- FIXME probably
         }
     elseif self.ai == 'ollama' then
         return {

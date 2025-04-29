@@ -1,6 +1,70 @@
 OllamaAPI = {}
 OllamaAPI.__index = OllamaAPI
 
+function OllamaAPI.getModelInfo(model)
+    local body = { model = model }
+
+    local response, headers = LrHttp.post(Defaults.ollamaModelInfoUrl, JSON:encode(body))
+
+    if headers.status == 200 then
+        if response ~= nil then
+            log:trace(response)
+            local decoded = JSON:decode(response)
+            if decoded ~= nil then
+                return decoded
+            end
+        else
+            log:error('Got empty response from Ollama')
+        end
+    else
+        log:error('OllamaAPI POST request failed. ' .. Defaults.ollamaModelInfoUrl)
+        log:error(Util.dumpTable(headers))
+        log:error(response)
+        return nil
+    end
+    return nil
+end
+
+
+function OllamaAPI.getLocalVisionModels()
+    local response, headers = LrHttp.get(Defaults.ollamaListModelUrl)
+
+    if headers.status == 200 then
+        if response ~= nil then
+            log:trace(response)
+            local decoded = JSON:decode(response)
+            if decoded ~= nil then
+                local ollamaModels = {}
+                if decoded.models ~= nil and type(decoded.models) == "table" then
+                    for _, model in ipairs(decoded.models) do
+                        local name = model.name
+                        log:trace("Found local installed Ollama model: " .. name)
+
+                        local modelInfo = OllamaAPI.getModelInfo(name)
+                        if modelInfo ~= nil and type(modelInfo) == "table" then
+                           if Util.table_contains(modelInfo.capabilities, "vision") then
+                                log:trace(name .. " has capability vision! Adding it to the list of available models.")
+                                table.insert(ollamaModels, { title = "Ollama " .. name , value = 'ollama-' .. name })
+                           else
+                                log:trace(name .. " does not have capability vision! Not Adding it to the list of available models.")
+                           end
+                        end
+                    end
+                end
+                return ollamaModels
+            end
+        else
+            log:error('Got empty response from Ollama')
+        end
+    else
+        log:error('OllamaAPI GET request failed. ' .. Defaults.ollamaListModelUrl)
+        log:error(Util.dumpTable(headers))
+        log:error(response)
+        return nil
+    end
+    return nil
+end
+
 function OllamaAPI:new()
     local o = setmetatable({}, OllamaAPI)
     self.model = prefs.ai
@@ -34,7 +98,8 @@ function OllamaAPI:doRequest(filePath, task, systemInstruction, generationConfig
                     }
                 }
             }
-        }
+        },
+        temperature = prefs.temperature,
     }
 
     log:trace(Util.dumpTable(body))
@@ -57,7 +122,7 @@ function OllamaAPI:doRequest(filePath, task, systemInstruction, generationConfig
                 end
             end
         else
-            log:error('Got empty response from ChatGPT')
+            log:error('Got empty response from Ollama')
         end
     else
         log:error('OllamaAPI POST request failed. ' .. self.url)

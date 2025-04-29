@@ -84,7 +84,7 @@ function PluginInfoDialogSections.sectionsForTopOfDialog(f, propertyTable)
                 f:row {
                     f:popup_menu {
                         value = bind 'ai',
-                        items = Defaults.aiModels,
+                        items = Defaults.getAvailableAiModels(),
                     },
                     f:static_text {
                         title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/showCosts=Show costs (without any warranty!!!)",

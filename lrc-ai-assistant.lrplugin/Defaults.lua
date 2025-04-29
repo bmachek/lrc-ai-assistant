@@ -3,6 +3,8 @@ Defaults = {}
 Defaults.defaultTask = LOC "$$$/lrc-ai-assistant/Defaults/defaultTask=Describe the image contents, including all recognized objects."
 Defaults.defaultSystemInstruction = LOC "$$$/lrc-ai-assistant/Defaults/defaultSystemInstruction=You are classifying images for photo management. Be very specific and detailed."
 
+Defaults.defaultTemperature = 0.1
+
 Defaults.defaultKeywordCategories = {
     LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/keywords/Activities=Activities",
     LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/keywords/Buildings=Buildings",
@@ -68,7 +70,7 @@ Defaults.targetDataFields = {
     { title = LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/ImageAltText=Image Alt Text", value = "altTextAccessibility" },
 }
 
-Defaults.aiModels = {
+local aiModels = {
     { title = "Google Gemini Pro 1.5", value = "gemini-1.5-pro" },
     { title = "Google Gemini Flash 2.0", value = "gemini-2.0-flash" },
     { title = "Google Gemini Flash 2.0 Lite", value = "gemini-2.0-flash-lite" },
@@ -78,12 +80,29 @@ Defaults.aiModels = {
     { title = "ChatGPT 4.1", value = "gpt-4.1" },
     { title = "ChatGPT 4.1 Mini", value = "gpt-4.1-mini" },
     { title = "ChatGPT 4.1 Nano", value = "gpt-4.1-nano" },
-    { title = 'Ollama deepseek-r1', value = 'ollama-deepseek-r1' },
-    { title = 'Ollama llama3.2-vision', value = 'ollama-llama3.2-vision' },
-    { title = 'Ollama llava', value = 'ollama-llava' },
-    { title = 'Ollama gemma3', value = 'ollama-gemma3' },
-    { title = 'Ollama mistral-small3.1', value = 'ollama-mistral-small3.1' },
+    -- { title = 'Ollama deepseek-r1', value = 'ollama-deepseek-r1' },
+    -- { title = 'Ollama llama3.2-vision', value = 'ollama-llama3.2-vision' },
+    -- { title = 'Ollama llava', value = 'ollama-llava' },
+    -- { title = 'Ollama gemma3', value = 'ollama-gemma3' },
+    -- { title = 'Ollama gemma3:12b', value = 'ollama-gemma3:12b' },
+    -- { title = 'Ollama mistral-small3.1', value = 'ollama-mistral-small3.1' },
 }
+
+function Defaults.getAvailableAiModels()
+
+    local result = aiModels
+    local ollamaModels = OllamaAPI.getLocalVisionModels()
+
+    if ollamaModels ~= nil then
+        for _, model in ipairs(ollamaModels) do
+            table.insert(result, model)
+        end
+    end
+
+    log:trace("getAvailableAiModels: " .. Util.dumpTable(result))
+
+    return result
+end
 
 Defaults.exportSizes = {
     "512", "1024", "2048", "3072", "4096"
@@ -95,14 +114,16 @@ Defaults.baseUrls['gemini-2.0-flash'] = 'https://generativelanguage.googleapis.c
 Defaults.baseUrls['gemini-2.0-flash-lite'] = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key='
 Defaults.baseUrls['gemini-2.5-pro-exp-03-25'] = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro-exp-03-25:generateContent?key='
 
-Defaults.baseUrls['gpt-4o'] = 'https://api.openai.com/v1/chat/completions'
-Defaults.baseUrls['gpt-4o-mini'] = 'https://api.openai.com/v1/chat/completions'
+Defaults.baseUrls['gpt-4o'] = 'https://api.openai.com/v1/responses'
+Defaults.baseUrls['gpt-4o-mini'] = 'https://api.openai.com/v1/responses'
 
-Defaults.baseUrls['gpt-4.1'] = 'https://api.openai.com/v1/chat/completions'
-Defaults.baseUrls['gpt-4.1-mini'] = 'https://api.openai.com/v1/chat/completions'
-Defaults.baseUrls['gpt-4.1-nano'] = 'https://api.openai.com/v1/chat/completions'
+Defaults.baseUrls['gpt-4.1'] = 'https://api.openai.com/v1/responses'
+Defaults.baseUrls['gpt-4.1-mini'] = 'https://api.openai.com/v1/responses'
+Defaults.baseUrls['gpt-4.1-nano'] = 'https://api.openai.com/v1/responses'
 
 Defaults.baseUrls['ollama'] = 'http://localhost:11434/v1/chat/completions'
+Defaults.ollamaListModelUrl = 'http://localhost:11434/api/tags'
+Defaults.ollamaModelInfoUrl = 'http://localhost:11434/api/show'
 
 Defaults.pricing = {}
 Defaults.pricing["gemini-1.5-pro"] = {}

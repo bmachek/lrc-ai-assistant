@@ -126,6 +126,10 @@ if _G.prefs.submitGPS == nil then
     _G.prefs.submitGPS = true
 end
 
+if _G.prefs.temperature == nil then
+    _G.prefs.temperature = Defaults.defaultTemperature
+end
+
 function _G.JSON.assert(b, m)
     LrDialogs.showError("Error decoding JSON response.")
 end

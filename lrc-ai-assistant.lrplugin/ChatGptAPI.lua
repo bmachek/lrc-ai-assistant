@@ -41,7 +41,8 @@ function ChatGptAPI:doRequest(filePath, task, systemInstruction, generationConfi
                         }
                     }
                 }
-            }
+            },
+            temperature = prefs.temperature,
         }
     }
 

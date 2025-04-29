@@ -77,7 +77,7 @@ local function showUsedTokensDialog(totalInputTokens, totalOutputTokens)
         local inputCosts = totalInputTokens * inputCostPerToken
         local outputCosts = totalOutputTokens * outputCostPerToken
         local totalCosts = inputCosts + outputCosts
-        -- LrDialogs.message(LOC("$$$/lrc-ai-assistant/GenerateImageInfo/UsedTokens=Used tokens during process\nInput tokens: ^1 (USD ^3)\nOutput tokens: ^2 (USD ^4)\nTotal costs: USD ^5", totalInputTokens, totalOutputTokens, inputCosts, outputCosts, totalCosts))
+
         local f = LrView.osFactory()
         local share = LrView.share
         local dialog = {}
@@ -332,6 +332,8 @@ local function showPreflightDialog()
     propertyTable.submitGPS = prefs.submitGPS
     propertyTable.submitKeywords = prefs.submitKeywords
 
+    propertyTable.temperature = prefs.temperature
+
 
     local dialogView = f:column {
         spacing = 10,
@@ -344,7 +346,26 @@ local function showPreflightDialog()
             },
             f:popup_menu {
                 value = bind 'ai',
-                items = Defaults.aiModels,
+                items = Defaults.getAvailableAiModels(),
+            },
+        },
+        f:row {
+            f:static_text {
+                width = share 'labelWidth',
+                title = "AI behavior:",
+                alignment = "right",
+            },
+            f:static_text {
+                title = "Be coherent"
+            },
+            f:slider {
+                value = bind 'temperature',
+                min = 0.0,
+                max = 1.0,
+                immediate = true,
+            },
+            f:static_text {
+                title = "Be creative"
             },
         },
         f:row {
@@ -524,6 +545,9 @@ local function showPreflightDialog()
 
         prefs.submitGPS = propertyTable.submitGPS
         prefs.submitKeywords = propertyTable.submitKeywords
+
+        prefs.temperature = propertyTable.temperature
+        
         return true
     elseif result == "cancel" then
         return false
