@@ -90,9 +90,12 @@ local aiModels = {
 
 function Defaults.getAvailableAiModels()
 
-    local result = aiModels
-    local ollamaModels = OllamaAPI.getLocalVisionModels()
+    local result = {}
+    for _, model in ipairs(aiModels) do
+        table.insert(result, model)
+    end
 
+    local ollamaModels = OllamaAPI.getLocalVisionModels()
     if ollamaModels ~= nil then
         for _, model in ipairs(ollamaModels) do
             table.insert(result, model)

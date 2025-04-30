@@ -8,7 +8,7 @@ function OllamaAPI.getModelInfo(model)
 
     if headers.status == 200 then
         if response ~= nil then
-            log:trace(response)
+            -- log:trace(response) -- This bloats the log file.
             local decoded = JSON:decode(response)
             if decoded ~= nil then
                 return decoded
@@ -40,15 +40,15 @@ function OllamaAPI.getLocalVisionModels()
                         local name = model.name
                         log:trace("Found local installed Ollama model: " .. name)
 
-                        local modelInfo = OllamaAPI.getModelInfo(name)
-                        if modelInfo ~= nil and type(modelInfo) == "table" then
-                           if Util.table_contains(modelInfo.capabilities, "vision") then
-                                log:trace(name .. " has capability vision! Adding it to the list of available models.")
-                                table.insert(ollamaModels, { title = "Ollama " .. name , value = 'ollama-' .. name })
-                           else
-                                log:trace(name .. " does not have capability vision! Not Adding it to the list of available models.")
-                           end
-                        end
+                        -- local modelInfo = OllamaAPI.getModelInfo(name)
+                        -- if modelInfo ~= nil and type(modelInfo) == "table" then
+                        --    if Util.table_contains(modelInfo.capabilities, "vision") then
+                        --         log:trace(name .. " has capability vision! Adding it to the list of available models.")
+                                 table.insert(ollamaModels, { title = "Ollama " .. name , value = 'ollama-' .. name })
+                        --    else
+                        --         log:trace(name .. " does not have capability vision! Not Adding it to the list of available models.")
+                        --    end
+                        -- end
                     end
                 end
                 return ollamaModels

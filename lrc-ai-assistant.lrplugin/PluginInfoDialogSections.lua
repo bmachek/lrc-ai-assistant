@@ -72,6 +72,7 @@ function PluginInfoDialogSections.sectionsForTopOfDialog(f, propertyTable)
     local bind = LrView.bind
     local share = LrView.share
 
+    propertyTable.models = {}
     LrTasks.startAsyncTask(function (context)
             propertyTable.models = Defaults.getAvailableAiModels()
         end

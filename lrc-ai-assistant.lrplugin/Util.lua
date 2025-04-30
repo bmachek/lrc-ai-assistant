@@ -13,7 +13,7 @@ function Util.table_contains(tbl, x)
     return found
 end
 
--- Utility function to dump tables as JSON scrambling the API key.
+-- Utility function to dump tables as JSON scrambling the API key and removing base64 strings.
 function Util.dumpTable(t)
     local s = inspect(t)
     local pattern = '(data = )"([A-Za-z0-9+/=]+)"'
