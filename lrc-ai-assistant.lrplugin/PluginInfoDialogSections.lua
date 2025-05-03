@@ -145,7 +145,7 @@ function PluginInfoDialogSections.sectionsForTopOfDialog(f, propertyTable)
                     f:edit_field {
                         value = bind 'task',
                         width_in_chars = 40,
-                        height_in_lines = 5,
+                        height_in_lines = 8,
                         wraps = true,
                     }
                 },
@@ -169,7 +169,7 @@ function PluginInfoDialogSections.sectionsForTopOfDialog(f, propertyTable)
                     f:edit_field {
                         value = bind 'systemInstruction',
                         width_in_chars = 40,
-                        height_in_lines = 5,
+                        height_in_lines = 8,
                         wraps = true,
                     }
                 },
