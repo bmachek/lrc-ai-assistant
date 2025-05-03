@@ -11,7 +11,6 @@ Visit my [blog](https://blog.fokuspunk.de/lrc-ai-assistant/)
 
 [![Bitcoin donate](https://bitcoli.com/img/logo-20.png)](https://bitcoli.com/donate/boandlk)
 
-I have to pay fees at Google, because developing the plugin requires testing, which involves paying. If you want to support, please feel free to send me money with PayPal.
 
 ## Credits
 * @gesteves for [his plugin](https://github.com/gesteves/lightroom-alt-text-plugin), which gave me the idea for this one, and on which the source code is based on.
