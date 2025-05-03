@@ -8,7 +8,7 @@ return {
 	LrPluginInfoProvider = 'PluginInfo.lua',
 	LrPluginInfoURL = 'https://blog.fokuspunk.de/lrc-ai-assistant/',
 
-	VERSION = { major = 3, minor = 6, revision = 0, build = 0, },
+	VERSION = { major = 3, minor = 7, revision = 0, build = 0, },
 
 	LrMetadataProvider = "AIMetadataProvider.lua",
 
