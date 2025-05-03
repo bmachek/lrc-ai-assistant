@@ -1,7 +1,17 @@
 Defaults = {}
 
-Defaults.defaultTask = LOC "$$$/lrc-ai-assistant/Defaults/defaultTask=Describe the image contents, including all recognized objects."
-Defaults.defaultSystemInstruction = LOC "$$$/lrc-ai-assistant/Defaults/defaultSystemInstruction=You are classifying images for photo management. Be very specific and detailed."
+Defaults.defaultTask = [[Analyze the uploaded photo and generate the following data:
+* Keywords
+* Image title
+* Image caption
+* Alt text (with context for screen readers)]]
+
+
+Defaults.defaultSystemInstruction = [[You are a professional photography analyst with expertise in object recognition and computer-generated image description. 
+You also try to identify famous buildings and landmarks as well as the location where the photo was taken. 
+Furthermore, you aim to specify animal and plant species as accurately as possible. 
+You also describe objects—such as vehicle types and manufacturers—as specifically as you can.]]
+
 
 Defaults.defaultTemperature = 0.1
 
@@ -20,48 +30,6 @@ Defaults.defaultKeywordCategories = {
     LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/keywords/Animals=Animals",
     LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/keywords/Vehicles=Vehicles",
 }
-
-Defaults.defaultKeywordHierarchy = {
-    [LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/keywords/Activities=Activities"] = {},
-    [LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/keywords/Location=Location"] = {},
-    [LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/keywords/Objects=Objects"] = {
-        [LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/keywords/Vehicles=Vehicles"] = {},
-        [LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/keywords/Buildings=Buildings"] = {},
-
-    },
-    [LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/keywords/People=People"] = {},
-    [LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/keywords/Moods=Moods"] = {},
-    [LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/keywords/Sceneries=Sceneries"] = {},
-    [LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/keywords/Texts=Texts"] = {},
-    [LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/keywords/Companies=Companies"] = {},
-    [LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/keywords/Weather=Weather"] = {},
-    [LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/keywords/Nature=Nature"] = {
-        [LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/keywords/Plants=Plants"] = {},
-        [LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/keywords/Animals=Animals"] = {},
-    },
-}
-
-setmetatable(Defaults.defaultKeywordHierarchy, {
-    __index = function(t, k)
-        if type(k) == "table" then
-            log:trace("Trying to access nested table: " .. Util.dumpTable(k))
-            for i,v in ipairs(k) do
-                if not t then error("attempt to index nil") end
-                t = rawget(t, v)
-            end
-            log:trace("Returning nested table: " .. Util.dumpTable(t))
-            return t
-        else
-            log:trace("Trying to access value: " .. k)
-            if rawget(t, k) ~= nil then
-                log:trace("Returning value: " .. rawget(t, k))
-            end
-            return rawget(t, k)
-        end
-    end
-    }
-)
-
 
 Defaults.targetDataFields = {
     { title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/keywords=Keywords", value = "keyword" },

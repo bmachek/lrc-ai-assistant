@@ -86,18 +86,33 @@ function ChatGptAPI:analyzeImage(filePath, metadata)
     local task = prefs.task
     if metadata ~= nil then
         if prefs.submitGPS and metadata.gps ~= nil then
-            task = task .. " " .. LOC "$$$/lrc-ai-assistant/ChatGptAPI/gpsAddon=This photo was taken at the following coordinates:" .. metadata.gps.latitude .. ", " .. metadata.gps.longitude
+            task = task .. " " .. "\nThis photo was taken at the following coordinates:" .. metadata.gps.latitude .. ", " .. metadata.gps.longitude
         end
         if prefs.submitKeywords and metadata.keywords ~= nil then
-            task = task .. " " .. LOC "$$$/lrc-ai-assistant/ChatGptAPI/keywordAddon=Some keywords are:" .. metadata.keywords
+            task = task .. " " .. "\nSome keywords are:" .. metadata.keywords
         end
         if metadata.context ~= nil and metadata.context ~= "" then
             log:trace("Preflight context given")
-            task = task .. " " .. metadata.context
+            task = task .. "\nSome context for this photo: " .. metadata.context
         end
     end
 
-    local success, result, inputTokenCount, outputTokenCount = self:doRequest(filePath, task, prefs.systemInstruction, ResponseStructure:new():generateResponseStructure())
+    local keywords = Defaults.defaultKeywordCategories
+    if prefs.keywordCategories ~= nil then
+        if type(prefs.keywordCategories) == "table" then
+            keywords = prefs.keywordCategories
+        end
+    end
+
+    local systemInstruction = prefs.systemInstruction
+    if #keywords >= 1 then
+        systemInstruction = systemInstruction .. "\nPut the keywords in the following categories:"
+        for _, keyword in ipairs(keywords) do
+            systemInstruction = systemInstruction .. "\n * " .. keyword
+        end
+    end
+
+    local success, result, inputTokenCount, outputTokenCount = self:doRequest(filePath, task, systemInstruction, ResponseStructure:new():generateResponseStructure())
     if success then
         return success, JSON:decode(result), inputTokenCount, outputTokenCount
     end

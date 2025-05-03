@@ -52,8 +52,7 @@ end
 
 function ResponseStructure:generateResponseStructure()
 
-    local keywords = {}
-    keywords = Defaults.defaultKeywordCategories
+    local keywords = Defaults.defaultKeywordCategories
     if prefs.keywordCategories ~= nil then
         if type(prefs.keywordCategories) == "table" then
             keywords = prefs.keywordCategories
