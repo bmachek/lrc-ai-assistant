@@ -40,15 +40,15 @@ function OllamaAPI.getLocalVisionModels()
                         local name = model.name
                         log:trace("Found local installed Ollama model: " .. name)
 
-                        -- local modelInfo = OllamaAPI.getModelInfo(name)
-                        -- if modelInfo ~= nil and type(modelInfo) == "table" then
-                        --    if Util.table_contains(modelInfo.capabilities, "vision") then
-                        --         log:trace(name .. " has capability vision! Adding it to the list of available models.")
+                        local modelInfo = OllamaAPI.getModelInfo(name)
+                        if modelInfo ~= nil and type(modelInfo) == "table" then
+                           if Util.table_contains(modelInfo.capabilities, "vision") then
+                                log:trace(name .. " has capability vision! Adding it to the list of available models.")
                                  table.insert(ollamaModels, { title = "Ollama " .. name , value = 'ollama-' .. name })
-                        --    else
-                        --         log:trace(name .. " does not have capability vision! Not Adding it to the list of available models.")
-                        --    end
-                        -- end
+                           else
+                                log:trace(name .. " does not have capability vision! Not Adding it to the list of available models.")
+                           end
+                        end
                     end
                 end
                 return ollamaModels

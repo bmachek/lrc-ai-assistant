@@ -31,6 +31,8 @@ require "GeminiAPI"
 require "ChatGptAPI"
 require "OllamaAPI"
 require "ResponseStructure"
+require "AnalyzeImageProvider"
+require "AnalyzeImageDialogs"
 
 -- Global initializations
 _G.prefs = _G.LrPrefs.prefsForPlugin()
