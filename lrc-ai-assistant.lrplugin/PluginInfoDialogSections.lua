@@ -30,6 +30,8 @@ function PluginInfoDialogSections.startDialog(propertyTable)
     propertyTable.task = prefs.task
     propertyTable.systemInstruction = prefs.systemInstruction
 
+    propertyTable.useKeywordHierarchy = prefs.useKeywordHierarchy
+
 end
 
 function PluginInfoDialogSections.sectionsForBottomOfDialog(f, propertyTable)
@@ -312,6 +314,29 @@ function PluginInfoDialogSections.sectionsForTopOfDialog(f, propertyTable)
 
             f:group_box {
                 width = share 'groupBoxWidth',
+                title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/keywords=Keywords",
+                f:row {
+                    f:static_text {
+                        width = share 'labelWidth',
+                        title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/useKeywordHierarchy=Use keyword hierarchy",
+                    },
+                    f:checkbox {
+                        value = bind 'useKeywordHierarchy',
+                        width = share 'checkboxWidth',
+                    },
+                    f:push_button {
+                        width = share 'labelWidth',
+                        enabled = bind 'useKeywordHierarchy',
+                        title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/editKeywordHierarchy=Edit keyword categories",
+                        action = function (button)
+                            KeywordConfigProvider.showKeywordCategoryDialog()
+                        end,
+                    },
+                },
+            },
+
+            f:group_box {
+                width = share 'groupBoxWidth',
                 title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/exportSettings=Export settings",
                 f:row {
                     f:static_text {
@@ -369,6 +394,8 @@ function PluginInfoDialogSections.endDialog(propertyTable)
 
     prefs.task = propertyTable.task
     prefs.systemInstruction = propertyTable.systemInstruction
+
+    prefs.useKeywordHierarchy = propertyTable.useKeywordHierarchy
 
     prefs.logging = propertyTable.logging
     if propertyTable.logging then

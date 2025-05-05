@@ -30,3 +30,23 @@ end
 function AiModelAPI:analyzeImage(filePath, metadata)
     return self.usedApi:analyzeImage(filePath, metadata)
 end
+
+
+function AiModelAPI.addKeywordHierarchyToSystemInstruction()
+    local keywords = Defaults.defaultKeywordCategories
+    if prefs.keywordCategories ~= nil then
+        if type(prefs.keywordCategories) == "table" then
+            keywords = prefs.keywordCategories
+        end
+    end
+
+    local systemInstruction = prefs.systemInstruction
+    if prefs.useKeywordHierarchy and #keywords >= 1 then
+        systemInstruction = systemInstruction .. "\nPut the keywords in the following categories:"
+        for _, keyword in ipairs(keywords) do
+            systemInstruction = systemInstruction .. "\n * " .. keyword
+        end
+    end
+
+    return systemInstruction
+end

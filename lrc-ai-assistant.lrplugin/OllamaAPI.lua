@@ -148,20 +148,7 @@ function OllamaAPI:analyzeImage(filePath, metadata)
         end
     end
 
-    local keywords = Defaults.defaultKeywordCategories
-    if prefs.keywordCategories ~= nil then
-        if type(prefs.keywordCategories) == "table" then
-            keywords = prefs.keywordCategories
-        end
-    end
-
-    local systemInstruction = prefs.systemInstruction
-    if #keywords >= 1 then
-        systemInstruction = systemInstruction .. "\nPut the keywords in the following categories:"
-        for _, keyword in ipairs(keywords) do
-            systemInstruction = systemInstruction .. "\n * " .. keyword
-        end
-    end
+    local systemInstruction = AiModelAPI.addKeywordHierarchyToSystemInstruction()
 
     local success, result, inputTokenCount, outputTokenCount = self:doRequest(filePath, task, systemInstruction, ResponseStructure:new():generateResponseStructure())
     if success then

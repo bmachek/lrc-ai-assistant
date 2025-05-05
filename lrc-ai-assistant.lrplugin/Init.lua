@@ -32,7 +32,7 @@ require "ChatGptAPI"
 require "OllamaAPI"
 require "ResponseStructure"
 require "AnalyzeImageProvider"
-require "AnalyzeImageDialogs"
+require "KeywordConfigProvider"
 
 -- Global initializations
 _G.prefs = _G.LrPrefs.prefsForPlugin()
@@ -135,6 +135,10 @@ end
 
 if _G.prefs.temperature == nil then
     _G.prefs.temperature = Defaults.defaultTemperature
+end
+
+if _G.prefs.useKeywordHierarchy == nil then
+    _G.prefs.useKeywordHierarchy = true
 end
 
 function _G.JSON.assert(b, m)

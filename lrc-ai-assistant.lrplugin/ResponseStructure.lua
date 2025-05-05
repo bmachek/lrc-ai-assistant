@@ -126,24 +126,30 @@ end
 -- Convert table into proper formatted table before converting it to JSON
 function ResponseStructure:keywordTableToResponseStructureRecurse(table)
     local responseStructure = {}
-    responseStructure.properties = {}
-    responseStructure.type = self.strObject
-    if self.ai == 'chatgpt' then
-        responseStructure.required = table
-        responseStructure.additionalProperties = false
-    end
-
-    for _, v in pairs(table) do
-        local child = {}
-        if type(v) == "string" then
-            child.type = self.strArray
-            child.items = {}
-            child.items.type = self.strString
-        elseif type(v) == "table" then
-            child.type = self.strObject
-            child.properties = ResponseStructure:keywordTableToResponseStructureRecurse(v)
+    if prefs.useKeywordHierarchy then
+        responseStructure.properties = {}
+        responseStructure.type = self.strObject
+        if self.ai == 'chatgpt' then
+            responseStructure.required = table
+            responseStructure.additionalProperties = false
         end
-        responseStructure.properties[v] = child
+
+        for _, v in pairs(table) do
+            local child = {}
+            if type(v) == "string" then
+                child.type = self.strArray
+                child.items = {}
+                child.items.type = self.strString
+            elseif type(v) == "table" then
+                child.type = self.strObject
+                child.properties = ResponseStructure:keywordTableToResponseStructureRecurse(v)
+            end
+            responseStructure.properties[v] = child
+        end
+    else
+        responseStructure.type = self.strArray
+        responseStructure.items = {}
+        responseStructure.items.type = self.strString
     end
 
     return responseStructure

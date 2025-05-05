@@ -16,16 +16,7 @@ return {
 	LrLibraryMenuItems = {
 		{
 			title = LOC "$$$/lrc-ai-assistant/Info/GenerateImageInfo/Title=Analyze photos with AI",
-			file = "GenerateImageInfo.lua",
+			file = "AnalyzeImageTask.lua",
 		},
-		{
-			title = "Edit Keyword Categories",
-			file = "KeywordConfigurator.lua",
-		},
-        -- {
-        --     title = "Edit Keyword Hierarchy",
-        --     file = "KeywordHierarchyManager.lua",
-        -- },
 	},
-
 }
