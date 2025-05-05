@@ -7,13 +7,16 @@ function AnalyzeImageProvider.addKeywordRecursively(photo, keywordSubTable, pare
         if type(key) == 'string' and key ~= "" then
             photo.catalog:withWriteAccessDo("Create category keyword", function()
                 -- Some ollama models return "None" or "none" if a keyword category is empty.
-                if key ~= "None" and key ~= "none" then
+                if prefs.useKeywordHierarchy and key ~= "None" and key ~= "none" then
                     keyword = photo.catalog:createKeyword(key, {}, false, parent, true)
                 end
             end)
         elseif type(key) == 'number' and value ~= nil and value ~= "" then
             photo.catalog:withWriteAccessDo("Create and add keyword", function()
                 -- Some ollama models return "None" or "none" if a keyword category is empty.
+                if not prefs.useKeywordHierarchy then
+                    parent = nil
+                end
                 if value ~= "None" and value ~= "none" then
                     keyword = photo.catalog:createKeyword(value, {}, true, parent, true)
                     photo:addKeyword(keyword)
