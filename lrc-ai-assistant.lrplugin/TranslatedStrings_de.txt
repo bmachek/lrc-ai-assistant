@@ -83,3 +83,6 @@
 
 "$$$/lrc-ai-assistant/GenerateImageInfo/PhotoContextDialogData=Kontext zum Foto"
 "$$$/lrc-ai-assistant/PluginInfoDialogSections/showPhotoContextDialog=Zeige den Foto Kontext Dialog."
+
+"$$$/lrc-ai-assistant/PluginInfoDialogSections/useKeywordHierarchy=Verwenden hierarchische Stichwörter"
+"$$$/lrc-ai-assistant/PluginInfoDialogSections/editKeywordHierarchy=Bearbeite Stichwort Kategorien"
