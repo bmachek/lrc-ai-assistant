@@ -58,7 +58,7 @@ local function exportAndAnalyzePhoto(photo, progressScope)
             -- Photo Context Dialog
             if prefs.showPhotoContextDialog then
                 if not SkipPhotoContextDialog then
-                    local contextResult = AnalyzeImageDialogs.showPhotoContextDialog(photo)
+                    local contextResult = AnalyzeImageProvider.showPhotoContextDialog(photo)
                     if not contextResult then
                         return false, 0, 0, "canceled", "Canceled by user in context dialog."
                     end
@@ -99,7 +99,7 @@ local function exportAndAnalyzePhoto(photo, progressScope)
                 local saveCaption = true
                 if prefs.generateCaption and prefs.reviewCaption and not SkipReviewCaptions then
                     -- local existingCaption = photo:getFormattedMetadata('caption')
-                    local prop = AnalyzeImageDialogs.showTextValidationDialog(LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/ImageCaption=Image caption", caption)
+                    local prop = AnalyzeImageProvider.showTextValidationDialog(LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/ImageCaption=Image caption", caption)
                     caption = prop.reviewedText
                     SkipReviewCaptions = prop.skipFromHere
                     if prop.result == 'cancel' then
@@ -114,7 +114,7 @@ local function exportAndAnalyzePhoto(photo, progressScope)
                 local saveTitle = true
                 if prefs.generateTitle and prefs.reviewTitle and not SkipReviewTitles then
                     -- local existingTitle = photo:getFormattedMetadata('title')
-                    local prop = AnalyzeImageDialogs.showTextValidationDialog(LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/ImageTitle=Image title", title)
+                    local prop = AnalyzeImageProvider.showTextValidationDialog(LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/ImageTitle=Image title", title)
                     title = prop.reviewedText
                     SkipReviewTitles = prop.skipFromHere
                     if prop.result == 'cancel' then
@@ -130,7 +130,7 @@ local function exportAndAnalyzePhoto(photo, progressScope)
                 local saveAltText = true
                 if prefs.generateAltText and prefs.reviewAltText and not SkipReviewAltText then
                     -- local existingTitle = photo:getFormattedMetadata('title')
-                    local prop = AnalyzeImageDialogs.showTextValidationDialog(LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/ImageAltText=Image Alt Text", altText)
+                    local prop = AnalyzeImageProvider.showTextValidationDialog(LOC "$$$/lrc-ai-assistant/Defaults/ResponseStructure/ImageAltText=Image Alt Text", altText)
                     if prop.result == 'cancel' then
                         log:trace("Canceled by Alt-Text validation dialog.")
                         canceledByUser = true
@@ -198,7 +198,7 @@ LrTasks.startAsyncTask(function()
         end
 
         if prefs.showPreflightDialog then
-            local preflightResult = AnalyzeImageDialogs.showPreflightDialog()
+            local preflightResult = AnalyzeImageProvider.showPreflightDialog()
             if not preflightResult then
                 log:trace("Canceled by preflight dialog")
                 return false
@@ -237,11 +237,11 @@ LrTasks.startAsyncTask(function()
                     log:trace("Fatal error received. Stopping.")
                     progressScope:setCaption(LOC("$$$/lrc-ai-assistant/GenerateImageInfo/analyzeFailed=Failed to analyze photo with AI ^1", tostring(i)))
                     LrDialogs.showError(LOC "$$$/lrc-ai-assistant/GenerateImageInfo/fatalError=Fatal error: Cannot continue. Check logs.")
-                    AnalyzeImageDialogs.showUsedTokensDialog(totalInputTokens, totalOutputTokens)
+                    AnalyzeImageProvider.showUsedTokensDialog(totalInputTokens, totalOutputTokens)
                     return false
                 elseif cause == "canceled" then
                     log:trace("Canceled by user validation dialog.")
-                    AnalyzeImageDialogs.showUsedTokensDialog(totalInputTokens, totalOutputTokens)
+                    AnalyzeImageProvider.showUsedTokensDialog(totalInputTokens, totalOutputTokens)
                     return false
                 end
                     
@@ -251,13 +251,13 @@ LrTasks.startAsyncTask(function()
             progressScope:setPortionComplete(i, totalPhotos)
             if progressScope:isCanceled() then
                 log:trace("We got canceled.")
-                AnalyzeImageDialogs.showUsedTokensDialog(totalInputTokens, totalOutputTokens)
+                AnalyzeImageProvider.showUsedTokensDialog(totalInputTokens, totalOutputTokens)
                 return false
             end
         end
 
         progressScope:done()
-        AnalyzeImageDialogs.showUsedTokensDialog(totalInputTokens, totalOutputTokens)
+        AnalyzeImageProvider.showUsedTokensDialog(totalInputTokens, totalOutputTokens)
 
         if totalFailed > 0 then
             local errorList

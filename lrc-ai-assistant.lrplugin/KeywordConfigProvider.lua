@@ -43,7 +43,7 @@ function KeywordConfigProvider.showKeywordCategoryDialog()
                     action = function (button)
                         table.insert(prefs.keywordCategories, propertyTable.new)
                         LrDialogs.stopModalWithResult(keywordBox, "cancel")
-                        showDataConfigurationDialog()
+                        KeywordConfigProvider.showKeywordCategoryDialog()
                     end
                 }
             },
