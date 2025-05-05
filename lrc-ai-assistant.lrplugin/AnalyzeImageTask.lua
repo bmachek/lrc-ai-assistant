@@ -95,7 +95,6 @@ local function exportAndAnalyzePhoto(photo, progressScope)
 
             local canceledByUser = false
             photo.catalog:withWriteAccessDo(LOC "$$$/lrc-ai-assistant/GenerateImageInfo/saveTitleCaption=Save AI generated title and caption", function()
-                
                 local saveCaption = true
                 if prefs.generateCaption and prefs.reviewCaption and not SkipReviewCaptions then
                     -- local existingCaption = photo:getFormattedMetadata('caption')
@@ -149,10 +148,13 @@ local function exportAndAnalyzePhoto(photo, progressScope)
 
             if keywords ~= nil and type(keywords) == 'table' then
                 local topKeyword
-                photo.catalog:withWriteAccessDo("$$$/lrc-ai-assistant/GenerateImageInfo/saveTopKeyword=Save AI generated keywords", function()
-                    topKeyword = photo.catalog:createKeyword(ai.topKeyword, {}, false, nil, true)
-                    photo:addKeyword(topKeyword)
-                end)
+                if prefs.useKeywordHierarchy then
+                    
+                    photo.catalog:withWriteAccessDo("$$$/lrc-ai-assistant/GenerateImageInfo/saveTopKeyword=Save AI generated keywords", function()
+                        topKeyword = photo.catalog:createKeyword(ai.topKeyword, {}, false, nil, true)
+                        photo:addKeyword(topKeyword)
+                    end)
+                end
                 AnalyzeImageProvider.addKeywordRecursively(photo, keywords, topKeyword)
             end
 
