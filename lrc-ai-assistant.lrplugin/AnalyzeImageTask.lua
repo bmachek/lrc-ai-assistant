@@ -71,7 +71,11 @@ local function exportAndAnalyzePhoto(photo, progressScope)
                 )
             end
 
+            local startTimeAnalyze = LrDate.currentTime()
             local analyzeSuccess, result, inputTokens, outputTokens = ai:analyzeImage(path, metadata)
+            local stopTimeAnalyze = LrDate.currentTime()
+
+            log:trace("Analyzing " .. photoName .. " with " .. prefs.ai .. " took " .. (stopTimeAnalyze - startTimeAnalyze) .. " seconds.")
 
             if not analyzeSuccess then -- AI API request failed.
                 if result == 'RATE_LIMIT_EXHAUSTED' then
@@ -183,6 +187,8 @@ end
 
 LrTasks.startAsyncTask(function()
     LrFunctionContext.callWithContext("AnalyzeImageTask", function(context)
+        local startTimeBatch = LrDate.currentTime()
+
         local catalog = LrApplication.activeCatalog()
         local selectedPhotos = catalog:getTargetPhotos()
 
@@ -258,6 +264,8 @@ LrTasks.startAsyncTask(function()
         end
 
         progressScope:done()
+        local stopTimeBatch = LrDate.currentTime()
+        log:trace("Analyzing " .. totalPhotos .. " with " .. prefs.ai .. " took " .. (stopTimeBatch - startTimeBatch) .. " seconds.")
         AnalyzeImageProvider.showUsedTokensDialog(totalInputTokens, totalOutputTokens)
 
         if totalFailed > 0 then
