@@ -112,14 +112,7 @@ function ResponseStructure:generateResponseStructure()
             temperature = prefs.temperature, -- Dirty -- FIXME probably
         }
     elseif self.ai == 'ollama' then
-        return {
-            type = "json_schema",
-            json_schema = {
-                name = "results",
-                strict = true,
-                schema = result,
-            },
-        }
+        return result
     end
 end
 
@@ -132,6 +125,8 @@ function ResponseStructure:keywordTableToResponseStructureRecurse(table)
         if self.ai == 'chatgpt' then
             responseStructure.required = table
             responseStructure.additionalProperties = false
+        elseif self.ai == 'ollama' then
+            responseStructure.required = table
         end
 
         for _, v in pairs(table) do

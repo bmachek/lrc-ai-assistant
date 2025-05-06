@@ -77,32 +77,16 @@ end
 function OllamaAPI:doRequest(filePath, task, systemInstruction, generationConfig)
     local body = {
         model = self.ollamaModel,
-        response_format = generationConfig,
-        messages = {
-            {
-                role = "system",
-                content = systemInstruction,
-            },
-            {
-                role = "user",
-                content = task,
-            },
-            {
-                role = "user",
-                content = {
-                    {
-                        type = "image_url",
-                        image_url = {
-                            url = "data:image/jpeg;base64," .. Util.encodePhotoToBase64(filePath)
-                        }
-                    }
-                }
-            }
-        },
-        temperature = prefs.temperature,
+        format = generationConfig,
+        stream = false,
+        options = { temperature = prefs.temperature, },
+        prompt = task .. "\n" .. systemInstruction,
+        images = { },
     }
 
     log:trace(Util.dumpTable(body))
+
+    body.images = { Util.encodePhotoToBase64(filePath) }
 
     local response, headers = LrHttp.post(self.url, JSON:encode(body), {{ field = 'Content-Type', value = 'application/json' }})
 
@@ -111,14 +95,14 @@ function OllamaAPI:doRequest(filePath, task, systemInstruction, generationConfig
             log:trace(response)
             local decoded = JSON:decode(response)
             if decoded ~= nil then
-                if decoded.choices[1].finish_reason == 'stop' then
-                    local text = JSON:decode(decoded.choices[1].message.content)
+                if decoded.done_reason == 'stop' then
+                    local text = JSON:decode(decoded.response)
                     log:trace(Util.dumpTable(text))
                     log:trace(text)
                     return true, text, 0, 0
                 else
-                    log:error('Blocked: ' .. decoded.choices[1].finish_reason .. Util.dumpTable(decoded.choices[1]))
-                    return false,  decoded.choices[1].finish_reason, 0, 0
+                    log:error('Blocked: ' .. decoded.done_reason .. Util.dumpTable(decoded.response))
+                    return false,  decoded.done_reason, 0, 0
                 end
             end
         else
