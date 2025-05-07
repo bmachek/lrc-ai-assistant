@@ -40,7 +40,11 @@ function AiModelAPI.addKeywordHierarchyToSystemInstruction()
         end
     end
 
-    local systemInstruction = prefs.systemInstruction
+    local systemInstruction = prefs.prompts[prefs.prompt]
+    if systemInstruction == nil then
+        log:trace("Configured prompt is nil, using defaults.")
+        systemInstruction = Defaults.defaultSystemInstruction
+    end
     if prefs.useKeywordHierarchy and #keywords >= 1 then
         systemInstruction = systemInstruction .. "\nPut the keywords in the following categories:"
         for _, keyword in ipairs(keywords) do
