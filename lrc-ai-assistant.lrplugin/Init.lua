@@ -33,6 +33,7 @@ require "OllamaAPI"
 require "ResponseStructure"
 require "AnalyzeImageProvider"
 require "KeywordConfigProvider"
+require "PromptConfigProvider"
 
 -- Global initializations
 _G.prefs = _G.LrPrefs.prefsForPlugin()
@@ -139,6 +140,14 @@ end
 
 if _G.prefs.useKeywordHierarchy == nil then
     _G.prefs.useKeywordHierarchy = true
+end
+
+if _G.prefs.prompts == nil then
+    _G.prefs.prompts = { Default = Defaults.defaultSystemInstruction }
+end
+
+if _G.prefs.prompt == nil then
+    _G.prefs.prompt = "Default"
 end
 
 function _G.JSON.assert(b, m)

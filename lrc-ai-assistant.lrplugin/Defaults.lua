@@ -1,17 +1,20 @@
 Defaults = {}
 
 Defaults.defaultTask = [[Analyze the uploaded photo and generate the following data:
-* Keywords
-* Image title
-* Image caption
-* Alt text (with context for screen readers)]]
-
+]]
 
 Defaults.defaultSystemInstruction = [[You are a professional photography analyst with expertise in object recognition and computer-generated image description. 
 You also try to identify famous buildings and landmarks as well as the location where the photo was taken. 
 Furthermore, you aim to specify animal and plant species as accurately as possible. 
 You also describe objects—such as vehicle types and manufacturers—as specifically as you can.]]
 
+Defaults.defaultGenerateLanguage = "English"
+
+Defaults.generateLanguages = {
+    { title = "English", value = "English" },
+    { title = "German", value = "German" },
+    { title = "French", value = "French" },
+}
 
 Defaults.defaultTemperature = 0.1
 
@@ -48,12 +51,6 @@ local aiModels = {
     { title = "ChatGPT 4.1", value = "gpt-4.1" },
     { title = "ChatGPT 4.1 Mini", value = "gpt-4.1-mini" },
     { title = "ChatGPT 4.1 Nano", value = "gpt-4.1-nano" },
-    -- { title = 'Ollama deepseek-r1', value = 'ollama-deepseek-r1' },
-    -- { title = 'Ollama llama3.2-vision', value = 'ollama-llama3.2-vision' },
-    -- { title = 'Ollama llava', value = 'ollama-llava' },
-    -- { title = 'Ollama gemma3', value = 'ollama-gemma3' },
-    -- { title = 'Ollama gemma3:12b', value = 'ollama-gemma3:12b' },
-    -- { title = 'Ollama mistral-small3.1', value = 'ollama-mistral-small3.1' },
 }
 
 function Defaults.getAvailableAiModels()

@@ -83,7 +83,7 @@ end
 
 
 function ChatGptAPI:analyzeImage(filePath, metadata)
-    local task = prefs.task
+    local task = AiModelAPI.generatePromptFromConfiguration()
     if metadata ~= nil then
         if prefs.submitGPS and metadata.gps ~= nil then
             task = task .. " " .. "\nThis photo was taken at the following coordinates:" .. metadata.gps.latitude .. ", " .. metadata.gps.longitude

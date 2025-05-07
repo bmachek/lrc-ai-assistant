@@ -32,6 +32,17 @@ function PluginInfoDialogSections.startDialog(propertyTable)
 
     propertyTable.useKeywordHierarchy = prefs.useKeywordHierarchy
 
+    propertyTable.generateLanguage = prefs.generateLanguage
+
+    propertyTable.promptTitles = {}
+    for title, prompt in pairs(prefs.prompts) do
+        table.insert(propertyTable.promptTitles, { title = title, value = title })
+    end
+
+    propertyTable.prompt = prefs.prompt
+
+    propertyTable.selectedPrompt = prefs.prompts[prefs.prompt]
+
 end
 
 function PluginInfoDialogSections.sectionsForBottomOfDialog(f, propertyTable)
@@ -141,49 +152,27 @@ function PluginInfoDialogSections.sectionsForTopOfDialog(f, propertyTable)
                 f:row {
                     f:static_text {
                         width = share 'labelWidth',
-                        title = "Task:",
-                        alignment = "right",
+                        title = "Edit prompts",
                     },
-                    f:edit_field {
-                        value = bind 'task',
-                        width_in_chars = 40,
-                        height_in_lines = 8,
-                        wraps = true,
-                    }
-                },
-                f:row {
-                    f:spacer {
-                        width = share 'labelWidth',
-                    },
+                    -- f:popup_menu {
+                    --     items = bind 'promptTitles',
+                    --     value = bind 'prompt',
+                    -- },
                     f:push_button {
-                        title = "Defaults",
-                        action = function (button)
-                            propertyTable.task = Defaults.defaultTask
+                        title = "Edit prompts",
+                        action = function(button)
+                            PromptConfigProvider.showPromptConfigDialog()
                         end,
                     },
                 },
                 f:row {
                     f:static_text {
                         width = share 'labelWidth',
-                        title = "System instruction:",
-                        alignment = "right",
+                        title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/generateLanguage=Result language",
                     },
-                    f:edit_field {
-                        value = bind 'systemInstruction',
-                        width_in_chars = 40,
-                        height_in_lines = 8,
-                        wraps = true,
-                    }
-                },
-                f:row {
-                    f:spacer {
-                        width = share 'labelWidth',
-                    },
-                    f:push_button {
-                        title = "Defaults",
-                        action = function (button)
-                            propertyTable.systemInstruction = Defaults.defaultSystemInstruction
-                        end,
+                    f:popup_menu {
+                        value = bind 'generateLanguage',
+                        items = Defaults.generateLanguages,
                     },
                 },
             },
@@ -396,6 +385,10 @@ function PluginInfoDialogSections.endDialog(propertyTable)
     prefs.systemInstruction = propertyTable.systemInstruction
 
     prefs.useKeywordHierarchy = propertyTable.useKeywordHierarchy
+
+    prefs.generateLanguage = propertyTable.generateLanguage
+
+    prefs.prompt = propertyTable.prompt
 
     prefs.logging = propertyTable.logging
     if propertyTable.logging then

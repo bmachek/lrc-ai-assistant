@@ -86,3 +86,5 @@
 
 "$$$/lrc-ai-assistant/PluginInfoDialogSections/useKeywordHierarchy=Verwenden hierarchische Stichwörter"
 "$$$/lrc-ai-assistant/PluginInfoDialogSections/editKeywordHierarchy=Bearbeite Stichwort Kategorien"
+
+"$$$/lrc-ai-assistant/PluginInfoDialogSections/generateLanguage=Sprache der Ergebnisse"

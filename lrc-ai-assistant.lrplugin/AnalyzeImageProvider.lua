@@ -333,6 +333,19 @@ function AnalyzeImageProvider.showPreflightDialog()
 
     propertyTable.temperature = prefs.temperature
 
+    propertyTable.generateLanguage = prefs.generateLanguage
+
+    propertyTable.promptTitles = {}
+    for title, prompt in pairs(prefs.prompts) do
+        table.insert(propertyTable.promptTitles, { title = title, value = title })
+    end
+    
+    propertyTable.prompts = prefs.prompts
+
+    propertyTable.prompt = prefs.prompt
+
+    propertyTable.selectedPrompt = prefs.prompts[prefs.prompt]
+
 
     local dialogView = f:column {
         spacing = 10,
@@ -370,28 +383,34 @@ function AnalyzeImageProvider.showPreflightDialog()
         f:row {
             f:static_text {
                 width = share 'labelWidth',
-                title = "Task:",
-                alignment = "right",
+                title = "Prompt name",
             },
-            f:edit_field {
-                value = bind 'task',
-                width_in_chars = 40,
-                height_in_lines = 8,
-                wraps = true,
-            }
+            f:popup_menu {
+                items = bind 'promptTitles',
+                value = bind 'prompt',
+            },
         },
+        -- f:row {
+        --     f:static_text {
+        --         width = share 'labelWidth',
+        --         title = "Prompt",
+        --     },
+        --     f:edit_field {
+        --         value = bind 'selectedPrompt',
+        --         width_in_chars = 50,
+        --         height_in_lines = 10,
+        --         enabled = false,
+        --     },
+        -- },
         f:row {
             f:static_text {
                 width = share 'labelWidth',
-                title = "System instruction:",
-                alignment = "right",
+                title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/generateLanguage=Result language",
             },
-            f:edit_field {
-                value = bind 'systemInstruction',
-                width_in_chars = 40,
-                height_in_lines = 8,
-                wraps = true,
-            }
+            f:popup_menu {
+                value = bind 'generateLanguage',
+                items = Defaults.generateLanguages,
+            },
         },
         f:row {
             f:static_text {
@@ -546,6 +565,11 @@ function AnalyzeImageProvider.showPreflightDialog()
         prefs.submitKeywords = propertyTable.submitKeywords
 
         prefs.temperature = propertyTable.temperature
+
+        prefs.generateLanguage = propertyTable.generateLanguage
+
+        prefs.prompts = propertyTable.prompts
+        prefs.prompt = propertyTable.prompt
         
         return true
     elseif result == "cancel" then

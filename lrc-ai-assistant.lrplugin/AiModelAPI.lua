@@ -50,3 +50,23 @@ function AiModelAPI.addKeywordHierarchyToSystemInstruction()
 
     return systemInstruction
 end
+
+function AiModelAPI.generatePromptFromConfiguration()
+    local result = Defaults.defaultTask
+    if prefs.generateAltText then
+        result = result .. "* Alt text (with context for screen readers)\n"
+    end
+    if prefs.generateCaption then
+        result = result .. "* Image caption\n"
+    end
+    if prefs.generateTitle then
+        result = result .. "* Image title\n"
+    end
+    if prefs.generateKeywords then
+        result = result .. "* Keywords\n"
+    end
+
+    result = "\nAll results should be generated in " .. prefs.generateLanguage
+
+    return result
+end
