@@ -102,6 +102,11 @@ function PluginInfoDialogSections.sectionsForTopOfDialog(f, propertyTable)
         end
     )
     
+    propertyTable.promptTitleMenu = f:popup_menu {
+        items = bind 'promptTitles',
+        value = bind 'prompt',
+    }
+
     return {
 
         {
@@ -165,10 +170,7 @@ function PluginInfoDialogSections.sectionsForTopOfDialog(f, propertyTable)
                         width = share 'labelWidth',
                         title = "Edit prompts",
                     },
-                    f:popup_menu {
-                        items = bind 'promptTitles',
-                        value = bind 'prompt',
-                    },
+                    propertyTable.promptTitleMenu,
                     f:push_button {
                         title = "Add",
                         action = function(button)

@@ -14,6 +14,7 @@ function PromptConfigProvider.deletePrompt(props)
             end
         end
         props.prompts[promptTitle] = nil
+        props.promptTitleMenu.items = props.promptTitles
 
         if props.prompt == promptTitle then
             props.prompt = "Default"
@@ -61,6 +62,7 @@ function PromptConfigProvider.addPrompt(props)
         props.prompts[propertyTable.name] = propertyTable.prompt
         props.prompt = propertyTable.name
         table.insert(props.promptTitles, { title = propertyTable.name, value = propertyTable.name })
+        props.promptTitleMenu.items = props.promptTitles
         return propertyTable.name
     end
 
