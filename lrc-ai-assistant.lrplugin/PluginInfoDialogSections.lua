@@ -32,6 +32,8 @@ function PluginInfoDialogSections.startDialog(propertyTable)
 
     propertyTable.useKeywordHierarchy = prefs.useKeywordHierarchy
 
+    propertyTable.useTopLevelKeyword = prefs.useTopLevelKeyword
+
     propertyTable.generateLanguage = prefs.generateLanguage
 
     propertyTable.promptTitles = {}
@@ -352,6 +354,14 @@ function PluginInfoDialogSections.sectionsForTopOfDialog(f, propertyTable)
                             KeywordConfigProvider.showKeywordCategoryDialog()
                         end,
                     },
+                    f:static_text {
+                        width = share 'labelWidth',
+                        title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/useTopLevelKeyword=Use top-level keyword",
+                    },
+                    f:checkbox {
+                        value = bind 'useTopLevelKeyword',
+                        width = share 'checkboxWidth',
+                    },
                 },
             },
 
@@ -432,6 +442,8 @@ function PluginInfoDialogSections.endDialog(propertyTable)
     prefs.systemInstruction = propertyTable.systemInstruction
 
     prefs.useKeywordHierarchy = propertyTable.useKeywordHierarchy
+
+    prefs.useTopLevelKeyword = propertyTable.useTopLevelKeyword
 
     prefs.generateLanguage = propertyTable.generateLanguage
 

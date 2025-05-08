@@ -142,6 +142,10 @@ if _G.prefs.useKeywordHierarchy == nil then
     _G.prefs.useKeywordHierarchy = true
 end
 
+if _G.prefs.useTopLevelKeyword == nil then
+    _G.prefs.useTopLevelKeyword = true
+end
+
 if _G.prefs.prompts == nil then
     _G.prefs.prompts = { Default = Defaults.defaultSystemInstruction }
 end

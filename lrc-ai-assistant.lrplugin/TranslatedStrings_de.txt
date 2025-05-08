@@ -92,3 +92,5 @@
 
 "$$$/lrc-ai-assistant/PluginInfoDialogSections/ollamaSettings=Ollama Einstellungen"
 "$$$/lrc-ai-assistant/PluginInfoDialogSections/OllamaBaseUrl=Ollama Basis URL"
+
+"$$$/lrc-ai-assistant/PluginInfoDialogSections/useTopLevelKeyword=Verwende top-level Stichwort"

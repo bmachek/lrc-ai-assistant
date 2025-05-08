@@ -58,14 +58,14 @@ function AnalyzeImageProvider.showTextValidationDialog(typeOfText, text)
                 value = bind 'skipFromHere'
             },
             f:static_text {
-                title = LOC "$$$/lrc-ai-assistant/GenerateImageInfo/SkipFromHere=Save following without reviewing.",
+                title = LOC "$$$/lrc-ai-assistant/AnalyzeImageTask/SkipFromHere=Save following without reviewing.",
             },
         },
     }
 
     local result = LrDialogs.presentModalDialog({
         -- title = 'Review Results',
-        title = LOC "$$$/lrc-ai-assistant/GenerateImageInfo/ReviewWindowTitle=Review results",
+        title = LOC "$$$/lrc-ai-assistant/AnalyzeImageTask/ReviewWindowTitle=Review results",
         contents = dialogView,
     })
 
@@ -104,7 +104,7 @@ function AnalyzeImageProvider.showUsedTokensDialog(totalInputTokens, totalOutput
         local f = LrView.osFactory()
         local share = LrView.share
         local dialog = {}
-        dialog.title = LOC "$$$/lrc-ai-assistant/GenerateImageInfo/UsedTokenDialog/Title=Generation costs"
+        dialog.title = LOC "$$$/lrc-ai-assistant/AnalyzeImageTask/UsedTokenDialog/Title=Generation costs"
         dialog.resizable = false
         dialog.contents = f:column {
             f:row {
@@ -112,7 +112,7 @@ function AnalyzeImageProvider.showUsedTokensDialog(totalInputTokens, totalOutput
                 f:column {
                     f:group_box {
                         width = share 'groupBoxWidth',
-                        title = LOC "$$$/lrc-ai-assistant/GenerateImageInfo/UsedTokenDialog/UsedTokens=Used Tokens",
+                        title = LOC "$$$/lrc-ai-assistant/AnalyzeImageTask/UsedTokenDialog/UsedTokens=Used Tokens",
                         f:spacer {
                             width = share 'spacerWidth',
                         },
@@ -138,7 +138,7 @@ function AnalyzeImageProvider.showUsedTokensDialog(totalInputTokens, totalOutput
                     size = "small",
                     f:group_box {
                         width = share 'groupBoxWidth',
-                        title = LOC "$$$/lrc-ai-assistant/GenerateImageInfo/UsedTokenDialog/GeneratedCosts=Generated costs",
+                        title = LOC "$$$/lrc-ai-assistant/AnalyzeImageTask/UsedTokenDialog/GeneratedCosts=Generated costs",
                         f:spacer {
                             width = share 'spacerWidth',
                         },
@@ -169,7 +169,7 @@ function AnalyzeImageProvider.showUsedTokensDialog(totalInputTokens, totalOutput
             f:row {
                 font = "<system/bold>",
                 f:static_text {
-                    title = LOC "$$$/lrc-ai-assistant/GenerateImageInfo/UsedTokenDialog/TotalCosts=Total costs:",
+                    title = LOC "$$$/lrc-ai-assistant/AnalyzeImageTask/UsedTokenDialog/TotalCosts=Total costs:",
                 },
                 f:static_text {
                     title = tostring(totalCosts) .. " USD",
@@ -257,7 +257,7 @@ function AnalyzeImageProvider.showPhotoContextDialog(photo)
         },
         f:row {
             f:static_text {
-                title = LOC "$$$/lrc-ai-assistant/GenerateImageInfo/PhotoContextDialogData=Photo Context",
+                title = LOC "$$$/lrc-ai-assistant/AnalyzeImageTask/PhotoContextDialogData=Photo Context",
             },
         },
         f:row {
@@ -282,13 +282,13 @@ function AnalyzeImageProvider.showPhotoContextDialog(photo)
                 value = bind 'skipFromHere'
             },
             f:static_text {
-                title = LOC "$$$/lrc-ai-assistant/GenerateImageInfo/SkipPreflightFromHere=Use for all following pictures.",
+                title = LOC "$$$/lrc-ai-assistant/AnalyzeImageTask/SkipPreflightFromHere=Use for all following pictures.",
             },
         },
     }
 
     local result = LrDialogs.presentModalDialog({
-        title = LOC "$$$/lrc-ai-assistant/GenerateImageInfo/PhotoContextDialogData=Photo Context",
+        title = LOC "$$$/lrc-ai-assistant/AnalyzeImageTask/PhotoContextDialogData=Photo Context",
         contents = dialogView,
     })
 
@@ -547,7 +547,7 @@ function AnalyzeImageProvider.showPreflightDialog(ctx)
     }
 
     local result = LrDialogs.presentModalDialog({
-        title = LOC "$$$/lrc-ai-assistant/GenerateImageInfo/PreflightDialogTitle=Preflight Dialog",
+        title = LOC "$$$/lrc-ai-assistant/AnalyzeImageTask/PreflightDialogTitle=Preflight Dialog",
         contents = dialogView,
     })
 
