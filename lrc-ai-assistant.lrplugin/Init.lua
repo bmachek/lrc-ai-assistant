@@ -150,6 +150,10 @@ if _G.prefs.prompt == nil then
     _G.prefs.prompt = "Default"
 end
 
+if _G.prefs.ollamaBaseUrl == nil then
+    _G.prefs.ollamaBaseUrl = Defaults.baseUrls['ollama']
+end
+
 function _G.JSON.assert(b, m)
     LrDialogs.showError("Error decoding JSON response.")
 end

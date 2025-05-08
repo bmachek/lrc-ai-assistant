@@ -88,3 +88,6 @@
 "$$$/lrc-ai-assistant/PluginInfoDialogSections/editKeywordHierarchy=Edit keyword categories"
 
 "$$$/lrc-ai-assistant/PluginInfoDialogSections/generateLanguage=Result language"
+
+"$$$/lrc-ai-assistant/PluginInfoDialogSections/ollamaSettings=Ollama settings"
+"$$$/lrc-ai-assistant/PluginInfoDialogSections/OllamaBaseUrl=Ollama Base URL"

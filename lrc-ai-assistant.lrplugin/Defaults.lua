@@ -89,9 +89,10 @@ Defaults.baseUrls['gpt-4.1'] = 'https://api.openai.com/v1/responses'
 Defaults.baseUrls['gpt-4.1-mini'] = 'https://api.openai.com/v1/responses'
 Defaults.baseUrls['gpt-4.1-nano'] = 'https://api.openai.com/v1/responses'
 
-Defaults.baseUrls['ollama'] = 'http://localhost:11434/api/generate'
-Defaults.ollamaListModelUrl = 'http://localhost:11434/api/tags'
-Defaults.ollamaModelInfoUrl = 'http://localhost:11434/api/show'
+Defaults.baseUrls['ollama'] = 'http://localhost:11434'
+Defaults.ollamaGenerateUrl = '/api/generate'
+Defaults.ollamaListModelUrl = '/api/tags'
+Defaults.ollamaModelInfoUrl = '/api/show'
 
 Defaults.pricing = {}
 Defaults.pricing["gemini-1.5-pro"] = {}

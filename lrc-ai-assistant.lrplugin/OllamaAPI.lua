@@ -4,7 +4,7 @@ OllamaAPI.__index = OllamaAPI
 function OllamaAPI.getModelInfo(model)
     local body = { model = model }
 
-    local response, headers = LrHttp.post(Defaults.ollamaModelInfoUrl, JSON:encode(body))
+    local response, headers = LrHttp.post(prefs.ollamaBaseUrl .. Defaults.ollamaModelInfoUrl, JSON:encode(body))
 
     if headers.status == 200 then
         if response ~= nil then
@@ -17,7 +17,7 @@ function OllamaAPI.getModelInfo(model)
             log:error('Got empty response from Ollama')
         end
     else
-        log:error('OllamaAPI POST request failed. ' .. Defaults.ollamaModelInfoUrl)
+        log:error('OllamaAPI POST request failed. ' .. prefs.ollamaBaseUrl .. Defaults.ollamaModelInfoUrl)
         log:error(Util.dumpTable(headers))
         log:error(response)
         return nil
@@ -27,7 +27,7 @@ end
 
 
 function OllamaAPI.getLocalVisionModels()
-    local response, headers = LrHttp.get(Defaults.ollamaListModelUrl)
+    local response, headers = LrHttp.get(prefs.ollamaBaseUrl .. Defaults.ollamaListModelUrl)
 
     if headers.status == 200 then
         if response ~= nil then
@@ -57,7 +57,7 @@ function OllamaAPI.getLocalVisionModels()
             log:error('Got empty response from Ollama')
         end
     else
-        log:error('OllamaAPI GET request failed. ' .. Defaults.ollamaListModelUrl)
+        log:error('OllamaAPI GET request failed. ' .. prefs.ollamaBaseUrl .. Defaults.ollamaListModelUrl)
         log:error(Util.dumpTable(headers))
         log:error(response)
         return nil
@@ -69,7 +69,7 @@ function OllamaAPI:new()
     local o = setmetatable({}, OllamaAPI)
     self.model = prefs.ai
     self.ollamaModel = string.sub(prefs.ai, 8, -1)
-    self.url = Defaults.baseUrls.ollama
+    self.url = prefs.ollamaBaseUrl .. Defaults.ollamaGenerateUrl
 
     return o
 end

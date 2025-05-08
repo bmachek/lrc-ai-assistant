@@ -52,6 +52,8 @@ function PluginInfoDialogSections.startDialog(propertyTable)
         properties.prompts[properties.prompt] = newValue
     end)
 
+    propertyTable.ollamaBaseUrl = prefs.ollamaBaseUrl
+
 end
 
 function PluginInfoDialogSections.sectionsForBottomOfDialog(f, propertyTable)
@@ -377,6 +379,22 @@ function PluginInfoDialogSections.sectionsForTopOfDialog(f, propertyTable)
                     },
                 },
             },
+
+            f:group_box {
+                width = share 'groupBoxWidth',
+                title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/ollamaSettings=Ollama settings",
+                f:row {
+                    f:static_text {
+                        title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/OllamaBaseUrl=Ollama Base URL",
+                        width = share 'labelWidth'
+                    },
+                    f:edit_field {
+                        value = bind 'ollamaBaseUrl',
+                        width = share 'inputWidth',
+                        width_in_chars = 25,
+                    },
+                },
+            },
         },
     }
 end
@@ -416,6 +434,8 @@ function PluginInfoDialogSections.endDialog(propertyTable)
     prefs.prompt = propertyTable.prompt
     prefs.prompts = propertyTable.prompts
 
+    prefs.ollamaBaseUrl = propertyTable.ollamaBaseUrl
+    
     prefs.logging = propertyTable.logging
     if propertyTable.logging then
         log:enable('logfile')
