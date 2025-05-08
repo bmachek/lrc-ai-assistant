@@ -69,56 +69,6 @@ function PromptConfigProvider.addPrompt(props)
     return nil
 end
 
-
-local function editPrompt(title)
-    local f = LrView.osFactory()
-    local bind = LrView.bind
-    local share = LrView.share
-
-    local propertyTable = {}
-
-    propertyTable.name = title
-    propertyTable.prompt = prefs.prompts[title]
-
-    local dialogView = f:column {
-        bind_to_object = propertyTable,
-        f:row {
-            f:static_text {
-                width = share 'labelWidth',
-                title = "Prompt name",
-            },
-            f:edit_field {
-               value = bind 'name',
-            },
-        },
-        f:row {
-            f:static_text {
-                width = share 'labelWidth',
-                title = "Prompt",
-            },
-            f:edit_field {
-               value = bind 'prompt',
-               width_in_chars = 50,
-               height_in_lines = 10,
-            },
-        },
-    }
-
-    local result = LrDialogs.presentModalDialog({
-        title = "Edit prompt",
-        contents = dialogView,
-    })
-
-    if result == 'ok' then
-        prefs.prompts[propertyTable.name] = propertyTable.prompt
-        prefs.prompt = propertyTable.name
-        return propertyTable.name
-    end
-
-    return nil
-end
-
-
 function PromptConfigProvider.showPromptConfigDialog(propertyTable)
     local f = LrView.osFactory()
     local bind = LrView.bind
