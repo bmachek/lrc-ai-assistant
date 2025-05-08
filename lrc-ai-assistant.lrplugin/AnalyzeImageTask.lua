@@ -205,7 +205,7 @@ LrTasks.startAsyncTask(function()
         end
 
         if prefs.showPreflightDialog then
-            local preflightResult = AnalyzeImageProvider.showPreflightDialog()
+            local preflightResult = AnalyzeImageProvider.showPreflightDialog(context)
             if not preflightResult then
                 log:trace("Canceled by preflight dialog")
                 return false

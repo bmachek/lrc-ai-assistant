@@ -111,12 +111,10 @@ local function editPrompt(title)
 end
 
 
-function PromptConfigProvider.showPromptConfigDialog()
+function PromptConfigProvider.showPromptConfigDialog(propertyTable)
     local f = LrView.osFactory()
     local bind = LrView.bind
     local share = LrView.share
-
-    local propertyTable = {}
 
     propertyTable.promptTitles = {}
     for title, prompt in pairs(prefs.prompts) do
@@ -128,6 +126,14 @@ function PromptConfigProvider.showPromptConfigDialog()
     propertyTable.prompt = prefs.prompt
 
     propertyTable.selectedPrompt = prefs.prompts[prefs.prompt]
+
+    propertyTable:addObserver('prompt', function(properties, key, newValue)
+        properties.selectedPrompt = properties.prompts[newValue]
+    end)
+
+    propertyTable:addObserver('selectedPrompt', function(properties, key, newValue)
+        properties.prompts[properties.prompt] = newValue
+    end)
 
     local dropDown = f:popup_menu {
         items = bind 'promptTitles',
@@ -148,8 +154,8 @@ function PromptConfigProvider.showPromptConfigDialog()
                 action = function(button)
                     local newName = addPrompt()
                     if newName ~= nil then
-                        LrDialogs.stopModalWithResult(dropDown)
-                        PromptConfigProvider.showPromptConfigDialog()
+                        LrDialogs.stopModalWithResult(dropDown, "cancel")
+                        PromptConfigProvider.showPromptConfigDialog(propertyTable)
                     end
                 end,
             },
@@ -157,31 +163,37 @@ function PromptConfigProvider.showPromptConfigDialog()
                 title = "Delete",
                 action = function(button)
                     deletePrompt(propertyTable.prompt)
-                    LrDialogs.stopModalWithResult(dropDown)
-                    PromptConfigProvider.showPromptConfigDialog()
+                    LrDialogs.stopModalWithResult(dropDown, "cancel")
+                    PromptConfigProvider.showPromptConfigDialog(propertyTable)
                 end,
             },
-            f:push_button {
-                title = "Edit",
-                action = function(button)
-                    editPrompt(propertyTable.prompt)
-                    LrDialogs.stopModalWithResult(dropDown)
-                    PromptConfigProvider.showPromptConfigDialog()
-                end,
+            -- f:push_button {
+            --     title = "Edit",
+            --     action = function(button)
+            --         editPrompt(propertyTable.prompt)
+            --         LrDialogs.stopModalWithResult(dropDown)
+            --         PromptConfigProvider.showPromptConfigDialog()
+            --     end,
+            -- },
+            -- f:push_button {
+            --     title = "Select",
+            --     action = function(button)
+            --         propertyTable.selectedPrompt = propertyTable.prompts[propertyTable.prompt]
+            --     end,
+            -- },
+        },
+        f:row {
+            f:static_text {
+                width = share 'labelWidth',
+                title = "Prompt",
+            },
+            f:edit_field {
+                value = bind 'selectedPrompt',
+                width_in_chars = 50,
+                height_in_lines = 10,
+                -- enabled = false,
             },
         },
-        -- f:row {
-        --     f:static_text {
-        --         width = share 'labelWidth',
-        --         title = "Prompt",
-        --     },
-        --     f:edit_field {
-        --         value = bind 'selectedPrompt',
-        --         width_in_chars = 50,
-        --         height_in_lines = 10,
-        --         enabled = false,
-        --     },
-        -- },
     }
 
     local result = LrDialogs.presentModalDialog({
@@ -191,7 +203,8 @@ function PromptConfigProvider.showPromptConfigDialog()
     })
 
     if result == 'ok' then
-
+        prefs.prompts = propertyTable.prompts
+        prefs.prompt = propertyTable.prompt
     elseif result == 'cancel' then
 
     elseif result == 'other' then

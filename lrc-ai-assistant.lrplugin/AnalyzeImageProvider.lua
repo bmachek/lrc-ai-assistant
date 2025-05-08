@@ -305,12 +305,13 @@ function AnalyzeImageProvider.showPhotoContextDialog(photo)
     end
 end
 
-function AnalyzeImageProvider.showPreflightDialog()
+function AnalyzeImageProvider.showPreflightDialog(ctx)
     local f = LrView.osFactory()
     local bind = LrView.bind
     local share = LrView.share
 
-    local propertyTable = {}
+    local propertyTable = LrBinding.makePropertyTable(ctx)
+
     propertyTable.task = prefs.task
     propertyTable.systemInstruction = prefs.systemInstruction
 
@@ -346,6 +347,13 @@ function AnalyzeImageProvider.showPreflightDialog()
 
     propertyTable.selectedPrompt = prefs.prompts[prefs.prompt]
 
+    propertyTable:addObserver('prompt', function(properties, key, newValue)
+        properties.selectedPrompt = properties.prompts[newValue]
+    end)
+
+    propertyTable:addObserver('selectedPrompt', function(properties, key, newValue)
+        properties.prompts[properties.prompt] = newValue
+    end)
 
     local dialogView = f:column {
         spacing = 10,
@@ -390,18 +398,18 @@ function AnalyzeImageProvider.showPreflightDialog()
                 value = bind 'prompt',
             },
         },
-        -- f:row {
-        --     f:static_text {
-        --         width = share 'labelWidth',
-        --         title = "Prompt",
-        --     },
-        --     f:edit_field {
-        --         value = bind 'selectedPrompt',
-        --         width_in_chars = 50,
-        --         height_in_lines = 10,
-        --         enabled = false,
-        --     },
-        -- },
+        f:row {
+            f:static_text {
+                width = share 'labelWidth',
+                title = "Prompt",
+            },
+            f:edit_field {
+                value = bind 'selectedPrompt',
+                width_in_chars = 50,
+                height_in_lines = 10,
+                -- enabled = false,
+            },
+        },
         f:row {
             f:static_text {
                 width = share 'labelWidth',

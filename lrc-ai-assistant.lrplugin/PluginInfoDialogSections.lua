@@ -40,8 +40,17 @@ function PluginInfoDialogSections.startDialog(propertyTable)
     end
 
     propertyTable.prompt = prefs.prompt
+    propertyTable.prompts = prefs.prompts
 
     propertyTable.selectedPrompt = prefs.prompts[prefs.prompt]
+
+    propertyTable:addObserver('prompt', function(properties, key, newValue)
+        properties.selectedPrompt = properties.prompts[newValue]
+    end)
+
+    propertyTable:addObserver('selectedPrompt', function(properties, key, newValue)
+        properties.prompts[properties.prompt] = newValue
+    end)
 
 end
 
@@ -154,15 +163,31 @@ function PluginInfoDialogSections.sectionsForTopOfDialog(f, propertyTable)
                         width = share 'labelWidth',
                         title = "Edit prompts",
                     },
-                    -- f:popup_menu {
-                    --     items = bind 'promptTitles',
-                    --     value = bind 'prompt',
+                    f:popup_menu {
+                        items = bind 'promptTitles',
+                        value = bind 'prompt',
+                    },
+                    -- f:push_button {
+                    --     title = "Edit prompts",
+                    --     action = function(button)
+                    --         LrFunctionContext.callWithContext("showPromptConfigDialog", function(context)
+                    --             local propertyTable = LrBinding.makePropertyTable(context)
+                    --             PromptConfigProvider.showPromptConfigDialog(propertyTable)
+                    --             end)
+                            
+                    --     end,
                     -- },
-                    f:push_button {
-                        title = "Edit prompts",
-                        action = function(button)
-                            PromptConfigProvider.showPromptConfigDialog()
-                        end,
+                },
+                f:row {
+                    f:static_text {
+                        width = share 'labelWidth',
+                        title = "Prompt",
+                    },
+                    f:edit_field {
+                        value = bind 'selectedPrompt',
+                        width_in_chars = 50,
+                        height_in_lines = 10,
+                        -- enabled = false,
                     },
                 },
                 f:row {
@@ -389,6 +414,7 @@ function PluginInfoDialogSections.endDialog(propertyTable)
     prefs.generateLanguage = propertyTable.generateLanguage
 
     prefs.prompt = propertyTable.prompt
+    prefs.prompts = propertyTable.prompts
 
     prefs.logging = propertyTable.logging
     if propertyTable.logging then
