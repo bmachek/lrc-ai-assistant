@@ -169,16 +169,18 @@ function PluginInfoDialogSections.sectionsForTopOfDialog(f, propertyTable)
                         items = bind 'promptTitles',
                         value = bind 'prompt',
                     },
-                    -- f:push_button {
-                    --     title = "Edit prompts",
-                    --     action = function(button)
-                    --         LrFunctionContext.callWithContext("showPromptConfigDialog", function(context)
-                    --             local propertyTable = LrBinding.makePropertyTable(context)
-                    --             PromptConfigProvider.showPromptConfigDialog(propertyTable)
-                    --             end)
-                            
-                    --     end,
-                    -- },
+                    f:push_button {
+                        title = "Add",
+                        action = function(button)
+                            local newName = PromptConfigProvider.addPrompt(propertyTable)
+                        end,
+                    },
+                    f:push_button {
+                        title = "Delete",
+                        action = function(button)
+                            PromptConfigProvider.deletePrompt(propertyTable)
+                        end,
+                    },
                 },
                 f:row {
                     f:static_text {
@@ -187,7 +189,7 @@ function PluginInfoDialogSections.sectionsForTopOfDialog(f, propertyTable)
                     },
                     f:edit_field {
                         value = bind 'selectedPrompt',
-                        width_in_chars = 50,
+                        width_in_chars = 40,
                         height_in_lines = 10,
                         -- enabled = false,
                     },

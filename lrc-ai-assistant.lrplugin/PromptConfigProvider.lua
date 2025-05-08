@@ -1,22 +1,27 @@
 PromptConfigProvider = {}
 
-local function deletePrompt(promptTitle)
+function PromptConfigProvider.deletePrompt(props)
+    local promptTitle = props.prompt
     if promptTitle == "Default" then
         LrDialogs.showError("Default prompt cannot be deleted.")
         return nil
     end
 
     if LrDialogs.confirm("Do you really want to delete the prompt " .. promptTitle) == "ok" then
-        -- table.remove(prefs.prompts, promptTitle)
-        prefs.prompts[promptTitle] = nil
+        for k, v in pairs(props.promptTitles) do
+            if v.title == promptTitle then
+                props.promptTitles[k] = nil
+            end
+        end
+        props.prompts[promptTitle] = nil
 
-        if prefs.prompt == promptTitle then
-            prefs.prompt = "Default"
+        if props.prompt == promptTitle then
+            props.prompt = "Default"
         end
     end
 end
 
-local function addPrompt()
+function PromptConfigProvider.addPrompt(props)
     local f = LrView.osFactory()
     local bind = LrView.bind
     local share = LrView.share
@@ -53,8 +58,9 @@ local function addPrompt()
     })
 
     if result == 'ok' then
-        prefs.prompts[propertyTable.name] = propertyTable.prompt
-        prefs.prompt = propertyTable.name
+        props.prompts[propertyTable.name] = propertyTable.prompt
+        props.prompt = propertyTable.name
+        table.insert(props.promptTitles, { title = propertyTable.name, value = propertyTable.name })
         return propertyTable.name
     end
 
