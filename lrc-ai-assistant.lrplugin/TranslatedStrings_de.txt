@@ -38,7 +38,7 @@
 "$$$/lrc-ai-assistant/AnalyzeImageTask/saveTitleCaption=Mit KI generierte Bildbeschreibung und Bildtitel speichern"
 "$$$/lrc-ai-assistant/AnalyzeImageTask/saveTopKeyword=KI-generierte Stichwörter speichern."
 "$$$/lrc-ai-assistant/AnalyzeImageTask/ReviewWindowTitle=Überprüfen der Ergebnisse"
-"$$$/lrc-ai-assistant/Info/AnalyzeImageTask/Title=Fotos mit KI analysieren"
+"$$$/lrc-ai-assistant/Info/Title=Fotos mit KI analysieren"
 "$$$/lrc-ai-assistant/Info/PluginName=Lightroom KI Assistent"
 "$$$/lrc-ai-assistant/PluginInfoDialogSections/GoogleApiKey=Google API Schlüssel"
 "$$$/lrc-ai-assistant/PluginInfoDialogSections/ChatGPTApiKey=ChatGPT API Schlüssel"

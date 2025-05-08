@@ -15,7 +15,7 @@ return {
 
 	LrLibraryMenuItems = {
 		{
-			title = LOC "$$$/lrc-ai-assistant/Info/GenerateImageInfo/Title=Analyze photos with AI",
+			title = LOC "$$$/lrc-ai-assistant/Info/Title=Analyze photos with AI",
 			file = "AnalyzeImageTask.lua",
 		},
 	},

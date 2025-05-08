@@ -38,7 +38,7 @@
 "$$$/lrc-ai-assistant/AnalyzeImageTask/rateLimit=Quota épuisé, configurez le paiement à l'utilisation chez Google ou attendez quelques heures."
 "$$$/lrc-ai-assistant/AnalyzeImageTask/saveTitleCaption=Enregistrer le titre et la légende générés par l'IA"
 "$$$/lrc-ai-assistant/AnalyzeImageTask/ReviewWindowTitle=Examiner les résultats"
-"$$$/lrc-ai-assistant/Info/AnalyzeImageTask/Title=Analyser les photos avec l'IA"
+"$$$/lrc-ai-assistant/Info/Title=Analyser les photos avec l'IA"
 "$$$/lrc-ai-assistant/Info/PluginName=Assistant IA pour Lightroom"
 "$$$/lrc-ai-assistant/PluginInfoDialogSections/GoogleApiKey=Clé API Google"
 "$$$/lrc-ai-assistant/PluginInfoDialogSections/ChatGPTApiKey=Clé API ChatGPT"
