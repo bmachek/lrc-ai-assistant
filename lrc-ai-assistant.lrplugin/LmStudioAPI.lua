@@ -1,24 +1,17 @@
-ChatGptAPI = {}
-ChatGptAPI.__index = ChatGptAPI
+LmStudioAPI = {}
+LmStudioAPI.__index = LmStudioAPI
 
-function ChatGptAPI:new()
-    local o = setmetatable({}, ChatGptAPI)
+function LmStudioAPI:new()
+    local o = setmetatable({}, LmStudioAPI)
 
-    if Util.nilOrEmpty(prefs.chatgptApiKey) then
-        Util.handleError('ChatGPT API key not configured.', LOC "$$$/lrc-ai-assistant/ChatGptAPI/NoAPIkey=No ChatGPT API key configured in Add-Ons manager.")
-        return nil
-    else
-        self.apiKey = prefs.chatgptApiKey
-    end
-
-    self.model = prefs.ai
-
-    self.url = Defaults.baseUrls[self.model]
+    self.model = string.sub(prefs.ai, 10, -1)
+    self.url = Defaults.baseUrls['lmstudio']
 
     return o
 end
 
-function ChatGptAPI:doRequest(filePath, task, systemInstruction, generationConfig)
+function LmStudioAPI:doRequest(filePath, task, systemInstruction, generationConfig)
+
     local body = {
         model = self.model,
         response_format = generationConfig,
@@ -46,9 +39,9 @@ function ChatGptAPI:doRequest(filePath, task, systemInstruction, generationConfi
         temperature = prefs.temperature,
     }
 
-    log:trace(Util.dumpTable(body))
+    log:trace(JSON:encode(body))
 
-    local response, headers = LrHttp.post(self.url, JSON:encode(body), {{ field = 'Content-Type', value = 'application/json' },  { field = 'Authorization', value = 'Bearer ' .. self.apiKey }})
+    local response, headers = LrHttp.post(self.url, JSON:encode(body), {{ field = 'Content-Type', value = 'application/json' }})
 
     if headers.status == 200 then
         if response ~= nil then
@@ -74,15 +67,15 @@ function ChatGptAPI:doRequest(filePath, task, systemInstruction, generationConfi
             log:error('Got empty response from ChatGPT')
         end
     else
-        log:error('ChatGptAPI POST request failed. ' .. self.url)
+        log:error('LmStudioAPI POST request failed. ' .. self.url)
         log:error(Util.dumpTable(headers))
         log:error(response)
-        return false, 'ChatGptAPI POST request failed. ' .. self.url, 0, 0 
+        return false, 'LmStudioAPI POST request failed. ' .. self.url, 0, 0 
     end
 end
 
 
-function ChatGptAPI:analyzeImage(filePath, metadata)
+function LmStudioAPI:analyzeImage(filePath, metadata)
     local task = AiModelAPI.generatePromptFromConfiguration()
     if metadata ~= nil then
         if prefs.submitGPS and metadata.gps ~= nil then
@@ -92,7 +85,7 @@ function ChatGptAPI:analyzeImage(filePath, metadata)
             task = task .. " " .. "\nSome keywords are:" .. metadata.keywords
         end
         if metadata.context ~= nil and metadata.context ~= "" then
-            log:trace("Preflight context given")
+            log:trace("User context given")
             task = task .. "\nSome context for this photo: " .. metadata.context
         end
     end

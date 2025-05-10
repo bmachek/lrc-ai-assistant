@@ -25,19 +25,16 @@ function ResponseStructure:new()
     local instance = setmetatable({}, ResponseStructure)
 
     if string.sub(prefs.ai, 1, 6) == 'gemini' then
-        self.topKeyword = Defaults.googleTopKeyword
         self.strArray = "ARRAY"
         self.strObject = "OBJECT"
         self.strString = "STRING"
         self.ai = 'gemini'
-    elseif string.sub(prefs.ai, 1, 3) == 'gpt' then
-        self.topKeywordName = Defaults.chatgptTopKeyword
+    elseif string.sub(prefs.ai, 1, 3) == 'gpt' or string.sub(prefs.ai, 1, 8) == 'lmstudio' then
         self.strArray = "array"
         self.strObject = "object"
         self.strString = "string"
         self.ai = "chatgpt"
     elseif string.sub(prefs.ai, 1, 6) == 'ollama' then
-        self.topKeywordName = Defaults.ollamaTopKeyWord
         self.strArray = "array"
         self.strObject = "object"
         self.strString = "string"

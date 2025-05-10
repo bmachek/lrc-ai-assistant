@@ -51,6 +51,7 @@ local aiModels = {
     { title = "ChatGPT 4.1", value = "gpt-4.1" },
     { title = "ChatGPT 4.1 Mini", value = "gpt-4.1-mini" },
     { title = "ChatGPT 4.1 Nano", value = "gpt-4.1-nano" },
+    { title = "LMStudio gemma3-12b-mlx", value = "lmstudio-gemma-3-12b-it-qat-4bit" },
 }
 
 function Defaults.getAvailableAiModels()
@@ -88,6 +89,8 @@ Defaults.baseUrls['gpt-4o-mini'] = 'https://api.openai.com/v1/responses'
 Defaults.baseUrls['gpt-4.1'] = 'https://api.openai.com/v1/responses'
 Defaults.baseUrls['gpt-4.1-mini'] = 'https://api.openai.com/v1/responses'
 Defaults.baseUrls['gpt-4.1-nano'] = 'https://api.openai.com/v1/responses'
+
+Defaults.baseUrls['lmstudio'] = 'http://localhost:1234/v1/chat/completions'
 
 Defaults.baseUrls['ollama'] = 'http://localhost:11434'
 Defaults.ollamaGenerateUrl = '/api/generate'
@@ -135,6 +138,7 @@ Defaults.defaultExportQuality = 50
 Defaults.googleTopKeyword = 'Google Gemini'
 Defaults.chatgptTopKeyword = 'ChatGPT'
 Defaults.ollamaTopKeyWord = 'Ollama'
+Defaults.lmStudioTopKeyWord = 'LMStudio'
 
 Defaults.geminiKeywordsGarbageAtStart = '```json'
 Defaults.geminiKeywordsGarbageAtEnd = '```'
