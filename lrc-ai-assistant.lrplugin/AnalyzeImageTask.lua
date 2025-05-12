@@ -5,6 +5,7 @@ SkipReviewAltText = false
 SkipReviewKeywords = false
 SkipPhotoContextDialog = false
 PhotoContextData = ""
+PerfLogFile = nil
 
 
 local function exportAndAnalyzePhoto(photo, progressScope)
@@ -166,13 +167,20 @@ local function exportAndAnalyzePhoto(photo, progressScope)
 
             -- Save metadata informations to catalog.
             catalog:withPrivateWriteAccessDo(function(context)
-                log:trace("Save AI run model and date to metadata")
-                photo:setPropertyForPlugin(_PLUGIN, 'aiModel', prefs.ai)
-                local offset, daylight = LrDate.timeZone()
-                local lastRunDateTime = LrDate.timeToW3CDate(LrDate.currentTime() + offset)
-                photo:setPropertyForPlugin(_PLUGIN, 'aiLastRun', lastRunDateTime)
+                    log:trace("Save AI run model and date to metadata")
+                    photo:setPropertyForPlugin(_PLUGIN, 'aiModel', prefs.ai)
+                    local offset, daylight = LrDate.timeZone()
+                    local lastRunDateTime = LrDate.timeToW3CDate(LrDate.currentTime() + offset)
+                    photo:setPropertyForPlugin(_PLUGIN, 'aiLastRun', lastRunDateTime)
+                end
+            )
+
+            if prefs.perfLogging and PerfLogFile then
+                PerfLogFile:write(photoName .. ";" .. (stopTimeAnalyze - startTimeAnalyze) .. ";" .. prefs.ai .. ";" ..  prefs.prompt .. ";" .. 
+                prefs.generateLanguage .. ";" .. tostring(prefs.temperature) .. ";" .. tostring(prefs.generateKeywords) .. ";" .. 
+                tostring(prefs.useKeywordHierarchy) .. ";" .. tostring(prefs.generateAltText) .. 
+                ";" .. tostring(prefs.generateTitle) .. ";" .. tostring(prefs.generateCaption) .. ";" .. prefs.exportSize .. ";" .. prefs.exportQuality .. "\n")
             end
-        )
 
             if canceledByUser then
                return false, inputTokens, outputTokens, "canceled", "Canceled by user."
@@ -193,6 +201,14 @@ LrTasks.startAsyncTask(function()
         local selectedPhotos = catalog:getTargetPhotos()
 
         log:trace("Starting AnalyzeImageTask")
+
+        if prefs.perfLogging then
+            local path = LrPathUtils.child(LrPathUtils.getStandardFilePath("desktop"), "perflog.csv")
+            PerfLogFile = io.open(path, "a")
+            if PerfLogFile ~= nil then
+                PerfLogFile:write("Filename;Duration;Model;Prompt;Language;Temperature;GenKeywords;useKeywordHierarchy;GenAltText;GenTitle;GenCaption;Export size;ExportQuality\n")
+            end
+        end
 
         if #selectedPhotos == 0 then
             LrDialogs.showError(LOC "$$$/lrc-ai-assistant/AnalyzeImageTask/noPhotos=Please select at least one photo.")
@@ -266,6 +282,11 @@ LrTasks.startAsyncTask(function()
         progressScope:done()
         local stopTimeBatch = LrDate.currentTime()
         log:trace("Analyzing " .. totalPhotos .. " with " .. prefs.ai .. " took " .. (stopTimeBatch - startTimeBatch) .. " seconds.")
+
+        if prefs.perfLogging and PerfLogFile ~= nil then
+            PerfLogFile:close()
+        end
+
         AnalyzeImageProvider.showUsedTokensDialog(totalInputTokens, totalOutputTokens)
 
         if totalFailed > 0 then

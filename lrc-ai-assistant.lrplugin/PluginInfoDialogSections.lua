@@ -3,6 +3,7 @@ PluginInfoDialogSections = {}
 function PluginInfoDialogSections.startDialog(propertyTable)
 
     propertyTable.logging = prefs.logging
+    propertyTable.perfLogging = prefs.perfLogging
     propertyTable.geminiApiKey = prefs.geminiApiKey
     propertyTable.chatgptApiKey = prefs.chatgptApiKey
     propertyTable.generateTitle = prefs.generateTitle
@@ -87,6 +88,16 @@ function PluginInfoDialogSections.sectionsForBottomOfDialog(f, propertyTable)
                     action = function (button)
                         LrShell.revealInShell(Util.getLogfilePath())
                     end,
+                },
+            },
+            f:row {
+                f:checkbox {
+                    value = bind 'perfLogging',
+                },
+                f:static_text {
+                    title = "Enable performance logging",
+                    alignment = 'right',
+                    -- width = share 'labelWidth'
                 },
             },
         },
@@ -458,5 +469,7 @@ function PluginInfoDialogSections.endDialog(propertyTable)
     else
         log:disable()
     end
+
+    prefs.perfLogging = propertyTable.perfLogging
 end
 

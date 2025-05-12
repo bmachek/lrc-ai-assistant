@@ -48,6 +48,10 @@ else
     _G.log:disable()
 end
 
+if _G.prefs.perfLogging == nil then
+    _G.prefs.perfLogging = false
+end
+
 if _G.prefs.apiKey == nil then _G.prefs.apiKey = '' end
 if _G.prefs.url == nil then _G.prefs.url = '' end
 
