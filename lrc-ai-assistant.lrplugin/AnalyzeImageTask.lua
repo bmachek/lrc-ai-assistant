@@ -175,7 +175,7 @@ local function exportAndAnalyzePhoto(photo, progressScope)
                 end
             )
 
-            if prefs.perfLogging and PerfLogFile then
+            if prefs.perfLogging and PerfLogFile ~= nil then
                 PerfLogFile:write(photoName .. ";" .. (stopTimeAnalyze - startTimeAnalyze) .. ";" .. prefs.ai .. ";" ..  prefs.prompt .. ";" .. 
                 prefs.generateLanguage .. ";" .. tostring(prefs.temperature) .. ";" .. tostring(prefs.generateKeywords) .. ";" .. 
                 tostring(prefs.useKeywordHierarchy) .. ";" .. tostring(prefs.generateAltText) .. 
@@ -204,7 +204,7 @@ LrTasks.startAsyncTask(function()
 
         if prefs.perfLogging then
             local path = LrPathUtils.child(LrPathUtils.getStandardFilePath("desktop"), "perflog.csv")
-            PerfLogFile = io.open(path, "a")
+            PerfLogFile = io.open(path, "w")
             if PerfLogFile ~= nil then
                 PerfLogFile:write("Filename;Duration;Model;Prompt;Language;Temperature;GenKeywords;useKeywordHierarchy;GenAltText;GenTitle;GenCaption;Export size;ExportQuality\n")
             end
