@@ -204,7 +204,7 @@ LrTasks.startAsyncTask(function()
 
         if prefs.perfLogging then
             local path = LrPathUtils.child(LrPathUtils.getStandardFilePath("desktop"), "perflog.csv")
-            PerfLogFile = io.open(path, "w")
+            PerfLogFile = io.open(path, "a")
             if PerfLogFile ~= nil then
                 PerfLogFile:write("Filename;Duration;Model;Prompt;Language;Temperature;GenKeywords;useKeywordHierarchy;GenAltText;GenTitle;GenCaption;Export size;ExportQuality\n")
             end
