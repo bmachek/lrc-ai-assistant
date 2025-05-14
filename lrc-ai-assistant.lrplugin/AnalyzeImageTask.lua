@@ -176,7 +176,7 @@ local function exportAndAnalyzePhoto(photo, progressScope)
             )
 
             if prefs.perfLogging and PerfLogFile ~= nil then
-                PerfLogFile:write(photoName .. ";" .. (stopTimeAnalyze - startTimeAnalyze) .. ";" .. prefs.ai .. ";" ..  prefs.prompt .. ";" .. 
+                PerfLogFile:write(photoName .. ";" .. math.floor(stopTimeAnalyze - startTimeAnalyze) .. ";" .. prefs.ai .. ";" ..  prefs.prompt .. ";" .. 
                 prefs.generateLanguage .. ";" .. tostring(prefs.temperature) .. ";" .. tostring(prefs.generateKeywords) .. ";" .. 
                 tostring(prefs.useKeywordHierarchy) .. ";" .. tostring(prefs.generateAltText) .. 
                 ";" .. tostring(prefs.generateTitle) .. ";" .. tostring(prefs.generateCaption) .. ";" .. prefs.exportSize .. ";" .. prefs.exportQuality .. "\n")
