@@ -88,7 +88,7 @@ function OllamaAPI:doRequest(filePath, task, systemInstruction, generationConfig
 
     body.images = { Util.encodePhotoToBase64(filePath) }
 
-    local response, headers = LrHttp.post(self.url, JSON:encode(body), {{ field = 'Content-Type', value = 'application/json' }})
+    local response, headers = LrHttp.post(self.url, JSON:encode(body), {{ field = 'Content-Type', value = 'application/json' }}, "POST", 180)
 
     if headers.status == 200 then
         if response ~= nil then
