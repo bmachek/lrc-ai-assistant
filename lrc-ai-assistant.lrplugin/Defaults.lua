@@ -94,6 +94,7 @@ Defaults.baseUrls['lmstudio'] = 'http://localhost:1234/v1/chat/completions'
 
 Defaults.baseUrls['ollama'] = 'http://localhost:11434'
 Defaults.ollamaGenerateUrl = '/api/generate'
+Defaults.ollamaChatUrl = '/api/chat'
 Defaults.ollamaListModelUrl = '/api/tags'
 Defaults.ollamaModelInfoUrl = '/api/show'
 
