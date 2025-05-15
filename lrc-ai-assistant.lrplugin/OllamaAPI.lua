@@ -98,7 +98,7 @@ function OllamaAPI:doRequestViaChat(filePath, task, systemInstruction, generatio
 
     }
 
-    log:trace(Util.dumpTable(body))
+    -- log:trace(Util.dumpTable(body))
 
     local response, headers = LrHttp.post(self.chatUrl, JSON:encode(body), {{ field = 'Content-Type', value = 'application/json' }})
 
@@ -110,7 +110,7 @@ function OllamaAPI:doRequestViaChat(filePath, task, systemInstruction, generatio
                 if decoded.done_reason == 'stop' then
                     local text = JSON:decode(decoded.message.content)
                     log:trace(Util.dumpTable(text))
-                    log:trace(text)
+                    --log:trace(text)
                     return true, text, 0, 0
                 else
                     log:error('Blocked: ' .. decoded.done_reason .. Util.dumpTable(decoded.response))
