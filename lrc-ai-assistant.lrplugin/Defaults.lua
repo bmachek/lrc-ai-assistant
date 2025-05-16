@@ -51,7 +51,7 @@ local aiModels = {
     { title = "ChatGPT 4.1", value = "gpt-4.1" },
     { title = "ChatGPT 4.1 Mini", value = "gpt-4.1-mini" },
     { title = "ChatGPT 4.1 Nano", value = "gpt-4.1-nano" },
-    { title = "LMStudio gemma3-12b-mlx", value = "lmstudio-gemma-3-12b-it-qat-4bit" },
+    -- { title = "LMStudio gemma-3-12b-it-qat", value = "lmstudio-gemma-3-12b-it-qat" },
 }
 
 function Defaults.getAvailableAiModels()
@@ -83,12 +83,12 @@ Defaults.baseUrls['gemini-2.0-flash'] = 'https://generativelanguage.googleapis.c
 Defaults.baseUrls['gemini-2.0-flash-lite'] = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key='
 Defaults.baseUrls['gemini-2.5-pro-exp-03-25'] = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro-exp-03-25:generateContent?key='
 
-Defaults.baseUrls['gpt-4o'] = 'https://api.openai.com/v1/responses'
-Defaults.baseUrls['gpt-4o-mini'] = 'https://api.openai.com/v1/responses'
+Defaults.baseUrls['gpt-4o'] = 'https://api.openai.com/v1/chat/completions'
+Defaults.baseUrls['gpt-4o-mini'] = 'https://api.openai.com/v1/chat/completions'
 
-Defaults.baseUrls['gpt-4.1'] = 'https://api.openai.com/v1/responses'
-Defaults.baseUrls['gpt-4.1-mini'] = 'https://api.openai.com/v1/responses'
-Defaults.baseUrls['gpt-4.1-nano'] = 'https://api.openai.com/v1/responses'
+Defaults.baseUrls['gpt-4.1'] = 'https://api.openai.com/v1/chat/completions'
+Defaults.baseUrls['gpt-4.1-mini'] = 'https://api.openai.com/v1/chat/completions'
+Defaults.baseUrls['gpt-4.1-nano'] = 'https://api.openai.com/v1/chat/completions'
 
 Defaults.baseUrls['lmstudio'] = 'http://localhost:1234/v1/chat/completions'
 
