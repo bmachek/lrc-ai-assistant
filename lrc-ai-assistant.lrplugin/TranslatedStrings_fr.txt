@@ -81,3 +81,17 @@
 
 "$$$/lrc-ai-assistant/AnalyzeImageTask/PhotoContextDialogData=Contexte de la photo"
 "$$$/lrc-ai-assistant/PluginInfoDialogSections/showPhotoContextDialog=Afficher la boîte de dialogue Contexte de la photo"
+
+"$$$/lrc-ai-assistant/AIMetadataProvider/aiLastRun=Dernière éxecution"
+"$$$/lrc-ai-assistant/AIMetadataProvider/aiModel=Modèle IA"
+"$$$/lrc-ai-assistant/AIMetadataProvider/photoContext=Contexte photo"
+
+"$$$/lrc-ai-assistant/PluginInfoDialogSections/useKeywordHierarchy=utilisation de la hierarchie de mots-clés"
+"$$$/lrc-ai-assistant/PluginInfoDialogSections/editKeywordHierarchy=éditer les categories de mots-clés"
+
+"$$$/lrc-ai-assistant/PluginInfoDialogSections/generateLanguage=Choix de la langue"
+
+"$$$/lrc-ai-assistant/PluginInfoDialogSections/ollamaSettings=Paramètres Ollama"
+"$$$/lrc-ai-assistant/PluginInfoDialogSections/OllamaBaseUrl=URL de base Ollama"
+
+"$$$/lrc-ai-assistant/PluginInfoDialogSections/useTopLevelKeyword=Utiliser les mots-clés racines"
