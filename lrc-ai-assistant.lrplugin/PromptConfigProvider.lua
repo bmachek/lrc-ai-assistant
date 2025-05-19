@@ -110,7 +110,7 @@ function PromptConfigProvider.showPromptConfigDialog(propertyTable)
             f:push_button {
                 title = "Add",
                 action = function(button)
-                    local newName = addPrompt()
+                    local newName = PromptConfigProvider.addPrompt()
                     if newName ~= nil then
                         LrDialogs.stopModalWithResult(dropDown, "cancel")
                         PromptConfigProvider.showPromptConfigDialog(propertyTable)
@@ -120,7 +120,7 @@ function PromptConfigProvider.showPromptConfigDialog(propertyTable)
             f:push_button {
                 title = "Delete",
                 action = function(button)
-                    deletePrompt(propertyTable.prompt)
+                    PromptConfigProvider.deletePrompt(propertyTable.prompt)
                     LrDialogs.stopModalWithResult(dropDown, "cancel")
                     PromptConfigProvider.showPromptConfigDialog(propertyTable)
                 end,
