@@ -4,7 +4,7 @@
 A Lightroom Classic to fill keywords, image title, caption and Alt Text by using ChatGPT or Gemini. There is also advancing support for local Ollama models. Ollama and the models have to be installed/pulled manually.
 
 ## Documentation
-Visit my [blog](https://blog.fokuspunk.de/lrc-ai-assistant/)
+Visit the [wiki](https://github.com/bmachek/lrc-ai-assistant/wiki)
 
 ## Support my work
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/donate/?hosted_button_id=2LL4K9LN5CFA6)
