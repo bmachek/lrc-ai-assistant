@@ -100,6 +100,16 @@ function PluginInfoDialogSections.sectionsForBottomOfDialog(f, propertyTable)
                     -- width = share 'labelWidth'
                 },
             },
+            f:row {
+                f:push_button {
+                    title = LOC "$$$/lrc-ai-assistant/PluginInfoDialogSections/UpdateCheck=Check for updates",
+                    action = function (button)
+                        LrTasks.startAsyncTask(function ()
+                            UpdateCheck.checkForNewVersion()
+                        end)
+                    end,
+                },
+            },
         },
     }
 end

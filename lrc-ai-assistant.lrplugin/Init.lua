@@ -35,6 +35,7 @@ require "ResponseStructure"
 require "AnalyzeImageProvider"
 require "KeywordConfigProvider"
 require "PromptConfigProvider"
+require "UpdateCheck"
 
 -- Global initializations
 _G.prefs = _G.LrPrefs.prefsForPlugin()

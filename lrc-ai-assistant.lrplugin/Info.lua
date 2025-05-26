@@ -1,3 +1,12 @@
+Info = {}
+
+Info.MAJOR = 3
+Info.MINOR = 8
+Info.REVISION = 0
+
+Info.VERSION = { major = Info.MAJOR, minor = Info.MINOR, revision = Info.REVISION, build = 0, }
+
+
 return {
 
 	LrSdkVersion = 11.0,
@@ -8,7 +17,7 @@ return {
 	LrPluginInfoProvider = 'PluginInfo.lua',
 	LrPluginInfoURL = 'https://blog.fokuspunk.de/lrc-ai-assistant/',
 
-	VERSION = { major = 3, minor = 7, revision = 0, build = 0, },
+	VERSION = Info.VERSION,
 
 	LrMetadataProvider = "AIMetadataProvider.lua",
 
