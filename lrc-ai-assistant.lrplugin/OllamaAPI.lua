@@ -110,11 +110,14 @@ function OllamaAPI:doRequestViaChat(filePath, task, systemInstruction, generatio
                 if decoded.done_reason == 'stop' then
                     local text = JSON:decode(decoded.message.content)
                     log:trace(Util.dumpTable(text))
-                    --log:trace(text)
                     return true, text, 0, 0
                 else
-                    log:error('Blocked: ' .. decoded.done_reason .. Util.dumpTable(decoded.response))
-                    return false,  decoded.done_reason, 0, 0
+                    if decoded.done_reason ~= nil then
+                        log:error('Unsuccessful: ' .. decoded.done_reason .. Util.dumpTable(decoded.response))
+                        return false, decoded.done_reason, 0, 0
+                    else
+                        return false, "done_reason is nil", 0, 0
+                    end
                 end
             end
         else
